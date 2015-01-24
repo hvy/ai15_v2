@@ -14,7 +14,6 @@ public class DiscreteController : MonoBehaviour
 				}
 
 		}
-	
 
 		void move ()
 		{
@@ -30,7 +29,7 @@ public class DiscreteController : MonoBehaviour
 				} else if (distance_z > 5.0f) {
 						stepUp ();
 				} else {
-					CancelInvoke("move");
+						CancelInvoke ("move");
 				}
 		}
 
