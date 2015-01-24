@@ -2,22 +2,22 @@
 using System.Collections;
 using System;
 
-public class DifferentialController : DynamicController {
+public class DifferentialController : KinematicController {
 
 
 	// for testing
 	Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
 	public float rotationSpeed;
-	public float angularThreshold;
+	private float angularThreshold;
 
-	private Quaternion lookRotation;
+	protected Quaternion lookRotation;
 
 	// Use this for initialization
 	void Start () {
-	
+		angularThreshold = 0.1f;
 	}
 
-	void rotate() {
+	protected void rotate() {
 		Vector3 direction = (goal - transform.position).normalized;
 		lookRotation = Quaternion.LookRotation(direction);
 

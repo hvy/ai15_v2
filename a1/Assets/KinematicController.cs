@@ -13,7 +13,7 @@ public class KinematicController : MonoBehaviour
 		{
 		}
 
-		void move ()
+		protected void move ()
 		{
 				float distance = Vector3.Distance (rigidbody.position, goal);
 				// interpolate between car and goal
