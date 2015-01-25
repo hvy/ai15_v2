@@ -3,26 +3,86 @@ using System.Collections;
 
 public class StageGenerator : MonoBehaviour {
 
+	private GameObject stage;
+
+	struct Wall {
+		Vector2 u, v;
+		GameObject wall;
+
+		public Wall(float fromX, float fromY, float toX, float toY) {
+			u = new Vector2(fromX, fromY);
+			v = new Vector2(toX, toY);
+			wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+			wall.transform.position = new Vector3(fromX, 0, fromY);
+		}
+	};
+
 	// TODO
 	public void createDiscreteStage() {
 
-		Debug.Log ("Create discrete stage");
+		int pixelSize = 20;
+		int width = 20;
+		int height = 20;
 
-		double[] posX = { 100.0, 200.2 };
-		double[] posY = { 100.0, 205.0 };
+		Debug.Log ("Creating discrete stage...");
 
-		int points = posX.Length;
+		// Create the stage
+		stage = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		float actualWidth = width * pixelSize;
+		float actualHeight = height * pixelSize;
+		stage.transform.position = new Vector3 (actualWidth / 2, actualHeight / -2, 0);
+		stage.transform.localScale = new Vector3 (actualWidth, actualHeight, 1);
 
-		for (int i = 0; i < points; i++) {
-			double x = posX[i];
-			double y = posY[i];
+		// Create the walls
+		// TODO
+		/*
+		 1     0     1     0     1     1     0     1     0     0     0     0     0     1     0     0     0     0     0     0
+	     1     0     0     1     1     1     0     0     0     1     0     1     0     0     1     0     1     1     0     0
+	     0     0     0     0     0     0     0     1     0     0     1     1     0     0     1     0     0     1     1     0
+	     0     1     0     0     0     0     1     0     0     0     1     0     0     0     1     1     0     1     0     0
+	     1     0     0     1     1     0     0     1     1     1     0     0     0     0     0     1     1     0     0     0
+	     0     0     1     0     0     0     0     1     0     0     0     0     0     0     0     1     0     1     0     0
+	     1     0     0     0     1     0     0     0     0     1     0     0     0     0     0     0     0     1     1     0
+	     0     0     0     0     0     0     0     0     1     0     1     1     0     0     1     0     1     0     0     0
+	     1     0     0     0     0     0     1     1     0     1     0     1     0     0     0     1     0     0     0     1
+	     0     1     0     0     0     0     0     0     0     1     1     0     0     0     0     0     0     0     0     0
+	     0     0     0     1     1     1     0     1     1     0     0     0     1     1     0     1     0     1     0     0
+	     1     0     0     1     0     0     1     0     0     0     1     0     1     0     0     1     1     0     1     0
+	     0     0     1     0     0     0     0     0     1     1     0     0     0     1     0     0     1     0     0     1
+	     0     1     0     0     0     1     1     0     0     0     1     0     1     0     0     0     0     0     0     0
+	     1     0     0     0     0     0     0     0     0     1     1     0     1     0     1     0     0     0     0     0
+	     0     0     0     0     0     0     0     0     0     0     0     0     0     1     0     1     0     0     0     0
+	     0     0     0     1     0     0     0     1     0     1     0     0     1     1     0     0     1     0     0     0
+	     1     0     0     0     1     1     0     0     0     1     0     0     0     0     0     0     0     0     1     1
+	     0     1     0     0     1     0     0     0     0     0     0     0     0     1     1     0     0     0     0     1
+	     0     0     1     1     1     0     0     0     0     0     1     0     1     1     0     0     0     0     1     0
+	     */
 
-			// Create a wall from x to y
+		// Testing 
+		bool[,] walkable = new bool[2, 2] {
+			{false, true},
+			{true, false}
+		};
+
+		for (int i = 0; i < walkable.GetLength(0); i++) {
+			for (int j = 0; j < walkable.GetLength(1); j++) {
+				if (!walkable[i, j]) { 
+					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					wall.name = "" + i + j;
+					wall.transform.localScale = new Vector3(pixelSize, pixelSize, 10.0f);
+					wall.transform.position = new Vector3((i * pixelSize) + (pixelSize / 2), (-j * pixelSize) - (pixelSize / 2) , -10.0f);
+				}
+			}		
 		}
 	}
 
 	// TODO
 	public void createContinuousStage() {
 
+		Debug.Log ("Creating continuous stage...");
+
+		// Create the stage
+		
+		// Create the walls
 	}
 }
