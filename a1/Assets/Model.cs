@@ -4,7 +4,7 @@ using System.Collections;
 public class Model : MonoBehaviour
 {
 
-		public static int type = 3;
+		public static int type = 0;
 
 		public void useDiscreteModel ()
 		{

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class DiscreteController : MonoBehaviour
 {
 
-		Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
+		Vector3 goal = new Vector3 (60.0f, -50.0f, 0.0f);
 		// Use this for initialization
 		void Start ()
 		{
@@ -18,15 +19,15 @@ public class DiscreteController : MonoBehaviour
 		void move ()
 		{
 				float distance_x = goal.x - rigidbody.transform.position.x;
-				float distance_z = goal.z - rigidbody.transform.position.z;
-
+				float distance_y = rigidbody.transform.position.y - goal.y;
+				print (distance_y);
 				if (distance_x > 5.0f) {
 						stepRight ();
 				} else if (distance_x < -5.0f) {
 						stepLeft ();
-				} else if (distance_z < -5.0f) {
+				} else if (distance_y < -5.0f) {
 						stepDown ();
-				} else if (distance_z > 5.0f) {
+				} else if (distance_y > 5.0f) {
 						stepUp ();
 				} else {
 						CancelInvoke ("move");
@@ -49,14 +50,14 @@ public class DiscreteController : MonoBehaviour
 
 		void stepUp ()
 		{
-				Vector3 step = new Vector3 (0.0f, 0.0f, 10.0f);
+				Vector3 step = new Vector3 (0.0f, -10.0f, 0.0f);
 				rigidbody.transform.position = rigidbody.position + step;
 		
 		}
 
 		void stepDown ()
 		{
-				Vector3 step = new Vector3 (0.0f, 0.0f, -10.0f);
+				Vector3 step = new Vector3 (0.0f, 10.0f, 0.0f);
 				rigidbody.transform.position = rigidbody.position + step;
 		
 		}
