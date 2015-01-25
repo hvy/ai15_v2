@@ -34,6 +34,7 @@ public class CarDynamicController : DynamicController
 		void move ()
 		{
 				float distance = Vector3.Distance (goal, transform.position);
+				print (distance);
 				if (distance < 0.8f)
 						return;
 				acceleration += 0.05f;
