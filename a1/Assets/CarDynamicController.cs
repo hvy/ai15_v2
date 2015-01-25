@@ -5,7 +5,7 @@ using System;
 public class CarDynamicController : DynamicController
 {
 
-		Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
+		//Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
 		Vector3 start;
 		private Quaternion wheelDir;
 		private float L;

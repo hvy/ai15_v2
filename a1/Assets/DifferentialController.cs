@@ -6,7 +6,7 @@ public class DifferentialController : KinematicController {
 
 
 	// for testing
-	Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
+	//Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
 	public float rotationSpeed;
 	private float angularThreshold;
 
