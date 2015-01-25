@@ -9,7 +9,6 @@ public class CarDynamicController : DynamicController
 		Vector3 start;
 		private Quaternion wheelDir;
 		private float L;
-		private float acceleration;
 		private const float max_wheel_turn = 0.8f;
 		private const float max_velocity = 300.0f;
 		

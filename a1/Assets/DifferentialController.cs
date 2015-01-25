@@ -14,7 +14,7 @@ public class DifferentialController : KinematicController {
 
 	// Use this for initialization
 	void Start () {
-		angularThreshold = 0.1f;
+		angularThreshold = 0.01f;
 	}
 
 	protected void rotate() {
@@ -29,10 +29,10 @@ public class DifferentialController : KinematicController {
 	// Update is called once per frame
 	void Update () {
 		if (Model.type == 3) {
+			rotate ();
 			if (Math.Abs(transform.rotation.y - lookRotation.y) < angularThreshold) {
 				move();
 			}
-			rotate ();
 		}
 	}
 }

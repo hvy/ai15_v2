@@ -7,7 +7,7 @@ public class KinematicController : MonoBehaviour
 		public float speed;
 
 		// for testing	
-		protected Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
+		protected Vector3 goal = new Vector3 (160.0f, 0.0f, 150.0f);
 
 		void Start ()
 		{

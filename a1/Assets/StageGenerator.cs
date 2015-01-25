@@ -30,8 +30,8 @@ public class StageGenerator : MonoBehaviour {
 		stage = GameObject.CreatePrimitive (PrimitiveType.Cube);
 		float actualWidth = width * pixelSize;
 		float actualHeight = height * pixelSize;
-		stage.transform.position = new Vector3 (actualWidth / 2, actualHeight / -2, 0);
-		stage.transform.localScale = new Vector3 (actualWidth, actualHeight, 1);
+		stage.transform.position = new Vector3 (actualWidth / 2, 0, actualHeight / 2);
+		stage.transform.localScale = new Vector3 (actualWidth, 1, actualHeight);
 
 		// Create the walls
 		// TODO
@@ -69,8 +69,8 @@ public class StageGenerator : MonoBehaviour {
 				if (!walkable[i, j]) { 
 					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
 					wall.name = "" + i + j;
-					wall.transform.localScale = new Vector3(pixelSize, pixelSize, 10.0f);
-					wall.transform.position = new Vector3((i * pixelSize) + (pixelSize / 2), (-j * pixelSize) - (pixelSize / 2) , -10.0f);
+					wall.transform.localScale = new Vector3(pixelSize, 0.0f, pixelSize);
+					wall.transform.position = new Vector3((i * pixelSize) + (pixelSize / 2),  10.0f, (j * pixelSize) + (pixelSize / 2));
 				}
 			}		
 		}

@@ -4,7 +4,7 @@ using System.Collections;
 public class Model : MonoBehaviour
 {
 
-		public static int type = 0;
+		public static int type = 5;
 
 		public void useDiscreteModel ()
 		{
@@ -21,14 +21,19 @@ public class Model : MonoBehaviour
 				type = 2;
 		}
 
-		public void useCarKinematicModel ()
+		public void useDifferentialModel ()
 		{
 				type = 3;
 		}
 
-		public void useCarDynamicModel ()
+		public void useCarKinematicModel ()
 		{
 				type = 4;
+		}
+
+		public void useCarDynamicModel ()
+		{
+				type = 5;
 		}
 
 		// Use this for initialization

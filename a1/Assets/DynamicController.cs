@@ -7,10 +7,9 @@ public class DynamicController : MonoBehaviour
 		public float power;
 	
 		// for testing	
-		public Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
+		protected Vector3 goal = new Vector3 (160.0f, 0.0f, 150.0f);
+		protected float acceleration;
 
-	private float acceleration;
-	
 		void Start ()
 		{
 		acceleration = 0;

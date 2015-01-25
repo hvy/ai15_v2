@@ -790,7 +790,7 @@ Rigidbody:
   m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -807,7 +807,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -841,8 +841,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1126197310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 583, y: 255, z: 10}
-  m_LocalScale: {x: 2, y: 1, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
+  m_LocalScale: {x: 5, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -880,7 +880,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  goal: {x: 60, y: 0, z: 50}
 --- !u!114 &1126197319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,8 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 2
-  goal: {x: 60, y: 0, z: 50}
+  power: 5
 --- !u!114 &1126197320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,7 +904,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  goal: {x: 60, y: 0, z: 50}
   rotationSpeed: 1
 --- !u!114 &1126197321
 MonoBehaviour:
@@ -920,7 +917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  goal: {x: 60, y: 0, z: 50}
   rotationSpeed: 1
 --- !u!114 &1126197322
 MonoBehaviour:
@@ -934,7 +930,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 2
-  goal: {x: 60, y: 0, z: 50}
 --- !u!1 &1348443392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +998,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: create
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1348443394
@@ -1367,8 +1362,8 @@ Camera:
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 35
-  orthographic: 0
-  orthographic size: 47
+  orthographic: 1
+  orthographic size: 120
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1386,8 +1381,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2139539962}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 200, y: -200, z: -711}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: 200, y: 400, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
