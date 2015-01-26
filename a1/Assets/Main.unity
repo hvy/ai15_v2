@@ -1314,7 +1314,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 592569050}
-        m_MethodName: createEmptyStage
+        m_MethodName: createSimpleStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1479,10 +1479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Empty
-
-
-'
+  m_Text: Simple
 --- !u!222 &2031058865
 CanvasRenderer:
   m_ObjectHideFlags: 0
