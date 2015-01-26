@@ -34,34 +34,27 @@ public class StageGenerator : MonoBehaviour {
 		stage.transform.localScale = new Vector3 (actualWidth, 1, actualHeight);
 
 		// Create the walls
-		// TODO
-		/*
-		 1     0     1     0     1     1     0     1     0     0     0     0     0     1     0     0     0     0     0     0
-	     1     0     0     1     1     1     0     0     0     1     0     1     0     0     1     0     1     1     0     0
-	     0     0     0     0     0     0     0     1     0     0     1     1     0     0     1     0     0     1     1     0
-	     0     1     0     0     0     0     1     0     0     0     1     0     0     0     1     1     0     1     0     0
-	     1     0     0     1     1     0     0     1     1     1     0     0     0     0     0     1     1     0     0     0
-	     0     0     1     0     0     0     0     1     0     0     0     0     0     0     0     1     0     1     0     0
-	     1     0     0     0     1     0     0     0     0     1     0     0     0     0     0     0     0     1     1     0
-	     0     0     0     0     0     0     0     0     1     0     1     1     0     0     1     0     1     0     0     0
-	     1     0     0     0     0     0     1     1     0     1     0     1     0     0     0     1     0     0     0     1
-	     0     1     0     0     0     0     0     0     0     1     1     0     0     0     0     0     0     0     0     0
-	     0     0     0     1     1     1     0     1     1     0     0     0     1     1     0     1     0     1     0     0
-	     1     0     0     1     0     0     1     0     0     0     1     0     1     0     0     1     1     0     1     0
-	     0     0     1     0     0     0     0     0     1     1     0     0     0     1     0     0     1     0     0     1
-	     0     1     0     0     0     1     1     0     0     0     1     0     1     0     0     0     0     0     0     0
-	     1     0     0     0     0     0     0     0     0     1     1     0     1     0     1     0     0     0     0     0
-	     0     0     0     0     0     0     0     0     0     0     0     0     0     1     0     1     0     0     0     0
-	     0     0     0     1     0     0     0     1     0     1     0     0     1     1     0     0     1     0     0     0
-	     1     0     0     0     1     1     0     0     0     1     0     0     0     0     0     0     0     0     1     1
-	     0     1     0     0     1     0     0     0     0     0     0     0     0     1     1     0     0     0     0     1
-	     0     0     1     1     1     0     0     0     0     0     1     0     1     1     0     0     0     0     1     0
-	     */
-
-		// Testing 
-		bool[,] walkable = new bool[2, 2] {
-			{false, true},
-			{true, false}
+		bool[,] walkable = new bool[20, 20] {
+			{false,true,false,true,false,false,true,false,true,true,true,true,true,false,true,true,true,true,true,true},
+			{false,true,true,false,false,false,true,true,true,false,true,false,true,true,false,true,false,false,true,true},
+			{true,true,true,true,true,true,true,false,true,true,false,false,true,true,false,true,true,false,false,true},
+			{true,false,true,true,true,true,false,true,true,true,false,true,true,true,false,false,true,false,true,true},
+			{false,true,true,false,false,true,true,false,false,false,true,true,true,true,true,false,false,true,true,true},
+			{true,true,false,true,true,true,true,false,true,true,true,true,true,true,true,false,true,false,true,true},
+			{false,true,true,true,false,true,true,true,true,false,true,true,true,true,true,true,true,false,false,true},
+			{true,true,true,true,true,true,true,true,false,true,false,false,true,true,false,true,false,true,true,true},
+			{false,true,true,true,true,true,false,false,true,false,true,false,true,true,true,false,true,true,true,false},
+			{true,false,true,true,true,true,true,true,true,false,false,true,true,true,true,true,true,true,true,true},
+			{true,true,true,false,false,false,true,false,false,true,true,true,false,false,true,false,true,false,true,true},
+			{false,true,true,false,true,true,false,true,true,true,false,true,false,true,true,false,false,true,false,true},
+			{true,true,false,true,true,true,true,true,false,false,true,true,true,false,true,true,false,true,true,false},
+			{true,false,true,true,true,false,false,true,true,true,false,true,false,true,true,true,true,true,true,true},
+			{false,true,true,true,true,true,true,true,true,false,false,true,false,true,false,true,true,true,true,true},
+			{true,true,true,true,true,true,true,true,true,true,true,true,true,false,true,false,true,true,true,true},
+			{true,true,true,false,true,true,true,false,true,false,true,true,false,false,true,true,false,true,true,true},
+			{false,true,true,true,false,false,true,true,true,false,true,true,true,true,true,true,true,true,false,false},
+			{true,false,true,true,false,true,true,true,true,true,true,true,true,false,false,true,true,true,true,false},
+			{true,true,false,false,false,true,true,true,true,true,false,true,false,false,true,true,true,true,false,true}
 		};
 
 		for (int i = 0; i < walkable.GetLength(0); i++) {
