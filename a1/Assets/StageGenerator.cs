@@ -4,7 +4,7 @@ using System.Collections;
 public class StageGenerator : MonoBehaviour {
 
 	private GameObject stage;
-	private Vector2 start, end;
+	private Vector2 startPos, endPos;
 
 	private int totWidth = 100;
 	private int totHeight = 100;
@@ -51,8 +51,8 @@ public class StageGenerator : MonoBehaviour {
 
 		clearStage ();
 
-		start = new Vector2 (1, 1);
-		end = new Vector2 (19, 19);
+		startPos = new Vector2 (1, 1);
+		endPos = new Vector2 (19, 19);
 
 		int numTilessWidth = 20;
 		int numTilesHeight = 20;
@@ -61,10 +61,13 @@ public class StageGenerator : MonoBehaviour {
 
 		// Create the stage
 		stage = GameObject.CreatePrimitive (PrimitiveType.Cube);
-		float actualWidth = numTilessWidth * tileWidth;
-		float actualHeight = numTilesHeight * tileHeight;
-		stage.transform.position = new Vector3 (actualWidth / 2, 0, actualHeight / 2);
-		stage.transform.localScale = new Vector3 (actualWidth, 1, actualHeight);
+		//float actualWidth = numTilessWidth * tileWidth;
+		//float actualHeight = numTilesHeight * tileHeight;
+		//stage.transform.position = new Vector3 (actualWidth / 2, 0, actualHeight / 2);
+		//stage.transform.localScale = new Vector3 (actualWidth, 1, actualHeight);
+
+		stage.transform.position = new Vector3 (totWidth / 2, 0, totHeight / 2);
+		stage.transform.localScale = new Vector3 (totWidth, 1, totHeight);
 
 		// Create the walls
 		bool[,] walkable = new bool[20, 20] {
@@ -92,7 +95,7 @@ public class StageGenerator : MonoBehaviour {
 
 		for (int i = 0; i < walkable.GetLength(0); i++) {
 			for (int j = 0; j < walkable.GetLength(1); j++) {
-				if (i == start.x && j == start.y) {
+				if (i == startPos.x && j == startPos.y) {
 
 					// Create the start point
 					GameObject start = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -101,7 +104,7 @@ public class StageGenerator : MonoBehaviour {
 					start.renderer.material.color = startColor;
 					start.transform.parent = stage.transform;
 
-				} else if (i == end.x && j == end.y) {
+				} else if (i == endPos.x && j == endPos.y) {
 
 					// Create the end point
 					GameObject end = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -116,6 +119,7 @@ public class StageGenerator : MonoBehaviour {
 					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
 					wall.transform.localScale = new Vector3(tileWidth, 0.0f, tileHeight);
 					wall.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
+					wall.transform.parent = stage.transform;
 				}
 			}		
 		}
@@ -124,7 +128,10 @@ public class StageGenerator : MonoBehaviour {
 	// TODO
 	public void createContinuousStage() {
 
-		Debug.Log ("Creating continuous stage...");
+		clearStage ();
+		
+		startPos = new Vector2 (20, 10);
+		endPos = new Vector2 (80, 90);
 
 		// Create the stage
 		
