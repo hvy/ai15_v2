@@ -33,7 +33,6 @@ public class CarDynamicController : DynamicController
 		void move ()
 		{
 				float distance = Vector3.Distance (goal, transform.position);
-				print (distance);
 				if (distance < 0.8f)
 						return;
 				acceleration += 0.05f;
@@ -43,6 +42,10 @@ public class CarDynamicController : DynamicController
 				rigidbody.MovePosition (rigidbody.position + power * (transform.forward / rigidbody.mass) * Time.deltaTime * ad);
 				rotate ();
 
+		}
+
+		public void restart() {
+			acceleration = 0;
 		}
 	
 		// Update is called once per frame

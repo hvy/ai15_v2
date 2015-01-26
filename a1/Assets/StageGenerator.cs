@@ -31,6 +31,7 @@ public class StageGenerator : MonoBehaviour {
 
 		setStart (new Vector2 (10, 10));
 		setEnd (new Vector2 (90, 90));
+
 	}
 
 	public void createDiscreteStage() {

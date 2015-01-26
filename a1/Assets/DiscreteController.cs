@@ -4,14 +4,11 @@ using System.Collections;
 public class DiscreteController : MonoBehaviour
 {
 
-		Vector3 goal = new Vector3 (160.0f, 0.0f, 150.0f);
+		protected Vector3 goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
 		// Use this for initialization
 		void Start ()
 		{
-				if (Model.type == 0) {
-						InvokeRepeating ("move", 1, 1F);
-
-				}
+			restart ();
 
 		}
 
@@ -59,6 +56,14 @@ public class DiscreteController : MonoBehaviour
 				Vector3 step = new Vector3 (0.0f, 0.0f, -10.0f);
 				rigidbody.transform.position = rigidbody.position + step;
 		
+		}
+
+		public void restart() {
+			CancelInvoke ("move");
+		if (Model.type == 0) {
+			InvokeRepeating ("move", 1, 1F);			
+		}
+			
 		}
 
 		// Update is called once per frame

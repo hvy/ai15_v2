@@ -24,6 +24,9 @@ public class CarKinematicController : DifferentialController
 
 		void move ()
 		{
+				float distance = Vector3.Distance (goal, transform.position);
+				if (distance < 0.8f)
+					return;
 				// TODO, tror nog detta är lite fuskigt. Bör ta hänsyn till styrvinkel och längd, etc.
 				transform.position += transform.forward * Time.deltaTime * speed;
 				rotate ();

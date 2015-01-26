@@ -7,7 +7,7 @@ public class DynamicController : MonoBehaviour
 		public float power;
 	
 		// for testing	
-		protected Vector3 goal = new Vector3 (160.0f, 0.0f, 150.0f);
+		protected Vector3 goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
 		protected float acceleration;
 
 		void Start ()
@@ -23,6 +23,10 @@ public class DynamicController : MonoBehaviour
 				float ad = acceleration * distance;
 				rigidbody.MovePosition (rigidbody.position + power * (force / rigidbody.mass) * Time.deltaTime * acceleration);
 		}
+
+		public void restart() {
+			acceleration = 0;
+		}	
 	
 		// Update is called once per frame
 		void FixedUpdate ()
