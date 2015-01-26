@@ -3,12 +3,15 @@ using System.Collections;
 
 public class StageGenerator : MonoBehaviour {
 
+	private GameObject stage;
 	private Vector2 start, end;
+
 	private int totWidth = 100;
 	private int totHeight = 100;
+	private Color startColor = Color.red;
+	private Color endColor = Color.green;
 
-	private GameObject stage;
-
+	// Not used at the moment. Might use for Continuous stage
 	struct Wall {
 		Vector2 u, v;
 		GameObject wall;
@@ -20,8 +23,33 @@ public class StageGenerator : MonoBehaviour {
 			wall.transform.position = new Vector3(fromX, 0, fromY);
 		}
 	};
-	
+
+	public void createEmptyStage() {
+
+		clearStage ();
+
+		// Create the stage
+		stage = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		stage.transform.position = new Vector3 (totWidth / 2, 0, totHeight / 2);
+		stage.transform.localScale = new Vector3 (totWidth, 1, totHeight);
+
+		// Create the start and the end points
+		GameObject start = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		start.transform.localScale = new Vector3 (5, 0, 5);
+		start.transform.position = new Vector3 (10, 10, 10);
+		start.renderer.material.color = startColor;
+		start.transform.parent = stage.transform;
+
+		GameObject end = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		end.transform.localScale = new Vector3 (5, 0, 5);
+		end.transform.position = new Vector3 (90, 10, 90);
+		end.renderer.material.color = endColor;
+		end.transform.parent = stage.transform;
+	}
+
 	public void createDiscreteStage() {
+
+		clearStage ();
 
 		start = new Vector2 (1, 1);
 		end = new Vector2 (19, 19);
@@ -65,20 +93,27 @@ public class StageGenerator : MonoBehaviour {
 		for (int i = 0; i < walkable.GetLength(0); i++) {
 			for (int j = 0; j < walkable.GetLength(1); j++) {
 				if (i == start.x && j == start.y) {
-					GameObject waypoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					waypoint.name = "start";
-					waypoint.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
-					waypoint.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
-					waypoint.renderer.material.color = Color.blue;
+
+					// Create the start point
+					GameObject start = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					start.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
+					start.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
+					start.renderer.material.color = startColor;
+					start.transform.parent = stage.transform;
+
 				} else if (i == end.x && j == end.y) {
-					GameObject waypoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					waypoint.name = "end";
-					waypoint.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
-					waypoint.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
-					waypoint.renderer.material.color = Color.green;
+
+					// Create the end point
+					GameObject end = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					end.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
+					end.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
+					end.renderer.material.color = endColor;
+					end.transform.parent = stage.transform;
+
 				} else if (!walkable[i, j]) { 
+
+					// Create obstacle
 					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					wall.name = "" + i + j;
 					wall.transform.localScale = new Vector3(tileWidth, 0.0f, tileHeight);
 					wall.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
 				}
@@ -94,5 +129,9 @@ public class StageGenerator : MonoBehaviour {
 		// Create the stage
 		
 		// Create the walls
+	}
+
+	private void clearStage() {
+		Object.Destroy (stage);
 	}
 }
