@@ -16,8 +16,10 @@ public class KinematicController : MonoBehaviour
 		protected void move ()
 		{
 				float distance = Vector3.Distance (rigidbody.position, goal);
-				// interpolate between car and goal
-				rigidbody.transform.position = (Vector3.Lerp (rigidbody.position, goal, speed * Time.deltaTime / distance));
+				// interpolate between car and goal, third argument is [0, 1], describing how close to the target we should move.
+				// so we basically normalize the fraction with (/ distance) to move in constant speed.
+				// Could also use "MoveToward" which is much more straight forward
+				rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, speed * Time.deltaTime / distance));
 		}
 	
 		// Update is called once per frame

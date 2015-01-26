@@ -9,8 +9,8 @@ public class CarDynamicController : DynamicController
 		Vector3 start;
 		private Quaternion wheelDir;
 		private float L;
-		private const float max_wheel_turn = 0.8f;
-		private const float max_velocity = 300.0f;
+		private const float max_wheel_turn = 0.4f;
+		private const float max_velocity = 200.0f;
 		
 		// Use this for initialization
 		void Start ()
@@ -35,7 +35,10 @@ public class CarDynamicController : DynamicController
 				float distance = Vector3.Distance (goal, transform.position);
 				if (distance < 0.8f)
 						return;
-				acceleration += 0.05f;
+				acceleration += 0.04f;
+				if (acceleration > max_acceleration) {
+					acceleration = max_acceleration;
+				}
 				float ad = acceleration * distance;
 				if (ad > max_velocity)
 						ad = max_velocity;

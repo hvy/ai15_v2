@@ -9,6 +9,7 @@ public class DynamicController : MonoBehaviour
 		// for testing	
 		protected Vector3 goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
 		protected float acceleration;
+		protected const float max_acceleration = 5.0f;
 
 		void Start ()
 		{
@@ -17,11 +18,12 @@ public class DynamicController : MonoBehaviour
 	
 		protected void move ()
 		{
-				float distance = Vector3.Distance (transform.position, goal);
-				Vector3 force = goal - rigidbody.position;
-				acceleration += 0.04f;
-				float ad = acceleration * distance;
-				rigidbody.MovePosition (rigidbody.position + power * (force / rigidbody.mass) * Time.deltaTime * acceleration);
+				Vector3 force = goal - rigidbody.position; // allow for slow down
+				acceleration += 0.03f;
+				if (acceleration > max_acceleration) {
+					acceleration = max_acceleration;
+				}
+				rigidbody.MovePosition (rigidbody.position + power * force * Time.deltaTime * acceleration / rigidbody.mass);
 		}
 
 		public void restart() {
