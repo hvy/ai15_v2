@@ -3,6 +3,10 @@ using System.Collections;
 
 public class StageGenerator : MonoBehaviour {
 
+	private Vector2 start, end;
+	private int totWidth = 100;
+	private int totHeight = 100;
+
 	private GameObject stage;
 
 	struct Wall {
@@ -16,20 +20,21 @@ public class StageGenerator : MonoBehaviour {
 			wall.transform.position = new Vector3(fromX, 0, fromY);
 		}
 	};
-
-	// TODO
+	
 	public void createDiscreteStage() {
 
-		int pixelSize = 20;
-		int width = 20;
-		int height = 20;
+		start = new Vector2 (1, 1);
+		end = new Vector2 (19, 19);
 
-		Debug.Log ("Creating discrete stage...");
+		int numTilessWidth = 20;
+		int numTilesHeight = 20;
+		int tileWidth = totWidth / numTilessWidth;
+		int tileHeight = totHeight / numTilesHeight;
 
 		// Create the stage
 		stage = GameObject.CreatePrimitive (PrimitiveType.Cube);
-		float actualWidth = width * pixelSize;
-		float actualHeight = height * pixelSize;
+		float actualWidth = numTilessWidth * tileWidth;
+		float actualHeight = numTilesHeight * tileHeight;
 		stage.transform.position = new Vector3 (actualWidth / 2, 0, actualHeight / 2);
 		stage.transform.localScale = new Vector3 (actualWidth, 1, actualHeight);
 
@@ -59,11 +64,23 @@ public class StageGenerator : MonoBehaviour {
 
 		for (int i = 0; i < walkable.GetLength(0); i++) {
 			for (int j = 0; j < walkable.GetLength(1); j++) {
-				if (!walkable[i, j]) { 
+				if (i == start.x && j == start.y) {
+					GameObject waypoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					waypoint.name = "start";
+					waypoint.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
+					waypoint.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
+					waypoint.renderer.material.color = Color.blue;
+				} else if (i == end.x && j == end.y) {
+					GameObject waypoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					waypoint.name = "end";
+					waypoint.transform.localScale = new Vector3(tileWidth / 2, 0.0f, tileHeight / 2);
+					waypoint.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
+					waypoint.renderer.material.color = Color.green;
+				} else if (!walkable[i, j]) { 
 					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
 					wall.name = "" + i + j;
-					wall.transform.localScale = new Vector3(pixelSize, 0.0f, pixelSize);
-					wall.transform.position = new Vector3((i * pixelSize) + (pixelSize / 2),  10.0f, (j * pixelSize) + (pixelSize / 2));
+					wall.transform.localScale = new Vector3(tileWidth, 0.0f, tileHeight);
+					wall.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
 				}
 			}		
 		}
