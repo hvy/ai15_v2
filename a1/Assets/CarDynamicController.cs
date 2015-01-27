@@ -9,7 +9,7 @@ public class CarDynamicController : DynamicController
 		Vector3 start;
 		private Quaternion wheelDir;
 		private float L;
-		private const float max_wheel_turn = 0.8f;
+		private const float max_wheel_turn = 1.3f;
 		private const float max_velocity = 300.0f;
 		
 		// Use this for initialization
@@ -27,7 +27,7 @@ public class CarDynamicController : DynamicController
 				wheelDir = Quaternion.LookRotation (direction);
 		
 				// spherical interpolation
-				transform.rotation = Quaternion.Slerp (transform.rotation, wheelDir, Time.deltaTime * power * max_wheel_turn);
+				transform.rotation = Quaternion.Slerp (transform.rotation, wheelDir, Time.deltaTime * max_wheel_turn);
 		}
 	
 		void move ()

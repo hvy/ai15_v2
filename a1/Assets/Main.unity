@@ -227,7 +227,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -118, y: -231.899994}
+  m_AnchoredPosition: {x: -118, y: -100}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &83956992
@@ -414,7 +414,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -297.399994, y: -231.899994}
+  m_AnchoredPosition: {x: -297.399994, y: -100}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &273398054
@@ -1295,7 +1295,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!23 &1126197312
 Renderer:
@@ -1325,7 +1325,7 @@ BoxCollider:
   m_GameObject: {fileID: 1126197310}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2458,7 +2458,7 @@ Camera:
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 35
-  orthographic: 1
+  orthographic: 0
   orthographic size: 70
   m_Depth: -1
   m_CullingMask:
@@ -2478,7 +2478,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2139539962}
   m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
-  m_LocalPosition: {x: 50, y: 400, z: 38}
+  m_LocalPosition: {x: 50, y: 240, z: 38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

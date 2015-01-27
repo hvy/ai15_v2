@@ -87,9 +87,10 @@ public class StageGenerator : MonoBehaviour {
 
 					// Create obstacle
 					GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					wall.transform.localScale = new Vector3(tileWidth, 0.0f, tileHeight);
+					wall.transform.localScale = new Vector3(tileWidth, 20.0f, tileHeight);
 					wall.transform.position = new Vector3((i * tileWidth) + (tileWidth / 2),  10.0f, (j * tileHeight) + (tileHeight / 2));
 					wall.transform.parent = stage.transform;
+					wall.renderer.material.color = Color.cyan;
 				}
 			}		
 		}
@@ -105,13 +106,6 @@ public class StageGenerator : MonoBehaviour {
 		setEnd (new Vector2 (80, 90));
 
 		// Create the walls
-		stage.AddComponent("MeshFilter");
-		stage.AddComponent("MeshRenderer");
-		Mesh mesh = GetComponent<MeshFilter>().mesh;
-		mesh.Clear();
-		mesh.vertices = new Vector3[] {new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 1, 0)};
-		mesh.uv = new Vector2[] {new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1)};
-		mesh.triangles = new int[] {0, 1, 2};
 	}
 
 	private void createEmptyStage() {
