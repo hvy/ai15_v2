@@ -4,7 +4,7 @@ using System.Collections;
 public class Model : MonoBehaviour
 {
 
-		public static int type = 5;
+		public static int type = -1;
 		public static Vector2 start = new Vector2(10,10);
 		public static Vector2 end = new Vector2(90f, 90f);
 
