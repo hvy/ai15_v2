@@ -4,10 +4,10 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour{
 
-	public GameObject stage;
-	public Transform startPrefab, goalPrefab;
+	public GameObject stage, waypoints;
+	public Transform startPrefab, goalPrefab, waypointPrefab;
 	public InputField numberOfBoxesInputField;
-
+	
 	// Discrete stage
 	public Transform boxPrefab;
 
@@ -18,24 +18,50 @@ public class StageManager : MonoBehaviour{
 
 		int numBoxes = int.Parse(numberOfBoxesInputField.text);
 		float boxSize = boxPrefab.transform.localScale.x;
+		int numBoxesPerSide = (int) (GameObject.Find ("Ground").transform.localScale.x / boxSize);
+
 		float halfBoxSize = boxSize / 2.0f;
-		
+		bool[,] drivable = new bool[numBoxesPerSide,numBoxesPerSide];
+		for (int i = 0; i < numBoxesPerSide; i++) {
+			for (int j = 0; j < numBoxesPerSide; j++) {
+				drivable[i,j] = true;
+			}
+		}
+
 		for (int i = 0; i < numBoxes; i++) {
 			int xBoxNum = Random.Range(0, 20);			
 			int yBoxNum = Random.Range(0, 20);			
 			float x = xBoxNum * boxSize + halfBoxSize;			
 			float y = yBoxNum * boxSize + halfBoxSize;
-			Transform boxTransform = GameObject.Instantiate(boxPrefab, new Vector3(x, 0, y), Quaternion.identity) as Transform;
+			Transform boxTransform = GameObject.Instantiate(boxPrefab, new Vector3(x, 1.7f, y), Quaternion.identity) as Transform;
 			boxTransform.parent = stage.transform;
+
+			// Make sure this position is not drivable so that no waypoint is created
+			drivable[xBoxNum, yBoxNum] = false;
+		}
+
+		// Create the waypoints
+		for (int i = 0; i < numBoxesPerSide; i++) {
+			for (int j = 0; j < numBoxesPerSide; j++) {
+				if(drivable[i,j]) {
+					float x = i * boxSize + halfBoxSize;			
+					float y = j * boxSize + halfBoxSize;
+					setWayPoint(x, y);
+				}
+			}
 		}
 	}
 	
 	public void clearStage() {
-		
-		int childCount = stage.transform.childCount;
+		clearChildrenOf (stage);
+		clearChildrenOf (waypoints);
+	}
+
+	private void clearChildrenOf(GameObject gameObject) {
+		int childCount = gameObject.transform.childCount;
 		
 		for (int i = 0; i < childCount; i++) {
-			GameObject child = stage.transform.GetChild(i).gameObject;
+			GameObject child = gameObject.transform.GetChild(i).gameObject;
 			if (child.name == "Static") {
 				continue; // Do not destroy static objects such as the ground and the walls
 			}		
@@ -52,5 +78,11 @@ public class StageManager : MonoBehaviour{
 		
 		startTransform.parent = stage.transform;
 		goalTransform.parent = stage.transform;
+	}
+
+	private void setWayPoint(float x, float y) {
+		Transform waypointTransform = Instantiate(waypointPrefab, new Vector3(x, 1.4f, y), Quaternion.identity) as Transform;
+
+		waypointTransform.parent = waypoints.transform;
 	}
 }
