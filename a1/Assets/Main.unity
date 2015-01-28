@@ -961,8 +961,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: {fileID: 1467275998}
+  startPrefab: {fileID: 479536, guid: cd0513368878b3645a95fc47edeedcab, type: 2}
+  goalPrefab: {fileID: 454722, guid: 9b69c981cadd6d94b876f685b2c0349b, type: 2}
   numBoxes: 30
-  box: {fileID: 411618, guid: bba4745899ef6bc43b484c66a74d1086, type: 2}
+  boxPrefab: {fileID: 411618, guid: bba4745899ef6bc43b484c66a74d1086, type: 2}
 --- !u!4 &592569051
 Transform:
   m_ObjectHideFlags: 0
@@ -986,8 +988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6d0f7e3748cc4380d1106560aa792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {x: 10, y: 10}
-  goal: {x: 90, y: 90}
 --- !u!1001 &595181528
 Prefab:
   m_ObjectHideFlags: 0

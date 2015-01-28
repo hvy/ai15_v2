@@ -44,8 +44,11 @@ public class StageManager : MonoBehaviour{
 	private void setStartAndGoal() {
 		Vector2 start = GameManager.start;
 		Vector2 goal = GameManager.goal;
-
-		Instantiate (startPrefab, new Vector3(start.x, 0.0f, start.y), Quaternion.identity);
-		Instantiate (goalPrefab, new Vector3(goal.x, 0.0f, goal.y), Quaternion.identity);
+		
+		Transform startTransform = Instantiate (startPrefab, new Vector3(start.x, 0.0f, start.y), Quaternion.identity) as Transform;
+		Transform goalTransform = Instantiate (goalPrefab, new Vector3(goal.x, 0.0f, goal.y), Quaternion.identity) as Transform;
+		
+		startTransform.parent = stage.transform;
+		goalTransform.parent = stage.transform;
 	}
 }
