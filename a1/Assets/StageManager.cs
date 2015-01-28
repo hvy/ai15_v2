@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class StageManager : MonoBehaviour{
 
 	public GameObject stage;
 	public Transform startPrefab, goalPrefab;
+	public InputField numberOfBoxesInputField;
 
 	// Discrete stage
-	public int numBoxes;
 	public Transform boxPrefab;
 
 	// Discrete stage
@@ -15,6 +16,7 @@ public class StageManager : MonoBehaviour{
 
 		setStartAndGoal ();
 
+		int numBoxes = int.Parse(numberOfBoxesInputField.text);
 		float boxSize = boxPrefab.transform.localScale.x;
 		float halfBoxSize = boxSize / 2.0f;
 		
