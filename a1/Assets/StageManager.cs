@@ -8,6 +8,8 @@ public class StageManager : MonoBehaviour{
 	public GameObject stage, waypoints;
 	public Transform startPrefab, goalPrefab, waypointPrefab;
 	public InputField numberOfBoxesInputField;
+
+	public static List<GNode> aStarPath;
 	
 	// Discrete stage
 	public Transform boxPrefab;
@@ -79,6 +81,8 @@ public class StageManager : MonoBehaviour{
 		}
 		Debug.Log ("Num waypoints created: " + count);
 
+		Dictionary<Transform, GNode> nodes = new Dictionary<Transform, GNode> ();
+
 		for (int i = 0; i < numBoxesPerSide; i++) {
 			for (int j = 0; j < numBoxesPerSide; j++) {
 				if(drivable[i,j]) {
@@ -87,7 +91,11 @@ public class StageManager : MonoBehaviour{
 
 					waypoints[waypointIdx] = setWayPoint(x, y);
 
+					List<GNode> neighbors = new List<GNode>();
+					nodes[waypoints[waypointIdx]] =  new GNode(waypointIdx, waypoints[waypointIdx], neighbors);
+
 					waypointIdx++;
+
 
 					//waypoints[waypointIdx++] = new Vector2(x,y);
 				}
@@ -95,15 +103,14 @@ public class StageManager : MonoBehaviour{
 		}
 
 		// create discrete graph
-		List<Neighbors> neighborList = new List<Neighbors> ();
+		//Dictionary<int, Neighbors> neighborTable = new Dictionary<int, Neighbors> ();
+
 		Vector3[] rayDirections = new Vector3[4];
 		rayDirections [0] = new Vector3 (1.0f, 0, 0);
 		rayDirections [1] = new Vector3 (0, 0, 1.0f);
 		rayDirections [2] = new Vector3 (-1.0f, 0, 0);
 		rayDirections [3] = new Vector3 (0, 0, -1.0f);
 		for (int i = 0; i < waypoints.Length; i++) {
-			Neighbors neighbors = new Neighbors();
-			neighborList.Add(neighbors);
 
 			for (int j = 0; j < 4; j++) {
 				RaycastHit[] hits;
@@ -116,7 +123,9 @@ public class StageManager : MonoBehaviour{
 
 					if (hit.collider.tag == "Waypoint") {
 						// draw edge
-						neighborList[i].Add(hit.transform);
+						nodes[waypoints[i]].addNeighbor(nodes[hit.transform]);
+						//neighborTable[i].Add(hit.transform);
+						//neighborTable[i].Add(hit.transform);
 					}
 
 					hitIdx++;
@@ -124,10 +133,31 @@ public class StageManager : MonoBehaviour{
 			}
 		}
 
+
+		// A-STAR PATH (for testing)
+		Debug.Log ("Nodes: " + nodes.Count);
+
+		GNode start = nodes [waypoints [0]];
+		GNode end = nodes [waypoints [waypoints.Length - 1]];
+		aStarPath = PathFinding.FindPath (start, end, distance, estimate);
+
+//		foreach (GNode node in PathFinding.FindPath (start, end, distance, estimate)) {
+//			Debug.Log ("PATH: " + node.getId());
+//		}
+
 		// TODO create continious graph
 
 		//SearchGraph searchGraph = new SearchGraph (waypoints, boxes);
 
+	}
+
+	private double distance(GNode a, GNode b) {
+		return Vector2.Distance(a.getTransform().position, b.getTransform().position);
+	}
+
+	private double estimate(GNode a) {
+		// TODO
+		return 0;
 	}
 	
 	public void clearStage() {

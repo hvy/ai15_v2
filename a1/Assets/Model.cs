@@ -45,6 +45,7 @@ public class Model : MonoBehaviour
 		}
 
 		private void respawnCar() {
+
 			GameObject car = GameObject.Find("Car");
 			car.transform.position = new Vector3 (start.x, 2f, start.y);
 			Vector3 direction = new Vector3 (0, 0, 0);
@@ -56,6 +57,7 @@ public class Model : MonoBehaviour
 			dynpoint.restart ();
 			DiscreteController discpoint = car.GetComponent<DiscreteController> ();
 			discpoint.restart ();
+
 
 		}
 
@@ -69,5 +71,11 @@ public class Model : MonoBehaviour
 		void Update ()
 		{
 	
+		// TODO check if has reached waypoint. If so, update and assign new goal.
+		float distance = Vector3.Distance (end, transform.position);
+		if (distance < 0.8f) {
+			//end = 
+		}
+
 		}
 }
