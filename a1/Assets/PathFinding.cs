@@ -67,9 +67,10 @@ public class PathFinding {
 
 
 	// A-STAR!!!!!!!!!!!!!!!!!!
+	// TODO write estimate function. Just make it the distance from the point to the goal.
 	static public List<GNode> FindPath(
 		GNode start, 
-		GNode destination, 
+		GNode goal, 
 		Func<GNode, GNode, double> distance, 
 		Func<GNode, double> estimate)
 	{
@@ -82,7 +83,8 @@ public class PathFinding {
 			Path path = open.Dequeue();
 			if (closed.Contains(path.LastStep))
 				continue;
-			if (path.LastStep.Equals(destination)) {
+
+			if (path.LastStep.Equals(goal)) {
 				List<GNode> completePath = new List<GNode>();
 				foreach (GNode node in path)
 					completePath.Add (node);
