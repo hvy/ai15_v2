@@ -71,8 +71,8 @@ public class PathFinding {
 		Func<GNode, GNode, double> distance, 
 		Func<GNode, double> estimate)
 	{
-		var closed = new HashSet<GNode>();
-		var queue = new PriorityQueue<double, Path>();
+		HashSet<GNode> closed = new HashSet<GNode>();
+		PriorityQueue<double, Path> queue = new PriorityQueue<double, Path>();
 		queue.Enqueue(0, new Path(start));
 		while (!queue.IsEmpty)
 		{
@@ -84,8 +84,6 @@ public class PathFinding {
 				foreach (GNode node in path)
 					completePath.Add (node);
 				return completePath;
-
-			//	return path;
 			}
 			closed.Add(path.LastStep);
 			foreach(GNode n in path.LastStep.getNeighbors())

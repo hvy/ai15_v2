@@ -141,7 +141,8 @@ public class StageManager : MonoBehaviour{
 
 		GNode start = nodes [waypoints [0]];
 		GNode end = nodes [waypoints [waypoints.Length - 1]];
-		aStarPath = PathFinding.FindPath (start, end, distance, estimate);}
+		aStarPath = PathFinding.FindPath (start, end, distance, estimate);
+	}
 
 	public void createContinuousStage() {
 

@@ -5,8 +5,6 @@ using System;
 public class CarKinematicController : DifferentialController
 {
 
-		//Vector3 goal = new Vector3 (60.0f, 0.0f, 50.0f);
-	
 		// Use this for initialization
 		void Start ()
 		{

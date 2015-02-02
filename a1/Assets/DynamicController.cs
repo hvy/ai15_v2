@@ -33,6 +33,7 @@ public class DynamicController : MonoBehaviour
 		// Update is called once per frame
 		void FixedUpdate ()
 		{
+		//goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
 				if (Model.type == 2) {
 						move ();
 				}

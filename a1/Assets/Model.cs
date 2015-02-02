@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Model : MonoBehaviour
 {
 
 		public static int type = -1;
-		public static Vector2 start = new Vector2(10,10);
+		public static Vector2 start = new Vector2(0,0);
 		public static Vector2 end = new Vector2(90f, 90f);
 
 		public void useDiscreteModel ()
@@ -60,22 +61,28 @@ public class Model : MonoBehaviour
 
 
 		}
+		
+		public static Vector3 recalculateGoal(int counter) {
+			Vector3 goal;
+			List<GNode> path = StageManager.aStarPath;
+			if (path.Count - counter - 1 < 0)
+				return new Vector3(-1f,-1f,-1f);
+			goal = path[path.Count-counter-1].getTransform ().position;
+			Debug.Log ("NEW WAYPOINT: " + goal.x + " " + goal.z);
+			return goal;
+		}
 
 		// Use this for initialization
 		void Start ()
 		{
-
+			
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
 	
-		// TODO check if has reached waypoint. If so, update and assign new goal.
-		float distance = Vector3.Distance (end, transform.position);
-		if (distance < 0.8f) {
-			//end = 
-		}
+
 
 		}
 }
