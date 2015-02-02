@@ -25,6 +25,7 @@ public class CarDynamicController : DynamicController
 				wheelDir = Quaternion.LookRotation (direction);
 		
 				// spherical interpolation
+				// TOOD, let wheels rotate seperately and when calculate direction when starting to move.
 				rigidbody.rotation = Quaternion.Slerp (transform.rotation, wheelDir, Time.deltaTime * max_wheel_turn);
 		}
 	
