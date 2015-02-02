@@ -15,7 +15,7 @@ public class DynamicController : MonoBehaviour
 
 		void Start ()
 		{
-		acceleration = 0;
+			acceleration = 0.1f;
 		}
 	
 		protected void move ()
@@ -34,7 +34,7 @@ public class DynamicController : MonoBehaviour
 				goal.x = path[path.Count-2].getPos().x;
 				goal.z = path[path.Count-2].getPos().y;
 			}
-			acceleration = 0;
+			acceleration = 0.1f;
 			counter = 0;
 		}	
 	
@@ -48,6 +48,7 @@ public class DynamicController : MonoBehaviour
 					if (distance < 3.2f) {
 						counter++;
 						goal = Model.recalculateGoal(counter);
+						acceleration = 0.1f;
 					}
 					
 					if (goal.x == -1f)

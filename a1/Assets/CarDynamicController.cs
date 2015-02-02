@@ -8,15 +8,15 @@ public class CarDynamicController : DynamicController
 
 		private Quaternion wheelDir;
 		private float L;
-		private const float max_wheel_turn = 1.5f;
-		private const float max_velocity = 200.0f;
+		private const float max_wheel_turn = 2.0f;
+		private const float max_velocity = 100.0f;
 
 		// Use this for initialization
 		void Start ()
 		{
 				L = transform.localScale.z;
 				wheelDir = Quaternion.LookRotation (transform.forward);
-				acceleration = 0;
+				acceleration = 0.1f;
 		}
 	
 		void rotate ()
@@ -25,7 +25,7 @@ public class CarDynamicController : DynamicController
 				wheelDir = Quaternion.LookRotation (direction);
 		
 				// spherical interpolation
-				transform.rotation = Quaternion.Slerp (transform.rotation, wheelDir, Time.deltaTime * max_wheel_turn);
+				rigidbody.rotation = Quaternion.Slerp (transform.rotation, wheelDir, Time.deltaTime * max_wheel_turn);
 		}
 	
 		void move ()
@@ -33,7 +33,7 @@ public class CarDynamicController : DynamicController
 				float distance = Vector3.Distance (goal, transform.position);
 				if (distance < 0.8f)
 						return;
-				acceleration += 0.08f;
+				acceleration += 0.03f;
 				if (acceleration > max_acceleration) {
 					acceleration = max_acceleration;
 				}
@@ -52,7 +52,7 @@ public class CarDynamicController : DynamicController
 				goal.z = path[path.Count-2].getPos ().y;
 			}
 
-			acceleration = 0;
+			acceleration = 0.1f;
 			counter = 0;
 		}
 	
@@ -63,9 +63,10 @@ public class CarDynamicController : DynamicController
 						// TODO check if has reached waypoint. If so, update and assign new goal.
 						float distance = Vector3.Distance (goal, transform.position);
 						
-						if (distance < 3.2f) {
+						if (distance < 2.5f) {
 							counter++;
 							goal = Model.recalculateGoal(counter);
+							acceleration = 0.5f;
 						}
 
 						if (goal.x == -1f)
