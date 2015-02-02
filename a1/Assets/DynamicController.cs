@@ -11,6 +11,7 @@ public class DynamicController : MonoBehaviour
 		protected Vector3 goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
 		protected float acceleration;
 		protected const float max_acceleration = 5.0f;
+		protected int counter = 0;
 
 		void Start ()
 		{
@@ -34,10 +35,10 @@ public class DynamicController : MonoBehaviour
 				goal.z = path[path.Count-2].getPos().y;
 			}
 			acceleration = 0;
+			counter = 0;
 		}	
 	
 		// Update is called once per frame
-		int counter = 0;
 		void FixedUpdate ()
 		{
 		//goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);

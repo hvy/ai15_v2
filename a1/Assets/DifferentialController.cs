@@ -15,7 +15,7 @@ public class DifferentialController : KinematicController {
 
 	// Use this for initialization
 	void Start () {
-		angularThreshold = 0.01f;
+		angularThreshold = 0.03f;
 	}
 
 	protected void rotate() {
@@ -33,18 +33,17 @@ public class DifferentialController : KinematicController {
 			goal.x = path[path.Count-2].getPos ().x;
 			goal.z = path[path.Count-2].getPos ().y;
 		}
-		
+		counter = 0;
 	}
 	
 	// Update is called once per frame
-	int counter = 0;
 	void Update () {
 		if (Model.type == 3) {
 			rotate ();
 			if (Math.Abs(transform.rotation.y - lookRotation.y) < angularThreshold) {
 				float distance = Vector3.Distance (goal, transform.position);
 				
-				if (distance < 3.2f) {
+				if (distance < 1.2f) {
 					counter++;
 					goal = Model.recalculateGoal(counter);
 				}

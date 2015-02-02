@@ -9,6 +9,7 @@ public class KinematicController : MonoBehaviour
 
 		// for testing	
 		protected Vector3 goal = new Vector3 (Model.end.x, 2.0f, Model.end.y);
+		protected int counter;
 
 		void Start ()
 		{
@@ -29,11 +30,10 @@ public class KinematicController : MonoBehaviour
 				goal.x = path[path.Count-2].getPos ().x;
 				goal.z = path[path.Count-2].getPos ().y;
 			}
-			
+		counter = 0;
 		}
 	
 		// Update is called once per frame
-		int counter = 0;
 		void Update ()
 		{
 				if (Model.type == 1) {

@@ -6,7 +6,7 @@ public class Model : MonoBehaviour
 {
 
 		public static int type = -1;
-		public static Vector2 start = new Vector2(0,0);
+		public static Vector2 start = new Vector2(1.5f,1.5f);
 		public static Vector2 end = new Vector2(90f, 90f);
 
 		public void useDiscreteModel ()

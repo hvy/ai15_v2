@@ -37,11 +37,10 @@ public class CarKinematicController : DifferentialController
 				goal.x = path[path.Count-2].getPos ().x;
 				goal.z = path[path.Count-2].getPos ().y;
 			}
-			
+			counter = 0;
 		}
 	
 		// Update is called once per frame
-		int counter = 0;
 		void Update ()
 		{
 				if (Model.type == 4) {

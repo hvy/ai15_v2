@@ -53,10 +53,10 @@ public class CarDynamicController : DynamicController
 			}
 
 			acceleration = 0;
+			counter = 0;
 		}
 	
 		// Update is called once per frame
-	int counter = 0;
 		void FixedUpdate ()
 		{
 				if (Model.type == 5) {
