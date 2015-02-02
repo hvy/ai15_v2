@@ -58,6 +58,12 @@ public class Model : MonoBehaviour
 			dynpoint.restart ();
 			DiscreteController discpoint = car.GetComponent<DiscreteController> ();
 			discpoint.restart ();
+			CarKinematicController kincar = car.GetComponent<CarKinematicController> ();
+			kincar.restart ();
+			KinematicController kin = car.GetComponent<KinematicController> ();
+			kin.restart ();
+			DifferentialController diff = car.GetComponent<DifferentialController> ();
+			diff.restart ();
 
 
 		}

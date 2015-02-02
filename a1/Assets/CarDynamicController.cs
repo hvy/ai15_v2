@@ -46,14 +46,11 @@ public class CarDynamicController : DynamicController
 		}
 
 		public void restart() {
-		if (StageManager.aStarPath != null) {
-			List<GNode> path = StageManager.aStarPath;
-			Debug.Log ("Changed goal and start");
-			goal.x = path[path.Count-2].getTransform ().position.x;
-			goal.z = path[path.Count-2].getTransform ().position.y;
-			Debug.Log (goal.x);
-			Debug.Log (goal.z);
-		}
+			if (StageManager.aStarPath != null) {
+				List<GNode> path = StageManager.aStarPath;
+				goal.x = path[path.Count-2].getTransform ().position.x;
+				goal.z = path[path.Count-2].getTransform ().position.y;
+			}
 
 			acceleration = 0;
 		}

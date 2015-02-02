@@ -72,6 +72,7 @@ public class DiscreteController : MonoBehaviour
 				rigidbody.transform.position = rigidbody.position + step;
 		
 		}
+	
 
 		public void restart() {
 		counter = 0;
