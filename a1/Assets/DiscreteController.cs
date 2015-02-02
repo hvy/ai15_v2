@@ -25,7 +25,7 @@ public class DiscreteController : MonoBehaviour
 		List<GNode> path = StageManager.aStarPath;
 		if (path.Count - counter - 1 < 0)
 						return;
-		move (path [path.Count-counter-1].getTransform ().position);
+		move (path [path.Count-counter-1].getPos ());
 			counter++;
 
 				

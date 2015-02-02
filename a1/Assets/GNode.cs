@@ -6,11 +6,11 @@ public class GNode {
 	
 	private int id;
 	public List<GNode> Neighbors;
-	private Transform trans;
+	private Vector3 position;
 	
-	public GNode (int id, Transform trans, List<GNode> neighbors) {
+	public GNode (int id, Vector3 pos, List<GNode> neighbors) {
 		this.id = id;
-		this.trans = trans;
+		this.position = pos;
 		this.Neighbors = neighbors;
 	}
 	
@@ -18,16 +18,16 @@ public class GNode {
 		return Neighbors;
 	}
 	
-	public Transform getTransform() {
-		return trans;
+	public Vector3 getPos() {
+		return position;
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public void setTransform(Transform trans) {
-		this.trans = trans;
+	public void setPosition(Vector3 pos) {
+		this.position = pos;
 	}
 
 	public void addNeighbor(GNode node) {

@@ -48,8 +48,8 @@ public class CarDynamicController : DynamicController
 		public void restart() {
 			if (StageManager.aStarPath != null) {
 				List<GNode> path = StageManager.aStarPath;
-				goal.x = path[path.Count-2].getTransform ().position.x;
-				goal.z = path[path.Count-2].getTransform ().position.y;
+				goal.x = path[path.Count-2].getPos ().x;
+				goal.z = path[path.Count-2].getPos ().y;
 			}
 
 			acceleration = 0;

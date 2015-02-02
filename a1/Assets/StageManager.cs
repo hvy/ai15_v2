@@ -94,7 +94,7 @@ public class StageManager : MonoBehaviour{
 					waypoints[waypointIdx] = setWayPoint(x, y);
 
 					List<GNode> neighbors = new List<GNode>();
-					nodes[waypoints[waypointIdx]] =  new GNode(waypointIdx, waypoints[waypointIdx], neighbors);
+					nodes[waypoints[waypointIdx]] =  new GNode(waypointIdx, waypoints[waypointIdx].position, neighbors);
 
 					waypointIdx++;
 
@@ -159,7 +159,7 @@ public class StageManager : MonoBehaviour{
 	}
 
 	private double distance(GNode a, GNode b) {
-		return Vector2.Distance(a.getTransform().position, b.getTransform().position);
+		return Vector2.Distance(a.getPos (), b.getPos ());
 	}
 
 	private double estimate(GNode a) {
