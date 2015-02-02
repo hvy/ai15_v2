@@ -107,16 +107,21 @@ public class StageManager : MonoBehaviour{
 		// create discrete graph
 		//Dictionary<int, Neighbors> neighborTable = new Dictionary<int, Neighbors> ();
 
-		Vector3[] rayDirections = new Vector3[4];
+		Vector3[] rayDirections = new Vector3[8];
 		rayDirections [0] = new Vector3 (1.0f, 0, 0);
 		rayDirections [1] = new Vector3 (0, 0, 1.0f);
 		rayDirections [2] = new Vector3 (-1.0f, 0, 0);
 		rayDirections [3] = new Vector3 (0, 0, -1.0f);
+		rayDirections [4] = new Vector3 (1.0f, 0, 1.0f);
+		rayDirections [5] = new Vector3 (-1.0f, 0, 1.0f);
+		rayDirections [6] = new Vector3 (-1.0f, 0, -1.0f);
+		rayDirections [7] = new Vector3 (1.0f, 0, -1.0f);
 		for (int i = 0; i < waypoints.Length; i++) {
 
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 8; j++) {
 				RaycastHit[] hits;
-				hits = Physics.RaycastAll(waypoints[i].position, rayDirections[j], boxSize);
+				float l = (float) System.Math.Sqrt(boxSize*boxSize*2);
+				hits = Physics.RaycastAll(waypoints[i].position, rayDirections[j], l);
 				int hitIdx = 0;
 				while(hitIdx < hits.Length) {
 					RaycastHit hit = hits[hitIdx];

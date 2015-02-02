@@ -43,7 +43,7 @@ public class DifferentialController : KinematicController {
 			if (Math.Abs(transform.rotation.y - lookRotation.y) < angularThreshold) {
 				float distance = Vector3.Distance (goal, transform.position);
 				
-				if (distance < 1.2f) {
+				if (distance < 2.2f) {
 					counter++;
 					goal = Model.recalculateGoal(counter);
 				}
