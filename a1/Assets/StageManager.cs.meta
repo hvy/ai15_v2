@@ -2,7 +2,16 @@ fileFormatVersion: 2
 guid: da35e494985164244a3c9505f3c6b1a4
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - stage: {instanceID: 0}
+  - waypoints: {instanceID: 0}
+  - startPrefab: {instanceID: 0}
+  - goalPrefab: {instanceID: 0}
+  - waypointPrefab: {instanceID: 0}
+  - numberOfBoxesInputField: {instanceID: 0}
+  - numberOfObstaclesInputField: {instanceID: 0}
+  - boxPrefab: {instanceID: 0}
+  - obstaclePrefab: {fileID: 460824, guid: 3281e521e82fc492282c3f55e7b74a33, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

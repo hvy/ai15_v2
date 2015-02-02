@@ -8,11 +8,12 @@ public class StageManager : MonoBehaviour{
 	public GameObject stage, waypoints;
 	public Transform startPrefab, goalPrefab, waypointPrefab;
 	public InputField numberOfBoxesInputField;
+	public InputField numberOfObstaclesInputField;
 
 	public static List<GNode> aStarPath;
 	
 	// Discrete stage
-	public Transform boxPrefab;
+	public Transform boxPrefab, obstaclePrefab;
 	
 	private int numWaypoints = 0;
 	
@@ -20,6 +21,7 @@ public class StageManager : MonoBehaviour{
 	public void createDiscreteStage() {
 		
 		numWaypoints = 0;
+		clearStage ();
 		setStartAndGoal ();
 		
 		int numBoxes = int.Parse(numberOfBoxesInputField.text);
@@ -139,15 +141,19 @@ public class StageManager : MonoBehaviour{
 
 		GNode start = nodes [waypoints [0]];
 		GNode end = nodes [waypoints [waypoints.Length - 1]];
-		aStarPath = PathFinding.FindPath (start, end, distance, estimate);
+		aStarPath = PathFinding.FindPath (start, end, distance, estimate);}
 
-//		foreach (GNode node in PathFinding.FindPath (start, end, distance, estimate)) {
-//			Debug.Log ("PATH: " + node.getId());
-//		}
+	public void createContinuousStage() {
 
-		// TODO create continious graph
+		clearStage ();
+		setStartAndGoal ();
 
-		//SearchGraph searchGraph = new SearchGraph (waypoints, boxes);
+		int numObstacles = int.Parse (numberOfObstaclesInputField.text);
+
+		for (int i = 0; i < numObstacles; i++) {
+			Transform obstacleTransform = Instantiate(obstaclePrefab) as Transform;
+			obstacleTransform.parent = stage.transform;
+		}
 
 	}
 
