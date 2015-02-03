@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
-		start = new Vector3 (12.5f, 0, 12.5f);
+		start = new Vector3 (2.5f, 0, 2.5f);
 		goal = new Vector3 (87.5f, 0, 87.5f);
 
 		width = GameObject.Find ("Ground").transform.localScale.x;
