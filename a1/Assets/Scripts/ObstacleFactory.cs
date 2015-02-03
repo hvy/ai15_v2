@@ -18,27 +18,30 @@ public class ObstacleFactory : MonoBehaviour {
 	}
 
 	// The vertices need to be ordered clockwise
-	public static GameObject createPolygonalObstacle(Vector2[] vertices) {
-
+	public static GameObject createPolygonalObstacle(Vector2[] vertices) 
+	{
 		if (vertices.Length < 3) {
 			return null;
-		} 
+		}
 
 		GameObject obstacle = new GameObject ();
 		obstacle.AddComponent<MeshFilter> ();
 		obstacle.AddComponent<MeshRenderer> ();
-		obstacle.name = "PolygonalObstacle";
-		obstacle.renderer.material.color = Color.red;
 
 		List<Vector3> meshVertices = new List<Vector3> ();
 		List<int> meshTriangles = new List<int> ();
-
+		
+		// Compute the vertices and the triandles and add them to the argument lists
 		computeMeshComponents(vertices, meshVertices, meshTriangles);
 
 		Mesh mesh = obstacle.GetComponent<MeshFilter> ().mesh;
 		mesh.vertices = meshVertices.ToArray();
 		mesh.triangles = meshTriangles.ToArray();
 		mesh.RecalculateNormals ();
+
+		obstacle.AddComponent<MeshCollider> (); // Make sure collision is enabled
+		obstacle.name = "PolygonalObstacle";
+		obstacle.renderer.material.color = Color.red;
 
 		return obstacle;
 	}
