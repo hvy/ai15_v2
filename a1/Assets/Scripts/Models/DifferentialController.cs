@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class DifferentialController : KinematicController
 {
-	public float rotationSpeed;
+	public float Wmax; // rotation speed in rad/sec
 
 	private float angularThreshold;
 
@@ -53,11 +53,29 @@ public class DifferentialController : KinematicController
 		rigidbody.transform.position = position;
 	}
 
+//	Vector3 motion;
+//	Vector3 rotation;
+
 	protected void rotate() {
+		// NEW CODE
+//		float v = 1;
+//		float w = 1f;
+//
+//		float theta = Mathf.Deg2Rad*transform.eulerAngles.y;
+//		motion.z=motion.z+v*Mathf.Cos(theta);
+//		motion.x=motion.x+v*Mathf.Sin(theta);
+//		rotation.y=rotation.y+w*Mathf.Rad2Deg;
+//
+//		rigidbody.MovePosition (rigidbody.position + motion);
+//		rigidbody.MoveRotation (rigidbody.rotation * Quaternion.Euler (rotation));
+//
+//		motion = Vector3.zero;
+//		rotation = Vector3.zero;
+
+		
 		Vector3 direction = (goal - transform.position).normalized;
 		lookRotation = Quaternion.LookRotation(direction);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Wmax*Mathf.Rad2Deg*Time.deltaTime);
 
-		// Spherical interpolation
-		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 	}
 }

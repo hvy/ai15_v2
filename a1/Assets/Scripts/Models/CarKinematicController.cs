@@ -3,15 +3,38 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class CarKinematicController : DifferentialController
+public class CarKinematicController : KinematicController
 {
+
+	public float maxPhi;
+
+
 	void rotate ()
 	{
+		Vector3 rotation;
 		Vector3 direction = (goal - transform.position).normalized;
-		lookRotation = Quaternion.LookRotation (direction);
+		Quaternion lookRotation = Quaternion.LookRotation (direction);
 
-		// spherical interpolation
-		transform.rotation = Quaternion.Slerp (transform.rotation, lookRotation, Time.deltaTime * rotationSpeed * speed);
+		Transform pivot = transform.Find("Pivot");
+
+		Vector3 cross = Vector3.Cross(-transform.forward, direction);
+		
+		float phi;
+		if (cross.y < 0) { // turn right
+			phi = Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
+		} else { // turn left
+			phi = -Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
+		}
+
+		if (Math.Abs (cross.y) < 0.05f) // to prevent flickering with the steering wheel
+			return;
+
+		//Debug.Log (cross.y);
+
+		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
+		float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
+		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
+
 	}
 
 	// Implements interface member
@@ -19,7 +42,7 @@ public class CarKinematicController : DifferentialController
 	{
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 3.2f) {
+		if (distance < 3.0f) {
 			steps++;
 			goal = Agent.recalculateGoal(steps);
 		}
@@ -35,8 +58,10 @@ public class CarKinematicController : DifferentialController
 		float distance = Vector3.Distance (goal, transform.position);
 		if (distance < 0.8f)
 			return;
-		// TODO, tror nog detta är lite fuskigt. Bör ta hänsyn till styrvinkel och längd, etc.
-		transform.position += transform.forward * Time.deltaTime * speed;
+
+		transform.position += transform.forward * Time.deltaTime * velocity;
+
+
 		rotate ();
 	}
 }

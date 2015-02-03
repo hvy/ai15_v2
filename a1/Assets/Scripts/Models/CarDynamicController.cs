@@ -9,6 +9,8 @@ public class CarDynamicController : DynamicController
 	private float L;
 	private const float max_wheel_turn = 2.0f;
 	private const float max_velocity = 100.0f;
+	private float acceleration;
+	public float power;
 
 	// Use this for initialization
 	void Start ()

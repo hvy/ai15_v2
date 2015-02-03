@@ -11,6 +11,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 	protected int steps;
 	protected float acceleration;
 	protected const float max_acceleration = 5.0f;
+	protected const float max_acceleration = 0.1f;
 
 	void Start ()
 	{

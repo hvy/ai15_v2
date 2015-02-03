@@ -20,7 +20,7 @@ public class Agent : MonoBehaviour
 		models.Add (GetComponent<CarKinematicController> ());
 	}
 	
-	void Update () {
+	void FixedUpdate () {
 		if (isValidType(type)) {
 			models[type].stepPath();	
 		}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class KinematicController : MonoBehaviour, MovementModel
 {
-	public float speed;
+	public float velocity;
 
 	protected List<GNode> path;
 	protected Vector3 goal;
@@ -48,6 +48,6 @@ public class KinematicController : MonoBehaviour, MovementModel
 		// interpolate between car and goal, third argument is [0, 1], describing how close to the target we should move.
 		// so we basically normalize the fraction with (/ distance) to move in constant speed.
 		// Could also use "MoveToward" which is much more straight forward
-		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, speed * Time.deltaTime / distance));
+		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
 	}
 }
