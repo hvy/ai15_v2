@@ -107,21 +107,24 @@ public class StageManager : MonoBehaviour{
 		// create discrete graph
 		//Dictionary<int, Neighbors> neighborTable = new Dictionary<int, Neighbors> ();
 
-		Vector3[] rayDirections = new Vector3[4];
+		Vector3[] rayDirections = new Vector3[8];
 		rayDirections [0] = new Vector3 (1.0f, 0, 0);
 		rayDirections [1] = new Vector3 (0, 0, 1.0f);
 		rayDirections [2] = new Vector3 (-1.0f, 0, 0);
 		rayDirections [3] = new Vector3 (0, 0, -1.0f);
+		rayDirections [4] = new Vector3 (1.0f, 0, 1.0f);
+		rayDirections [5] = new Vector3 (-1.0f, 0, 1.0f);
+		rayDirections [6] = new Vector3 (-1.0f, 0, -1.0f);
+		rayDirections [7] = new Vector3 (1.0f, 0, -1.0f);
 		for (int i = 0; i < waypoints.Length; i++) {
 
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 8; j++) {
 				RaycastHit[] hits;
-				hits = Physics.RaycastAll(waypoints[i].position, rayDirections[j], boxSize);
+				float l = (float) System.Math.Sqrt(boxSize*boxSize*2);
+				hits = Physics.RaycastAll(waypoints[i].position, rayDirections[j], l);
 				int hitIdx = 0;
 				while(hitIdx < hits.Length) {
 					RaycastHit hit = hits[hitIdx];
-					Debug.Log ("Hit name: " + hit.collider.gameObject.name);
-					//if (hit.collider.gameObject)
 
 					if (hit.collider.tag == "Waypoint") {
 						// draw edge
@@ -185,11 +188,11 @@ public class StageManager : MonoBehaviour{
 	}
 
 	private void setStartAndGoal() {
-		Vector2 start = GameManager.start;
-		Vector2 goal = GameManager.goal;
+		Vector3 start = GameManager.start;
+		Vector3 goal = GameManager.goal;
 		
-		Transform startTransform = Instantiate (startPrefab, new Vector3(start.x, 0.0f, start.y), Quaternion.identity) as Transform;
-		Transform goalTransform = Instantiate (goalPrefab, new Vector3(goal.x, 0.0f, goal.y), Quaternion.identity) as Transform;
+		Transform startTransform = Instantiate (startPrefab, start, Quaternion.identity) as Transform;
+		Transform goalTransform = Instantiate (goalPrefab, goal, Quaternion.identity) as Transform;
 		
 		startTransform.parent = stage.transform;
 		goalTransform.parent = stage.transform;

@@ -55,7 +55,7 @@ public class PathFinding {
 			// will throw if there isn’t any first element!
 			var pair = list.First();
 			var v = pair.Value.Dequeue();
-			if (pair.Value.Count == 0) // nothing left of the top priority.
+			if (pair.Value.Count == 0)
 				list.Remove(pair.Key);
 			return v;
 		}
@@ -65,21 +65,25 @@ public class PathFinding {
 		}
 	}
 
+	// A-STAR!!!!!!!!!!!!!!!!!!
+	// TODO write estimate function. Just make it the distance from the point to the goal.
 	static public List<GNode> FindPath(
 		GNode start, 
-		GNode destination, 
+		GNode goal, 
 		Func<GNode, GNode, double> distance, 
 		Func<GNode, double> estimate)
 	{
-		HashSet<GNode> closed = new HashSet<GNode>();
-		PriorityQueue<double, Path> queue = new PriorityQueue<double, Path>();
-		queue.Enqueue(0, new Path(start));
-		while (!queue.IsEmpty)
+		HashSet<GNode> closed = new HashSet<GNode>(); // closed set
+		PriorityQueue<double, Path> open = new PriorityQueue<double, Path>(); // open set
+
+		open.Enqueue(0, new Path(start));
+		while (!open.IsEmpty)
 		{
-			Path path = queue.Dequeue();
+			Path path = open.Dequeue();
 			if (closed.Contains(path.LastStep))
 				continue;
-			if (path.LastStep.Equals(destination)) {
+
+			if (path.LastStep.Equals(goal)) {
 				List<GNode> completePath = new List<GNode>();
 				foreach (GNode node in path)
 					completePath.Add (node);
@@ -89,8 +93,8 @@ public class PathFinding {
 			foreach(GNode n in path.LastStep.getNeighbors())
 			{
 				double d = distance(path.LastStep, n);
-				var newPath = path.AddStep(n, d);
-				queue.Enqueue(newPath.TotalCost + estimate(n), newPath);
+				Path newPath = path.AddStep(n, d);
+				open.Enqueue(newPath.TotalCost + estimate(n), newPath);
 			}
 		}
 		return null;
