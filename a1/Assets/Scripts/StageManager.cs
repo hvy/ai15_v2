@@ -11,6 +11,7 @@ public class StageManager : MonoBehaviour{
 	public InputField numberOfObstaclesInputField;
 
 	public static List<GNode> aStarPath;
+	private GNode start, end;
 	
 	// Discrete stage
 	public Transform boxPrefab, obstaclePrefab;
@@ -142,8 +143,8 @@ public class StageManager : MonoBehaviour{
 		// A-STAR PATH (for testing)
 		Debug.Log ("Nodes: " + nodes.Count);
 
-		GNode start = nodes [waypoints [0]];
-		GNode end = nodes [waypoints [waypoints.Length - 1]];
+	 	start = nodes [waypoints [0]];
+		end = nodes [waypoints [waypoints.Length - 1]];
 		aStarPath = PathFinding.FindPath (start, end, distance, estimate);
 	}
 
@@ -166,8 +167,7 @@ public class StageManager : MonoBehaviour{
 	}
 
 	private double estimate(GNode a) {
-		// TODO
-		return 0;
+		return Vector2.Distance(a.getPos (), end.getPos ());
 	}
 	
 	public void clearStage() {
@@ -188,14 +188,14 @@ public class StageManager : MonoBehaviour{
 	}
 
 	private void setStartAndGoal() {
-		Vector3 start = GameManager.start;
-		Vector3 goal = GameManager.goal;
-		
-		Transform startTransform = Instantiate (startPrefab, start, Quaternion.identity) as Transform;
-		Transform goalTransform = Instantiate (goalPrefab, goal, Quaternion.identity) as Transform;
-		
-		startTransform.parent = stage.transform;
-		goalTransform.parent = stage.transform;
+//		Vector3 start = GameManager.start;
+//		Vector3 goal = GameManager.goal;
+//		
+//		Transform startTransform = Instantiate (startPrefab, start, Quaternion.identity) as Transform;
+//		Transform goalTransform = Instantiate (goalPrefab, goal, Quaternion.identity) as Transform;
+//		
+//		startTransform.parent = stage.transform;
+//		goalTransform.parent = stage.transform;
 	}
 
 	private Transform setWayPoint(float x, float y) {

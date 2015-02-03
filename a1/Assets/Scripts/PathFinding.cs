@@ -64,6 +64,14 @@ public class PathFinding {
 		}
 	}
 
+	static public double calculateDistance(List<GNode> completedPath) {
+		double distance = 0;
+		for (int i = 0; i < completedPath.Count-1; i++) {
+			distance += Vector3.Distance(completedPath[i].getPos(), completedPath[i+1].getPos());
+		}
+		return distance;
+	}
+
 	// A-STAR!!!!!!!!!!!!!!!!!!
 	// TODO write estimate function. Just make it the distance from the point to the goal.
 	static public List<GNode> FindPath(
