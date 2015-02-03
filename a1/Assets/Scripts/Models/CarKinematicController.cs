@@ -11,7 +11,7 @@ public class CarKinematicController : KinematicController
 
 	void rotate ()
 	{
-		Vector3 rotation;
+		Vector3 rotation = Vector3.zero;
 		Vector3 direction = (goal - transform.position).normalized;
 		Quaternion lookRotation = Quaternion.LookRotation (direction);
 
@@ -33,8 +33,13 @@ public class CarKinematicController : KinematicController
 
 		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
 		float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
+
+		// TODO motsvarar detta rad/sec?. Vi kanske får skita i pivot point vid bakhjulen?
 		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
 
+//		rotation.y = rotation.y + theta;
+//		rigidbody.MoveRotation (rigidbody.rotation * Quaternion.Euler (rotation));
+		
 	}
 
 	// Implements interface member
@@ -42,7 +47,7 @@ public class CarKinematicController : KinematicController
 	{
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 3.0f) {
+		if (distance < 4.0f) {
 			steps++;
 			goal = Agent.recalculateGoal(steps);
 		}
