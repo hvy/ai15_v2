@@ -153,13 +153,30 @@ public class StageManager : MonoBehaviour{
 		clearStage ();
 		setStartAndGoal ();
 
+		/*
 		int numObstacles = int.Parse (numberOfObstaclesInputField.text);
 
 		for (int i = 0; i < numObstacles; i++) {
 			Transform obstacleTransform = Instantiate(obstaclePrefab) as Transform;
 			obstacleTransform.parent = stage.transform;
 		}
+		*/
 
+		// Test obstacle with 3 vertices
+		Vector2[] vertices3 = new Vector2[3];
+		vertices3 [0] = new Vector2 (0, 0);
+		vertices3 [1] = new Vector2 (0, 10);
+		vertices3 [2] = new Vector2 (10, 0);
+		GameObject obstacleA = ObstacleFactory.createPolygonalObstacle (vertices3);
+		obstacleA.transform.Translate (new Vector3(50.0f, 0, 50.0f));
+
+		// Test obstacle with 4 vertices
+		Vector2[] vertices4 = new Vector2[4];
+		vertices4 [0] = new Vector2 (3, 0);
+		vertices4 [1] = new Vector2 (0, 10);
+		vertices4 [2] = new Vector2 (10, 20);
+		vertices4 [3] = new Vector2 (10, 0);
+		GameObject obstacleB = ObstacleFactory.createPolygonalObstacle (vertices4);
 	}
 
 	private double distance(GNode a, GNode b) {
