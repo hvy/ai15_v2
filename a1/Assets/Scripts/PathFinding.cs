@@ -52,7 +52,6 @@ public class PathFinding {
 		}
 		public V Dequeue()
 		{
-			// will throw if there isn’t any first element!
 			var pair = list.First();
 			var v = pair.Value.Dequeue();
 			if (pair.Value.Count == 0)
