@@ -29,13 +29,22 @@ public class CarKinematicController : KinematicController
 		}
 
 
-		if (Math.Abs (cross.y) < 0.05f) // to prevent flickering with the steering wheel
-			return;
+//		if (Math.Abs (cross.y) < 0.05f) // to prevent flickering with the steering wheel
+//			return;
+
 
 		reverse = Math.Abs (cross.y) > reverseCrossThreshold ? true : false;
 		//Debug.Log (cross.y);
 
+		bool reverseToGoal = false;
+		if (Vector3.Dot(direction, transform.forward) < -0.95) {
+			reverse = true; // goal is behind the car
+			reverseToGoal = true;
+			Debug.Log ("BEHIND!!!!!!!!!");
+		}
+
 		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
+		phi = reverseToGoal ? -phi : phi;
 		float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
 
 		// TODO motsvarar detta rad/sec?. Vi kanske får skita i pivot point vid bakhjulen?
@@ -51,7 +60,7 @@ public class CarKinematicController : KinematicController
 	{
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 4.0f) {
+		if (distance < 1.6f) {
 			steps++;
 			goal = Agent.recalculateGoal(steps);
 		}
