@@ -40,7 +40,6 @@ public class CarKinematicController : KinematicController
 		if (Vector3.Dot(direction, transform.forward) < -0.95) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
-			Debug.Log ("BEHIND!!!!!!!!!");
 		}
 
 		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
@@ -60,7 +59,7 @@ public class CarKinematicController : KinematicController
 	{
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 1.6f) {
+		if (distance < 1.7f) {
 			steps++;
 			goal = Agent.recalculateGoal(steps);
 		}

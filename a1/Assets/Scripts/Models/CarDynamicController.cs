@@ -36,7 +36,7 @@ public class CarDynamicController : DynamicController
 		// TODO check if has reached waypoint. If so, update and assign new goal.
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 1.6f) {
+		if (distance < 1.7f) {
 			steps++;
 			goal = Agent.recalculateGoal(steps);
 			initialDistance = Vector3.Distance (goal, transform.position);
