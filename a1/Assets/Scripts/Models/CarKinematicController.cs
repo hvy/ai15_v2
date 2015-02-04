@@ -8,7 +8,9 @@ public class CarKinematicController : KinematicController
 
 	public float maxPhi;
 
-
+	private bool reverse = false;
+	private float reverseCrossThreshold = 0.7f;
+	
 	void rotate ()
 	{
 		Vector3 rotation = Vector3.zero;
@@ -26,9 +28,11 @@ public class CarKinematicController : KinematicController
 			phi = -Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
 		}
 
+
 		if (Math.Abs (cross.y) < 0.05f) // to prevent flickering with the steering wheel
 			return;
 
+		reverse = Math.Abs (cross.y) > reverseCrossThreshold ? true : false;
 		//Debug.Log (cross.y);
 
 		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
@@ -63,8 +67,10 @@ public class CarKinematicController : KinematicController
 		float distance = Vector3.Distance (goal, transform.position);
 		if (distance < 0.8f)
 			return;
+		
+		Debug.Log ("velocity: " + velocity);
 
-		transform.position += transform.forward * Time.deltaTime * velocity;
+		transform.position += reverse ? transform.forward * Time.deltaTime * -velocity : transform.forward * Time.deltaTime * velocity;
 
 
 		rotate ();

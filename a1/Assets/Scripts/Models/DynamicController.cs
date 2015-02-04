@@ -11,6 +11,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 	protected Vector3 goal;
 	protected int steps;
 	protected const float max_acceleration = 0.1f;
+	protected float velocity = 0;
 	private bool lastGoal = false;
 
 	protected float initialDistance = 0f;
@@ -60,7 +61,6 @@ public class DynamicController : MonoBehaviour, MovementModel
 		rigidbody.transform.position = position;
 	}
 
-	float velocity = 0;
 	protected void move ()
 	{	
 		Vector3 force = goal - rigidbody.position; // allow for slow down
