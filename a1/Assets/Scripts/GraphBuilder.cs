@@ -54,7 +54,7 @@ public class GraphBuilder {
 		start = nodes[waypointObjects[0]];
 		end = nodes[waypointObjects[waypointObjects.Length - 1]];
 
-		aStarPath = PathFinding.FindPath (start, end, distance, estimate);
+		aStarPath = PathFinding.aStarPath (start, end, distance, estimate);
 	}
 	
 	public static double distance(GNode a, GNode b) {

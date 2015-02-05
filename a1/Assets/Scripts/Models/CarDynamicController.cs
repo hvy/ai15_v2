@@ -103,7 +103,12 @@ public class CarDynamicController : DynamicController
 	void move ()
 	{
 
-		float acc = maxA;
+		Vector3 force = goal - rigidbody.position; // allow for slow down
+		float acc = force.magnitude;
+		if (acc > maxA) {
+			acc = maxA;
+		}
+		//float acc = maxA;
 		
 		float distance = Vector3.Distance (rigidbody.position, goal);
 
