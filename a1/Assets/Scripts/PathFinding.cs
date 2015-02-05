@@ -74,7 +74,7 @@ public class PathFinding {
 
 	// A-STAR!!!!!!!!!!!!!!!!!!
 	// TODO write estimate function. Just make it the distance from the point to the goal.
-	static public List<GNode> FindPath(
+	static public List<GNode> aStarPath(
 		GNode start, 
 		GNode goal, 
 		Func<GNode, GNode, double> distance, 
