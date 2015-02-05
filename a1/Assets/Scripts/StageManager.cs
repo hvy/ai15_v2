@@ -252,6 +252,5 @@ public class StageManager : MonoBehaviour{
 		end = nodes [waypoints [waypoints.Length - 1]];
 		aStarPath = PathFinding.aStarPath (start, end, distance, estimate);
 	}
-
-	}
+	
 }
