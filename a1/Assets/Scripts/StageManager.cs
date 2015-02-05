@@ -22,7 +22,7 @@ public class StageManager : MonoBehaviour{
 	public void createDiscreteStage() {
 
 		clearStage ();
-		
+
 		// Parse data from file
 		DiscreteLevelParser dlp = new DiscreteLevelParser ();
 		dlp.parse (discreteLevelFileName);
@@ -32,15 +32,31 @@ public class StageManager : MonoBehaviour{
 		int numObstacles = dlp.getNumObstacles ();
 		List<Vector2> obstaclePositions = dlp.getObstaclePositions ();
 		float obstacleWidth = GameManager.width / (float) width;
-
-		Debug.Log (obstacleWidth);
-
+		
+		bool[,] hasObstacle = new bool[width, height];
+		
 		foreach (Vector2 obstaclePosition in obstaclePositions) {
+			hasObstacle[(int) obstaclePosition.x, (int) obstaclePosition.y] = true;
 			float x = (float) (obstacleWidth / 2.0f) + (obstaclePosition.x * obstacleWidth);
-			float y = (float) (obstacleWidth / 2.0f) + (obstaclePosition.y * obstacleWidth);
-			Transform obstacle = Instantiate(boxPrefab, new Vector3(x, 0, y), Quaternion.identity) as Transform;
+			float y = 0.0f;
+			float z = (float) (obstacleWidth / 2.0f) + (obstaclePosition.y * obstacleWidth);
+			Transform obstacle = Instantiate(boxPrefab, new Vector3(x, y, z), Quaternion.identity) as Transform;
 			obstacle.parent = stage.transform;
 		}
+
+		// Instantiate the waypoints
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (!hasObstacle[i,j]) {
+					float x = (float) (obstacleWidth / 2.0f) + (i * obstacleWidth);
+					float y = 1.7f;
+					float z = (float) (obstacleWidth / 2.0f) + (j * obstacleWidth);
+					Transform waypoint = Instantiate(waypointPrefab, new Vector3(x, y, z), Quaternion.identity) as Transform;
+					waypoint.parent = waypoints.transform;
+				}
+			}		
+		}
+
 	}
 
 	public void createContinuousStage() {
