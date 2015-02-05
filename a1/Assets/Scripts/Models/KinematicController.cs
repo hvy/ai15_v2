@@ -12,7 +12,7 @@ public class KinematicController : MonoBehaviour, MovementModel
 
 	// Implements interface member
 	public void findPath() {
-		path = StageManager.aStarPath;
+		path = GraphBuilder.aStarPath;
 		
 		goal.x = path[path.Count-2].getPos ().x;
 		goal.z = path[path.Count-2].getPos ().y;

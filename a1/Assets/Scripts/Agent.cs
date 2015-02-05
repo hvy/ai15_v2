@@ -43,7 +43,7 @@ public class Agent : MonoBehaviour
 	public static Vector3 recalculateGoal(int counter) 
 	{
 		Vector3 goal;
-		List<GNode> path = StageManager.aStarPath;
+		List<GNode> path = GraphBuilder.aStarPath;
 		if (path.Count - counter - 1 < 0)
 			return new Vector3(-1f,-1f,-1f);
 		goal = path[path.Count-counter-1].getPos ();
