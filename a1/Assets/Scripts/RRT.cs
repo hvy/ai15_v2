@@ -43,8 +43,10 @@ public class RRT
 				TNode closestNode = tree.findClose (rand.getPos ());
 				counter++;
 				
-				if (counter > 10000)
+				if (counter > 40000) {
+					Debug.Log ("Out of counter...");
 					break;
+				}
 				
 				if (isInObstacle (rand))
 					continue;
@@ -204,8 +206,8 @@ public class RRT
 				TNode random;
 			
 				// TODO use bounds, and goal bias (RRT*) and such
-				float x = UnityEngine.Random.Range (20f, 110f);
-				float z = UnityEngine.Random.Range (20f, 110f);
+				float x = UnityEngine.Random.Range (0f, 100f);
+				float z = UnityEngine.Random.Range (0f, 100f);
 						
 				random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
 				return random;
