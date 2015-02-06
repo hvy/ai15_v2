@@ -68,9 +68,10 @@ public class StageManager : MonoBehaviour
 		{
 				// test
 				TNode root = new TNode (1, null, new Vector3 (10, 0, 10));
-		
+				TNode goal = new TNode (2, null, new Vector3 (100, 0, 100));
+
 				Vector3[] bounds = new Vector3[4];
-				RRT rrt = new RRT (root, bounds, polygons);
+				RRT rrt = new RRT (root, goal, bounds, polygons, 10.0f);
 				rrt.buildRRT (1000);
 				rrt.tree.draw ();
 		
