@@ -79,8 +79,7 @@ public class PathFinding
 		static public List<GNode> aStarPath (
 		GNode start, 
 		GNode goal, 
-		Func<GNode, GNode, double> distance, 
-		Func<GNode, double> estimate)
+		Func<GNode, GNode, double> distance)
 		{
 				HashSet<GNode> closed = new HashSet<GNode> (); // closed set
 				PriorityQueue<double, Path> open = new PriorityQueue<double, Path> (); // open set
@@ -101,7 +100,7 @@ public class PathFinding
 						foreach (GNode n in path.LastStep.getNeighbors()) {
 								double d = distance (path.LastStep, n);
 								Path newPath = path.AddStep (n, d);
-								open.Enqueue (newPath.TotalCost + estimate (n), newPath);
+				open.Enqueue (newPath.TotalCost + Vector2.Distance (n.getPos (), goal.getPos ()), newPath);
 						}
 				}
 				return null;

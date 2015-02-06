@@ -67,16 +67,25 @@ public class StageManager : MonoBehaviour
 		void testShit (List<Vector2[]> polygons)
 		{
 				// test
-				TNode root = new TNode (1, null, new Vector3 (10, 0, 10));
-				TNode goal = new TNode (2, null, new Vector3 (100, 0, 100));
+				Vector3 root = new Vector3 (10, 0, 10);
+				Vector3 goal = new Vector3 (100, 0, 100);
 
 				Vector3[] bounds = new Vector3[4];
 				RRT rrt = new RRT (root, goal, bounds, polygons, 10.0f);
 				rrt.buildRRT (1000);
 				rrt.tree.draw ();
+
+				Tuple<GNode, GNode> startGoal = rrt.generateGraph();
+				Debug.Log (startGoal.second.getPos ().z);
+				List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);
+				PathFinding.draw (path);
+				
+				Debug.Log ("PATH COUNT: " + path.Count);
+				GraphBuilder.aStarPath = path;
 		
 		}
-	
+
+
 		public void createContinuousStage ()
 		{
 

@@ -6,10 +6,12 @@ public class RRT
 {
 
 		public Tree tree{ get; private set; }
+		public List<GNode> graph {get; private set;}
 		public Vector3[] bounds{ get; set; }
 	
-		private TNode root;
-		private TNode destination;
+		private Vector3 rootPos;
+		private Vector3 destinationPos;
+		private Tuple<GNode, GNode> startGoal;
 		private List<Vector2[]> polygons;
 		private float goalThreshold;
 
@@ -17,13 +19,15 @@ public class RRT
 		// initialize the tree
 		//TODO denna ska ta parametrar som förändrar beteendet av RRTn, typ bias osv.
 		// TODO ta in en lista med alla linjer som definierar obstacles också.
-	public RRT (TNode start, TNode goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold)
+	public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold)
 		{
-				root = start;
-				destination = goal;
+				rootPos = start;
+				destinationPos = goal;
 				this.bounds = bounds;
 				this.polygons = polygons;
 				this.goalThreshold = goalThreshold;
+				this.graph = new List<GNode>();
+				startGoal = new Tuple<GNode, GNode>();
 		}
 
 		public void buildRRT (int desiredNodes)
@@ -57,11 +61,47 @@ public class RRT
 				i++;
 
 				// reached the goal
-				if (Vector3.Distance (rand.getPos (), destination.getPos ()) < goalThreshold)
+				if (Vector3.Distance (rand.getPos (), destinationPos) < goalThreshold) {
+
+					// add goal node
+					TNode last = new TNode(counter+1, rand, destinationPos);
+					tree.goal = last;
+					tree.addNode (last);
 					break;
+				}
 			}
+
 			
 		}
+
+		public List<GNode> findPath () {
+
+			List<GNode> graphNodes = new List<GNode>();
+			foreach (TNode node in tree.nodeList) {
+				
+			}
+			
+		return graphNodes;
+		}
+
+	public Tuple<GNode, GNode> generateGraph() {
+		startGoal.first = generateNode(tree.root);
+
+		return startGoal;
+	}
+		
+	private GNode generateNode(TNode root) {
+
+		List<GNode> neighbors = new List<GNode>();
+		foreach (TNode child in root.children)
+			neighbors.Add (generateNode(child));
+		GNode gnode = new GNode(root.getId(), root.getPos (), neighbors);
+		graph.Add(gnode);
+		if (gnode.getPos () == tree.goal.getPos ()) {
+			startGoal.second = gnode;
+		}
+		return gnode;
+	}
 
 
 		// take two lines (end points) and determine if they intersect
@@ -153,7 +193,7 @@ public class RRT
 			} 
 			return inside; 
 		}
-	
+
 
 
 		int randomCounter = 0;
@@ -162,8 +202,8 @@ public class RRT
 				TNode random;
 			
 				// TODO use bounds, and goal bias (RRT*) and such
-				float x = UnityEngine.Random.Range (0f, 100f);
-				float z = UnityEngine.Random.Range (0f, 100f);
+				float x = UnityEngine.Random.Range (0f, 110f);
+				float z = UnityEngine.Random.Range (0f, 110f);
 						
 				random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
 				return random;
