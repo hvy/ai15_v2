@@ -60,18 +60,18 @@ public class StageManager : MonoBehaviour
 
 				// Find the optimal path and save it in the graph builde
 				GraphBuilder.buildGraphFromScene ();
-				testShit ();
+				//testShit ();
 		}
 
 		// TODO for testing, delete 
-		void testShit ()
+		void testShit (List<Vector2[]> polygons)
 		{
 				// test
 				TNode root = new TNode (1, null, new Vector3 (10, 0, 10));
 		
 				Vector3[] bounds = new Vector3[4];
-				RRT rrt = new RRT (root, bounds);
-				rrt.buildRRT (300);
+				RRT rrt = new RRT (root, bounds, polygons);
+				rrt.buildRRT (1000);
 				rrt.tree.draw ();
 		
 		}
@@ -80,23 +80,28 @@ public class StageManager : MonoBehaviour
 		{
 
 				clearStage ();
+				List<Vector2[]> polygons = new List<Vector2[]> ();
 
 				// Test obstacle with 3 vertices
 				Vector2[] vertices3 = new Vector2[3];
-				vertices3 [0] = new Vector2 (0, 0);
-				vertices3 [1] = new Vector2 (0, 10);
+				vertices3 [0] = new Vector2 (3, 0);
+				vertices3 [1] = new Vector2 (15, 10);
 				vertices3 [2] = new Vector2 (10, 0);
-				GameObject obstacleA = ObstacleFactory.createPolygonalObstacle (vertices3);
-				obstacleA.transform.Translate (new Vector3 (50.0f, 0, 50.0f));
+				//GameObject obstacleA = ObstacleFactory.createPolygonalObstacle (vertices3);
+				//obstacleA.transform.Translate (new Vector3 (50.0f, 0, 50.0f));
 
 				// Test obstacle with 4 vertices
 				Vector2[] vertices4 = new Vector2[4];
-				vertices4 [0] = new Vector2 (3, 0);
-				vertices4 [1] = new Vector2 (0, 10);
-				vertices4 [2] = new Vector2 (10, 20);
-				vertices4 [3] = new Vector2 (10, 0);
+				vertices4 [0] = new Vector2 (10, 10);
+				vertices4 [1] = new Vector2 (10, 65);
+				vertices4 [2] = new Vector2 (40, 65);
+				vertices4 [3] = new Vector2 (40, 10);
 				GameObject obstacleB = ObstacleFactory.createPolygonalObstacle (vertices4);
-				testShit ();
+				
+				//polygons.Add (vertices3);
+				polygons.Add (vertices4);
+
+				testShit (polygons);
 		}
 
 		public void clearStage ()
