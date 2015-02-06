@@ -9,7 +9,7 @@ public class CarDynamicController : DynamicController
 	private float acceleration;
 	private bool reverse = false;
 	private bool switching = false;
-	private float reverseCrossThreshold = 0.5f;
+	private float reverseCrossThreshold = 0.7f;
 
 	private Vector3 destination;
 

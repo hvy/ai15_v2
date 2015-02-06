@@ -106,6 +106,26 @@ public class PathFinding
 				return null;
 		}
 
+	public static void RRT(List<Vector2[]> polygons, Vector3 start, Vector3 goal) {
+
+		// test
+		start = new Vector3 (0f, 0, 0f);
+		goal = new Vector3 (90, 0, 90);
+		
+		Vector3[] bounds = new Vector3[4];
+		RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.1f);
+		rrt.buildRRT (10000);
+		rrt.tree.draw ();
+		
+		Tuple<GNode, GNode> startGoal = rrt.generateGraph();
+		Debug.Log (startGoal.second.getPos ().z);
+		List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);
+		PathFinding.draw (path);
+		
+		Debug.Log ("PATH COUNT: " + path.Count);
+		GraphBuilder.aStarPath = path;
+	}
+
 		public static void draw (List<GNode> p)
 		{
 				GameObject camera = GameObject.FindGameObjectWithTag ("MainCamera");

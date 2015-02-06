@@ -62,28 +62,7 @@ public class StageManager : MonoBehaviour
 				GraphBuilder.buildGraphFromScene ();
 				//testShit ();
 		}
-
-		// TODO for testing, delete 
-		void testShit (List<Vector2[]> polygons)
-		{
-				// test
-				Vector3 root = new Vector3 (10, 0, 10);
-				Vector3 goal = new Vector3 (100, 0, 100);
-
-				Vector3[] bounds = new Vector3[4];
-				RRT rrt = new RRT (root, goal, bounds, polygons, 10.0f);
-				rrt.buildRRT (1000);
-				rrt.tree.draw ();
-
-				Tuple<GNode, GNode> startGoal = rrt.generateGraph();
-				Debug.Log (startGoal.second.getPos ().z);
-				List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);
-				PathFinding.draw (path);
-				
-				Debug.Log ("PATH COUNT: " + path.Count);
-				GraphBuilder.aStarPath = path;
-		
-		}
+	
 
 
 		public void createContinuousStage ()
@@ -111,7 +90,7 @@ public class StageManager : MonoBehaviour
 				//polygons.Add (vertices3);
 				polygons.Add (vertices4);
 
-				testShit (polygons);
+				PathFinding.RRT(polygons, Vector3.zero, Vector3.zero);
 		}
 
 		public void clearStage ()

@@ -14,12 +14,13 @@ public class RRT
 		private Tuple<GNode, GNode> startGoal;
 		private List<Vector2[]> polygons;
 		private float goalThreshold;
+		private float stepSize;
 
 	
 		// initialize the tree
 		//TODO denna ska ta parametrar som förändrar beteendet av RRTn, typ bias osv.
 		// TODO ta in en lista med alla linjer som definierar obstacles också.
-	public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold)
+	public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold, float stepSize)
 		{
 				rootPos = start;
 				destinationPos = goal;
@@ -27,12 +28,13 @@ public class RRT
 				this.polygons = polygons;
 				this.goalThreshold = goalThreshold;
 				this.graph = new List<GNode>();
+				this.stepSize = stepSize;
 				startGoal = new Tuple<GNode, GNode>();
 		}
 
 		public void buildRRT (int desiredNodes)
 		{
-			tree = new Tree (new TNode (0, null, new Vector3 (0f, 0.0f, 0f))); // for testing
+			tree = new Tree (new TNode (0, null, rootPos));
 			
 			int counter = 0;
 			for (int i = 0; i < desiredNodes;) {
@@ -51,7 +53,7 @@ public class RRT
 				if (!hasPathBetween (rand, closestNode)) // denna verkar inte vara perfekt alltså?
 					continue;
 
-				Vector3 newPos = closestNode.getPos () + (rand.getPos () - closestNode.getPos ()) * 0.1f;
+				Vector3 newPos = closestNode.getPos () + (rand.getPos () - closestNode.getPos ()) * stepSize;
 				
 				// TODO ändra så att den inkrementerar i steg typ, så den jobbar sig framåt sakta och inte hoppar hejvilt
 				// dvs ha en limit på Distance mellan closest och random node
@@ -202,8 +204,8 @@ public class RRT
 				TNode random;
 			
 				// TODO use bounds, and goal bias (RRT*) and such
-				float x = UnityEngine.Random.Range (0f, 110f);
-				float z = UnityEngine.Random.Range (0f, 110f);
+				float x = UnityEngine.Random.Range (20f, 110f);
+				float z = UnityEngine.Random.Range (20f, 110f);
 						
 				random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
 				return random;
