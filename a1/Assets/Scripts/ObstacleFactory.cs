@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ObstacleFactory : MonoBehaviour {
 
-	public static float obstacleHeight = 10.0f;
+	public static float obstacleHeight = 1.0f;
 	public static ObstacleFactory OF;
 
 	void Awake () {
