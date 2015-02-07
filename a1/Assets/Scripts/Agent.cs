@@ -52,7 +52,7 @@ public class Agent : MonoBehaviour
 				if (path.Count - counter - 1 < 0)
 						return new Vector3 (-1f, -1f, -1f);
 				goal = path [path.Count - counter - 1].getPos ();
-				Debug.Log ("NEW WAYPOINT: " + goal.x + " " + goal.z);
+				//Debug.Log ("NEW WAYPOINT: " + goal.x + " " + goal.z);
 				return goal;
 		}
 

@@ -18,24 +18,22 @@ public class DifferentialController : KinematicController
 	// Implements interface member
 	public void findPath() {
 		path = PathFinding.currentPath;
-		
-		goal.x = path[path.Count-2].getPos ().x;
-		goal.z = path[path.Count-2].getPos ().y;
 	}
 	
 	// Implements interface member
 	override public void stepPath() 
 	{
+		goal = Agent.recalculateGoal(steps);
 		rotate ();
 
 		// Check if the rotation is finished	
 		if (Math.Abs(transform.rotation.y - lookRotation.y) < angularThreshold) {
 			float distance = Vector3.Distance (goal, transform.position);
 			
-			if (distance < 2.2f) {
+			if (distance < 2.5f) {
 				steps++;
-				goal = Agent.recalculateGoal(steps);
 			}
+			goal = Agent.recalculateGoal(steps);
 			
 			if (goal.x == -1f) {
 				return;

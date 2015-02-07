@@ -13,9 +13,7 @@ public class KinematicController : MonoBehaviour, MovementModel
 	// Implements interface member
 	public void findPath() {
 		path = PathFinding.currentPath;
-		
-		goal.x = path[path.Count-1].getPos ().x;
-		goal.z = path[path.Count-1].getPos ().y;
+
 	}
 	
 	// Implements interface member
@@ -24,8 +22,8 @@ public class KinematicController : MonoBehaviour, MovementModel
 		
 		if (distance < 3.2f) {
 			steps++;
-			goal = Agent.recalculateGoal(steps);
 		}
+		goal = Agent.recalculateGoal(steps);
 		
 		if (goal.x == -1f) {
 			return;

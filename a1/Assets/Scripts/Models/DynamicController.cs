@@ -12,6 +12,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 	protected const float max_acceleration = 0.1f;
 	protected float velocity = 0;
 	private bool lastGoal = false;
+	private Vector3 destination_;
 
 	protected float initialDistance = 0f;
 	private int steps;
@@ -27,8 +28,6 @@ public class DynamicController : MonoBehaviour, MovementModel
 	public void findPath() {
 		path = PathFinding.currentPath;
 
-		goal.x = path[path.Count-2].getPos().x;
-		goal.z = path[path.Count-2].getPos().y;
 	}
 
 	// Implements interface member
@@ -42,11 +41,12 @@ public class DynamicController : MonoBehaviour, MovementModel
 				Debug.Log ("LAST GOAL");
 				lastGoal = true;
 			}
-			goal = Agent.recalculateGoal(steps);
 			initialDistance = Vector3.Distance (goal, transform.position);
 			//acceleration = 0.1f;
 		}
-		
+		goal = Agent.recalculateGoal(steps);
+		destination_ = path [0].getPos ();
+
 		if (goal.x == -1f) {
 			return;		
 		}
@@ -77,15 +77,22 @@ public class DynamicController : MonoBehaviour, MovementModel
 			velocity += acc;
 		}
 
-		velocity = (velocity == 0) ? 0.1f : velocity;
-
-		if (!lastGoal)
-			rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-		else {
-			if (distance > 10.0f)
-				rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-			else
-				rigidbody.MovePosition (rigidbody.position + force * Time.deltaTime);
+		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
+		// TODO change to destination instead of goal to keep velocity at waypoints
+		if (Vector3.Distance (transform.position, destination_) <= stoppingDistance) {
+				velocity -= 2*acc;
 		}
+
+		velocity = (velocity == 0) ? 0.1f : velocity;
+		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
+
+//		if (!lastGoal)
+//			rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
+//		else {
+//			if (distance > 10.0f)
+//				rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
+//			else
+//				rigidbody.MovePosition (rigidbody.position + force * Time.deltaTime);
+//		}
 	}
 }

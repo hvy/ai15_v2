@@ -61,8 +61,8 @@ public class CarKinematicController : KinematicController
 		
 		if (distance < 1.7f) {
 			steps++;
-			goal = Agent.recalculateGoal(steps);
 		}
+		goal = Agent.recalculateGoal(steps);
 		
 		if (goal.x == -1f)
 			return;
@@ -76,7 +76,7 @@ public class CarKinematicController : KinematicController
 		if (distance < 0.8f)
 			return;
 		
-		Debug.Log ("velocity: " + velocity);
+		//Debug.Log ("velocity: " + velocity);
 
 		transform.position += reverse ? transform.forward * Time.deltaTime * -velocity : transform.forward * Time.deltaTime * velocity;
 

@@ -114,7 +114,7 @@ public class PathFinding
 		Vector3 goal = GameManager.goal;
 		
 		Vector3[] bounds = new Vector3[4];
-		RRT rrt = new RRT (start, goal, bounds, polygons, 2.0f, 0.7f);
+		RRT rrt = new RRT (start, goal, bounds, polygons, 3.0f, 0.2f);
 		rrt.buildRRT (10000);
 		rrt.tree.draw ();
 		

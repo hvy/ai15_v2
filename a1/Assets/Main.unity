@@ -3214,7 +3214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 4
-  maxPhi: .200000003
+  maxPhi: 3.5
 --- !u!114 &1767476414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3227,8 +3227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace2ae2afea5341b8b0f33c777242e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 1
-  Wmax: .100000001
+  velocity: 5
+  Wmax: .899999976
 --- !u!114 &1767476415
 MonoBehaviour:
   m_ObjectHideFlags: 0
