@@ -28,9 +28,6 @@ public class CarDynamicController : DynamicController
 	// Implements interface member
 	public void findPath() {
 		path = PathFinding.currentPath;
-		
-		goal.x = path[path.Count-1].getPos ().x;
-		goal.z = path[path.Count-1].getPos ().y;
 	}
 	
 	// Implements interface member
@@ -41,11 +38,11 @@ public class CarDynamicController : DynamicController
 		
 		if (distance < 2.2f) {
 			steps_++;
-			goal = Agent.recalculateGoal(steps_);
 			initialDistance = Vector3.Distance (goal, transform.position);
 			acceleration = 0f;
 		}
 
+		goal = Agent.recalculateGoal(steps_);
 		destination = path [0].getPos ();
 
 		if (goal.x == -1f)
@@ -139,8 +136,13 @@ public class CarDynamicController : DynamicController
 		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
 		//Debug.Log ("distance to goal " + Vector3.Distance (transform.position, destination));
 		//Debug.Log ("stop dist: " + stoppingDistance);
-		if (Vector3.Distance (transform.position, destination) <= stoppingDistance) {
-			velocity -= 2*acc;
+
+		// TODO change to destination instead of goal to keep velocity at waypoints
+		if (Vector3.Distance (transform.position, goal) <= stoppingDistance) {
+			if (reverse)
+				velocity += 2*acc;
+			else
+				velocity -= 2*acc;
 		}
 
 		// TODO handle last goal, decrease velocity more or something, use force maybe, I don't know.
