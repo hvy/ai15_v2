@@ -17,7 +17,7 @@ public class DifferentialController : KinematicController
 
 	// Implements interface member
 	public void findPath() {
-		path = GraphBuilder.aStarPath;
+		path = PathFinding.currentPath;
 		
 		goal.x = path[path.Count-2].getPos ().x;
 		goal.z = path[path.Count-2].getPos ().y;

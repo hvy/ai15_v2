@@ -16,6 +16,8 @@ public class StageManager : MonoBehaviour
 		public Transform startPrefab, goalPrefab, waypointPrefab;
 		public Transform boxPrefab, obstaclePrefab; // Discrete specific prefabs 
 
+		public static List<Vector2[]> polygons;
+
 		private GraphBuilder graphBuilder = new GraphBuilder () ;
 	
 		public void createDiscreteStage ()
@@ -69,7 +71,7 @@ public class StageManager : MonoBehaviour
 		{
 
 				clearStage ();
-				List<Vector2[]> polygons = new List<Vector2[]> ();
+				polygons = new List<Vector2[]> ();
 
 				// Test obstacle with 3 vertices
 				Vector2[] vertices3 = new Vector2[3];
@@ -98,7 +100,6 @@ public class StageManager : MonoBehaviour
 				polygons.Add (vertices4_2);
 				polygons.Add (vertices3);
 
-				PathFinding.RRT(polygons);
 		}
 
 		public void clearStage ()

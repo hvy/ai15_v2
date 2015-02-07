@@ -6,6 +6,8 @@ using System;
 
 public class PathFinding
 {
+
+	public static List<GNode> currentPath {get;set;}
 	
 
 		public class Path : IEnumerable
@@ -118,10 +120,90 @@ public class PathFinding
 		
 		Tuple<GNode, GNode> startGoal = rrt.generateGraph();
 		Debug.Log (startGoal.second.getPos ().z);
-		List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);
-		PathFinding.draw (path);
+		List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);		
+		currentPath = path;
+
+		draw (path);
+	}
+
+	// TODO, ta bort waypoints som inte behöver vara där, alltså ha en raksträcka istället för en kurvig jävel.
+	public static void optimizeCurrentPath(List<Vector2[]> polygons) {
+
+		for (int i = 0; i < currentPath.Count ; i++) {
+			for (int j = i+2; j < currentPath.Count ; j++) {
+				if (hasPathBetween(currentPath[i], currentPath[j], polygons)) {
+					currentPath.RemoveAt(j-1);
+				}
+
+			}
+		}
+
+	}
+
+	// take two lines (end points) and determine if they intersect
+	public static bool intersection (Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
+	{
 		
-		GraphBuilder.aStarPath = path;
+		Vector3 a = p2 - p1;
+		Vector3 b = p3 - p4;
+		Vector3 c = p1 - p3;
+		
+		float alphaNumerator = b.z * c.x - b.x * c.z;
+		float alphaDenominator = a.z * b.x - a.x * b.z;
+		float betaNumerator = a.x * c.z - a.z * c.x;
+		float betaDenominator = alphaDenominator;
+		
+		bool doIntersect = true;
+		
+		if (alphaDenominator == 0 || betaDenominator == 0) {
+			doIntersect = false;
+		} else {
+			
+			if (alphaDenominator > 0) {
+				if (alphaNumerator < 0 || alphaNumerator > alphaDenominator) {
+					doIntersect = false;
+				}
+			} else if (alphaNumerator > 0 || alphaNumerator < alphaDenominator) {
+				doIntersect = false;
+			}
+			
+			if (doIntersect && betaDenominator > 0) {
+				if (betaNumerator < 0 || betaNumerator > betaDenominator) {
+					doIntersect = false;
+				}
+			} else if (betaNumerator > 0 || betaNumerator < betaDenominator) {
+				doIntersect = false;
+			}
+		}
+		
+		return doIntersect;
+		
+	}
+
+	private static bool hasPathBetween (GNode a, GNode b, List<Vector2[]> polygons)
+	{
+		
+		foreach (Vector2[] vertices in polygons) {
+			for (int i = 0; i < vertices.Length; i++) {
+				
+				Vector3 start2 = new Vector3 (vertices [i].x, 0.0f, vertices [i].y);
+				Vector3 end2 = Vector3.zero;
+				//Debug.Log ("hejsan: " + vertices [i].x);
+				if (i == vertices.Length - 1)
+					end2 = new Vector3 (vertices [0].x, 0.0f, vertices [0].y);
+				else
+					end2 = new Vector3 (vertices [i + 1].x, 0.0f, vertices [i + 1].y);
+				
+				
+				if (intersection (a.getPos (), b.getPos (), start2, end2)) {
+					return false;
+				}
+				
+			}		
+			
+		}
+		
+		return true;
 	}
 
 		public static void draw (List<GNode> p)

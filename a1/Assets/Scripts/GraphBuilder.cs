@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GraphBuilder
 {
 
-	public static List<GNode> aStarPath {get;set;}
+	//public static List<GNode> aStarPath {get;set;}
 		private static GNode start, end;
 
 		// Fetches the waypoint positions from the scene and generates a graph
@@ -55,8 +55,8 @@ public class GraphBuilder
 				start = nodes [waypointObjects [0]];
 				end = nodes [waypointObjects [waypointObjects.Length - 1]];
 
-				aStarPath = PathFinding.aStarPath (start, end, distance);
-				PathFinding.draw (aStarPath);
+				PathFinding.aStarPath (start, end, distance);
+				PathFinding.draw (PathFinding.currentPath);
 		}
 	
 		public static double distance (GNode a, GNode b)

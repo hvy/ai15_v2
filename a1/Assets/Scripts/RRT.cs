@@ -108,45 +108,7 @@ public class RRT
 	}
 
 
-		// take two lines (end points) and determine if they intersect
-		private bool intersection (Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
-		{
 
-				Vector3 a = p2 - p1;
-				Vector3 b = p3 - p4;
-				Vector3 c = p1 - p3;
-		
-				float alphaNumerator = b.z * c.x - b.x * c.z;
-				float alphaDenominator = a.z * b.x - a.x * b.z;
-				float betaNumerator = a.x * c.z - a.z * c.x;
-				float betaDenominator = alphaDenominator;
-		
-				bool doIntersect = true;
-
-				if (alphaDenominator == 0 || betaDenominator == 0) {
-						doIntersect = false;
-				} else {
-			
-						if (alphaDenominator > 0) {
-								if (alphaNumerator < 0 || alphaNumerator > alphaDenominator) {
-										doIntersect = false;
-								}
-						} else if (alphaNumerator > 0 || alphaNumerator < alphaDenominator) {
-								doIntersect = false;
-						}
-			
-						if (doIntersect && betaDenominator > 0) {
-								if (betaNumerator < 0 || betaNumerator > betaDenominator) {
-										doIntersect = false;
-								}
-						} else if (betaNumerator > 0 || betaNumerator < betaDenominator) {
-								doIntersect = false;
-						}
-				}
-		
-				return doIntersect;
-		
-		}
 	
 	
 		private bool hasPathBetween (TNode a, TNode b)
@@ -164,7 +126,7 @@ public class RRT
 										end2 = new Vector3 (vertices [i + 1].x, 0.0f, vertices [i + 1].y);
 
 								
-								if (intersection (a.getPos (), b.getPos (), start2, end2)) {
+								if (PathFinding.intersection (a.getPos (), b.getPos (), start2, end2)) {
 									return false;
 									}
 								

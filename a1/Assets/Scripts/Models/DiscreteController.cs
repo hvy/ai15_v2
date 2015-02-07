@@ -9,7 +9,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 
 	// Implements interface member
 	public void findPath() {
-		path = GraphBuilder.aStarPath;
+		path = PathFinding.currentPath;
 		Debug.Log ("Path distance: " + PathFinding.calculateDistance(path));
 	}
 

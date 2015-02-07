@@ -48,7 +48,7 @@ public class Agent : MonoBehaviour
 		{
 
 				Vector3 goal;
-				List<GNode> path = GraphBuilder.aStarPath;
+				List<GNode> path = PathFinding.currentPath;
 				if (path.Count - counter - 1 < 0)
 						return new Vector3 (-1f, -1f, -1f);
 				goal = path [path.Count - counter - 1].getPos ();
