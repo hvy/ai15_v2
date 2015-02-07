@@ -98,7 +98,7 @@ public class StageManager : MonoBehaviour
 				polygons.Add (vertices4_2);
 				polygons.Add (vertices3);
 
-				PathFinding.RRT(polygons, Vector3.zero, Vector3.zero);
+				PathFinding.RRT(polygons);
 		}
 
 		public void clearStage ()

@@ -8,17 +8,20 @@ public class CarDynamicController : DynamicController
 	//private const float max_velocity = 100.0f;
 	private float acceleration;
 	private bool reverse = false;
-	private bool switching = false;
-	private float reverseCrossThreshold = 0.7f;
+	private bool keepSteady = true;
+	private float reverseCrossThreshold = 0.75f;
 
 	private Vector3 destination;
 
 	public float maxPhi;
 
+	private int steps_;
+
 	// Use this for initialization
 	void Start ()
 	{
 		acceleration = 0.1f;
+		steps_ = 0;
 	}
 
 
@@ -36,9 +39,9 @@ public class CarDynamicController : DynamicController
 		// TODO check if has reached waypoint. If so, update and assign new goal.
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 1.8f) {
-			steps++;
-			goal = Agent.recalculateGoal(steps);
+		if (distance < 2.2f) {
+			steps_++;
+			goal = Agent.recalculateGoal(steps_);
 			initialDistance = Vector3.Distance (goal, transform.position);
 			acceleration = 0f;
 		}
@@ -54,7 +57,7 @@ public class CarDynamicController : DynamicController
 	public void reset(Vector3 position) {
 		path = null;
 		acceleration = 0.1f;
-		steps = 0;
+		steps_ = 0;
 		rigidbody.transform.position = position;
 	}
 
@@ -81,13 +84,22 @@ public class CarDynamicController : DynamicController
 
 		bool previous = reverse;
 		reverse = Math.Abs (cross.y) > reverseCrossThreshold ? true : false;
-		switching = previous != reverse ? true : false;
+		keepSteady = previous == reverse ? true : false;
+
+		if (!keepSteady) {
+			initialDistance = Vector3.Distance (goal, transform.position);
+			//Debug.Log ("NEW INITIAL DISTANCE!");
+		}
 
 		bool reverseToGoal = false;
-		if (Vector3.Dot(direction, transform.forward) < -0.95) {
+		if (Vector3.Dot(direction, transform.forward) < -0.65) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
+
+//		Debug.Log ("revser to goal: " + reverseToGoal);
+//		Debug.Log ("reverse: " + reverse);
+//		Debug.Log ("keepSteady: " + keepSteady);
 		
 		//Debug.Log ("Cross: " + cross.y);
 		
@@ -105,20 +117,24 @@ public class CarDynamicController : DynamicController
 
 
 
-		Vector3 force = goal - rigidbody.position; // allow for slow down
-		float acc = force.magnitude;
-		if (acc > maxA) {
-			acc = maxA;
-		}
-		//float acc = maxA;
+//		Vector3 force = goal - rigidbody.position; // allow for slow down
+//		float acc = force.magnitude;
+//		if (acc > maxA) {
+//			acc = maxA;
+//		}
+		float acc = maxA;
 		
 		float distance = Vector3.Distance (rigidbody.position, goal);
 
 		if (initialDistance / distance > 2.0 || reverse) {
+			if (initialDistance / distance > 2.0 && reverse)
+				velocity += acc;
+			else
 				velocity -= acc;
 		} else {
 				velocity += acc;
 		}
+
 
 		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
 		//Debug.Log ("distance to goal " + Vector3.Distance (transform.position, destination));
@@ -131,12 +147,12 @@ public class CarDynamicController : DynamicController
 		transform.position += transform.forward * Time.deltaTime * velocity;
 
 
-		if ((switching && reverse && velocity < 0.0f) || (switching && !reverse && velocity > 0.0f)) {
-			switching = false;
+		if ((keepSteady && reverse && velocity < 0.0f) || (keepSteady && !reverse && velocity > 0.0f)) {
+			keepSteady = false;
 		}
 
 
-		if (!switching)
+		if (!keepSteady)
 			rotate ();
 		previousDistance = distance;
 

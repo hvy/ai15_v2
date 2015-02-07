@@ -9,12 +9,12 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	protected List<GNode> path;
 	protected Vector3 goal;
-	protected int steps;
 	protected const float max_acceleration = 0.1f;
 	protected float velocity = 0;
 	private bool lastGoal = false;
 
 	protected float initialDistance = 0f;
+	private int steps;
 
 	void Start ()
 	{
