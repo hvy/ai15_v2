@@ -59,13 +59,21 @@ public class StageManager : MonoBehaviour
 								}
 						}		
 				}
+				
+				// Set start and goal
+				Vector2 start2d = dlp.getStart ();
+				float start3dx = (float)(obstacleWidth / 2.0f) + ((start2d.x - 1) * obstacleWidth);
+				float start3dy = (float)(obstacleWidth / 2.0f) + ((start2d.y - 1) * obstacleWidth);
+				setStart (new Vector3 (start3dx, 0, start3dy));
+
+				Vector2 goal2d = dlp.getGoal ();
+				float goal3dx = (float)(obstacleWidth / 2.0f) + ((goal2d.x - 1) * obstacleWidth);
+				float goal3dy = (float)(obstacleWidth / 2.0f) + ((goal2d.y - 1) * obstacleWidth);
+				setGoal (new Vector3 (goal3dx, 0, goal3dy));
 
 				// Find the optimal path and save it in the graph builde
 				GraphBuilder.buildGraphFromScene ();
-				//testShit ();
 		}
-	
-
 
 		public void createContinuousStage ()
 		{

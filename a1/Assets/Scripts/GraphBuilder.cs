@@ -51,10 +51,18 @@ public class GraphBuilder
 								}
 						}
 				}
-		
-				start = nodes [waypointObjects [0]];
-				end = nodes [waypointObjects [waypointObjects.Length - 1]];
 
+				// Find the start and the goal waypoints
+				for (int i = 0; i < waypointObjects.Length; i++) {
+					if (waypointObjects[i].transform.position.x == GameManager.start.x && 
+					    waypointObjects[i].transform.position.z == GameManager.start.z) {
+						start = nodes [waypointObjects [i]];
+					} else if (waypointObjects[i].transform.position.x == GameManager.goal.x &&
+					           waypointObjects[i].transform.position.z == GameManager.goal.z) {
+						end = nodes [waypointObjects [i]];
+					}		
+				}
+				
 				PathFinding.aStarPath (start, end, distance);
 				PathFinding.draw (PathFinding.currentPath);
 		}
