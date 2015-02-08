@@ -96,6 +96,7 @@ public class PathFinding
 								List<GNode> completePath = new List<GNode> ();
 								foreach (GNode node in path)
 										completePath.Add (node);
+								currentPath = completePath;
 								return completePath;
 						}
 						closed.Add (path.LastStep);
@@ -114,7 +115,7 @@ public class PathFinding
 		Vector3 goal = GameManager.goal;
 		
 		Vector3[] bounds = new Vector3[4];
-		RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.08f);
+		RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.1f);
 		rrt.buildRRT (10000);
 		rrt.tree.draw ();
 		
