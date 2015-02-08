@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   discreteLevelFileName: discrete
+  polygonalLevelFileName: polygonal
   stage: {fileID: 1467275998}
   waypoints: {fileID: 784560713}
   startPrefab: {fileID: 479536, guid: cd0513368878b3645a95fc47edeedcab, type: 2}
