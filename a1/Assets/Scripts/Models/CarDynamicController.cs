@@ -9,7 +9,7 @@ public class CarDynamicController : DynamicController
 	private float acceleration;
 	private bool reverse = false;
 	private bool keepSteady = true;
-	private float reverseCrossThreshold = 0.75f;
+	private float reverseCrossThreshold = 0.85f;
 
 	private Vector3 destination;
 
@@ -36,7 +36,7 @@ public class CarDynamicController : DynamicController
 		// TODO check if has reached waypoint. If so, update and assign new goal.
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 2.2f) {
+		if (distance < 3.0f && goal != destination) {
 			steps_++;
 			initialDistance = Vector3.Distance (goal, transform.position);
 			acceleration = 0f;
@@ -122,6 +122,9 @@ public class CarDynamicController : DynamicController
 		float acc = maxA;
 		
 		float distance = Vector3.Distance (rigidbody.position, goal);
+
+		if (distance < 0.5f && goal == destination)
+			return;
 
 		if (initialDistance / distance > 2.0 || reverse) {
 			if (initialDistance / distance > 2.0 && reverse)
