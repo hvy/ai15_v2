@@ -47,7 +47,12 @@ public class DynamicController : MonoBehaviour, MovementModel
 		goal = Agent.recalculateGoal(steps);
 		destination_ = path [0].getPos ();
 
+        if (!Agent.isRunning)
+            return;
+
 		if (goal.x == -1f) {
+            Agent.isRunning = false;
+            Agent.isFinished = true;
 			return;		
 		}
 
@@ -59,6 +64,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		path = null;
 		steps = 0;
 		rigidbody.transform.position = position;
+        velocity = 0f;
 	}
 
 	protected void move ()

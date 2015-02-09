@@ -20,12 +20,17 @@ public class KinematicController : MonoBehaviour, MovementModel
 	virtual public void stepPath() {
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 3.2f) {
+		if (distance < 0.3f) {
 			steps++;
 		}
 		goal = Agent.recalculateGoal(steps);
+
+        if (!Agent.isRunning)
+            return;
 		
 		if (goal.x == -1f) {
+            Agent.isRunning = false;
+            Agent.isFinished = true;
 			return;
 		}
 

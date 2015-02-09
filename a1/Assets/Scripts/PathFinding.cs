@@ -115,7 +115,13 @@ public class PathFinding
 		Vector3 goal = GameManager.goal;
 		
 		Vector3[] bounds = new Vector3[4];
-		RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.1f);
+        // PARAMETERS:
+        // start, goal, RRT bounds, polygons, close to goal, step size, node min distance to object, 
+        // max acceptable angle between nodes, min path distance to object corner
+        RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.07f, 0.0f, 90f, 2.5f);
+
+        // Demo small angular threshold
+		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 20f, 2.5f);
 		rrt.buildRRT (10000);
 		rrt.tree.draw ();
 		

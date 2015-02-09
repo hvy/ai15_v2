@@ -30,12 +30,17 @@ public class DifferentialController : KinematicController
 		if (Math.Abs(transform.rotation.y - lookRotation.y) < angularThreshold) {
 			float distance = Vector3.Distance (goal, transform.position);
 			
-			if (distance < 2.5f) {
+			if (distance < 0.5f) {
 				steps++;
 			}
 			goal = Agent.recalculateGoal(steps);
+
+            if (!Agent.isRunning)
+                return;
 			
 			if (goal.x == -1f) {
+                Agent.isRunning = false;
+                Agent.isFinished = true;
 				return;
 			}
 
