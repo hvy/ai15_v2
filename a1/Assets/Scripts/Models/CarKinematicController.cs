@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class CarKinematicController : KinematicController
+public class CarKinematicController : KinematicController, MovementModel
 {
 
 	public float maxPhi;
@@ -37,7 +37,7 @@ public class CarKinematicController : KinematicController
 		//Debug.Log (cross.y);
 
 		bool reverseToGoal = false;
-		if (Vector3.Dot(direction, transform.forward) < -0.95) {
+		if (Vector3.Dot(direction, transform.forward) < -0.85) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
@@ -75,6 +75,12 @@ public class CarKinematicController : KinematicController
 		move ();
 
 	}
+
+    public void reset(Vector3 position) {
+        steps = 0;
+        rigidbody.transform.position = position;
+        rigidbody.transform.rotation = Quaternion.Euler(Vector3.zero);
+    }
 
 	void move ()
 	{

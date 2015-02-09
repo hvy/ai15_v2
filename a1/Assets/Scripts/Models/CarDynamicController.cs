@@ -3,10 +3,9 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class CarDynamicController : DynamicController
+public class CarDynamicController : DynamicController, MovementModel
 {
 	//private const float max_velocity = 100.0f;
-	private float acceleration;
 	private bool reverse = false;
 	private bool keepSteady = true;
 	private float reverseCrossThreshold = 0.75f;
@@ -20,7 +19,6 @@ public class CarDynamicController : DynamicController
 	// Use this for initialization
 	void Start ()
 	{
-		acceleration = 0.1f;
 		steps_ = 0;
 	}
 
@@ -36,10 +34,9 @@ public class CarDynamicController : DynamicController
 		// TODO check if has reached waypoint. If so, update and assign new goal.
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 3.0f && goal != destination) {
+		if (distance < 4.0f && goal != destination) {
 			steps_++;
 			initialDistance = Vector3.Distance (goal, transform.position);
-			acceleration = 0f;
 		}
 
 		goal = Agent.recalculateGoal(steps_);
@@ -58,10 +55,12 @@ public class CarDynamicController : DynamicController
 	
 	// Implements interface member
 	public void reset(Vector3 position) {
-		path = null;
-		acceleration = 0.1f;
-		steps_ = 0;
+        steps_ = 0;
+        findPath();
+        velocity = 0f;
+        goal = Agent.recalculateGoal(steps_);
 		rigidbody.transform.position = position;
+        rigidbody.transform.rotation = Quaternion.Euler(Vector3.zero);
 	}
 
 	void rotate ()
@@ -95,14 +94,14 @@ public class CarDynamicController : DynamicController
 		}
 
 		bool reverseToGoal = false;
-		if (Vector3.Dot(direction, transform.forward) < -0.80) {
+		if (Vector3.Dot(direction, transform.forward) < -0.70) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
 
-		Debug.Log ("revser to goal: " + reverseToGoal);
-		Debug.Log ("reverse: " + reverse);
-		Debug.Log ("keepSteady: " + keepSteady);
+//		Debug.Log ("revser to goal: " + reverseToGoal);
+//		Debug.Log ("reverse: " + reverse);
+//		Debug.Log ("keepSteady: " + keepSteady);
 		
 		//Debug.Log ("Cross: " + cross.y);
 		
@@ -153,6 +152,8 @@ public class CarDynamicController : DynamicController
 			else
 				velocity -= 2*acc;
 		}
+
+        //Debug.Log (velocity);
 
 		// TODO handle last goal, decrease velocity more or something, use force maybe, I don't know.
 		transform.position += transform.forward * Time.deltaTime * velocity;

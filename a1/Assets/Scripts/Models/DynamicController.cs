@@ -64,6 +64,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		path = null;
 		steps = 0;
 		rigidbody.transform.position = position;
+        velocity = 0f;
 	}
 
 	protected void move ()
