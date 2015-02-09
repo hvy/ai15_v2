@@ -10,6 +10,10 @@ public class Agent : MonoBehaviour
 
 		private int type = -1;
 
+        public static bool isRunning = false;
+        public static bool isFinished = false;
+        private float startTime;
+
 		void Start ()
 		{
 				models = new List<MovementModel> ();
@@ -28,12 +32,23 @@ public class Agent : MonoBehaviour
 				if (isValidType (type)) {
 						models [type].stepPath ();	
 				}
-		}
-
-		// Initiated from the GUI using the buttons
+        if (isFinished) {
+            Debug.Log ("Total time: " + (Time.time - startTime));
+            isFinished = false;
+            
+        }
+    }
+    
+    // Initiated from the GUI using the buttons
 		public void setModel (int newType)
 		{
-				if (isValidType (newType)) {
+            
+                if (isValidType (newType)) {
+                        if (!isRunning && !isFinished) {
+                            startTime = Time.time;
+                            isRunning = true;
+                         }
+
 						// Find the optimal path for the new model
 						models [newType].reset (GameManager.start);
 						models [newType].findPath ();

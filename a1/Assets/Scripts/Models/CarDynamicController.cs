@@ -9,7 +9,7 @@ public class CarDynamicController : DynamicController
 	private float acceleration;
 	private bool reverse = false;
 	private bool keepSteady = true;
-	private float reverseCrossThreshold = 0.85f;
+	private float reverseCrossThreshold = 0.75f;
 
 	private Vector3 destination;
 
@@ -45,8 +45,14 @@ public class CarDynamicController : DynamicController
 		goal = Agent.recalculateGoal(steps_);
 		destination = path [0].getPos ();
 
-		if (goal.x == -1f)
+        if (!Agent.isRunning)
+            return;
+
+		if (goal.x == -1f) {
+            Agent.isRunning = false;
+            Agent.isFinished = true;
 			return;
+        }
 		move ();
 	}
 	
@@ -89,14 +95,14 @@ public class CarDynamicController : DynamicController
 		}
 
 		bool reverseToGoal = false;
-		if (Vector3.Dot(direction, transform.forward) < -0.65) {
+		if (Vector3.Dot(direction, transform.forward) < -0.80) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
 
-//		Debug.Log ("revser to goal: " + reverseToGoal);
-//		Debug.Log ("reverse: " + reverse);
-//		Debug.Log ("keepSteady: " + keepSteady);
+		Debug.Log ("revser to goal: " + reverseToGoal);
+		Debug.Log ("reverse: " + reverse);
+		Debug.Log ("keepSteady: " + keepSteady);
 		
 		//Debug.Log ("Cross: " + cross.y);
 		

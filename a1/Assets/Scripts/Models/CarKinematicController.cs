@@ -9,7 +9,7 @@ public class CarKinematicController : KinematicController
 	public float maxPhi;
 
 	private bool reverse = false;
-	private float reverseCrossThreshold = 0.7f;
+	private float reverseCrossThreshold = 0.75f;
 	
 	void rotate ()
 	{
@@ -59,13 +59,19 @@ public class CarKinematicController : KinematicController
 	{
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 1.7f) {
+		if (distance < 0.8f) {
 			steps++;
 		}
 		goal = Agent.recalculateGoal(steps);
+
+        if (!Agent.isRunning)
+            return;
 		
-		if (goal.x == -1f)
+		if (goal.x == -1f) {
+            Agent.isRunning = false;
+            Agent.isFinished = true;
 			return;
+        }
 		move ();
 
 	}

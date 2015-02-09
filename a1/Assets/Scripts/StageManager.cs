@@ -77,6 +77,7 @@ public class StageManager : MonoBehaviour
 
 		public void createContinuousStage ()
 		{
+
 			clearStage ();
 			polygons = new List<Vector2[]> ();
 
@@ -157,6 +158,8 @@ public class StageManager : MonoBehaviour
 			Vector2 goal2d = plp.getGoal ();
 			setStart (VectorUtility.toVector3(start2d));
 			setGoal (VectorUtility.toVector3(goal2d));
+
+
 		}
 
 		public void clearStage ()

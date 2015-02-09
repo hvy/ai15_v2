@@ -15,12 +15,13 @@ public class RRT
 		private List<Vector2[]> polygons;
 		private float goalThreshold;
 		private float stepSize;
+        private float pointCloseToLineThreshold;
 
 	
 		// initialize the tree
 		//TODO denna ska ta parametrar som förändrar beteendet av RRTn, typ bias osv.
 		// TODO ta in en lista med alla linjer som definierar obstacles också.
-	public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold, float stepSize)
+	public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold, float stepSize, float pointCloseToLine)
 		{
 				rootPos = start;
 				destinationPos = goal;
@@ -29,7 +30,8 @@ public class RRT
 				this.goalThreshold = goalThreshold;
 				this.graph = new List<GNode>();
 				this.stepSize = stepSize;
-				startGoal = new Tuple<GNode, GNode>();
+                this.pointCloseToLineThreshold = pointCloseToLine;
+            startGoal = new Tuple<GNode, GNode>();
 		}
 
 		public void buildRRT (int desiredNodes)
@@ -156,13 +158,35 @@ public class RRT
 				if ( ((polyPoints[i].y <= p.y && p.y < polyPoints[j].y) || (polyPoints[j].y <= p.y && p.y < polyPoints[i].y)) && 
 				    (p.x < (polyPoints[j].x - polyPoints[i].x) * (p.y - polyPoints[i].y) / (polyPoints[j].y - polyPoints[i].y) + polyPoints[i].x)) 
 					inside = !inside; 
-			} 
+
+            if (DistancePointLine(p, polyPoints[i], polyPoints[(i+1) % polyPoints.Length]) < pointCloseToLineThreshold) {
+                return true;
+            }
+                } 
 			return inside; 
 		}
 
-
-
-		int randomCounter = 0;
+    private float DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+    {
+        return Vector3.Magnitude(ProjectPointLine(point, lineStart, lineEnd) - point);
+    }
+    private Vector3 ProjectPointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+    {
+        Vector3 rhs = point - lineStart;
+        Vector3 vector2 = lineEnd - lineStart;
+        float magnitude = vector2.magnitude;
+        Vector3 lhs = vector2;
+        if (magnitude > 1E-06f)
+        {
+            lhs = (Vector3)(lhs / magnitude);
+        }
+        float num2 = Mathf.Clamp(Vector3.Dot(lhs, rhs), 0f, magnitude);
+        return (lineStart + ((Vector3)(lhs * num2)));
+    }
+    
+    
+    
+    int randomCounter = 0;
 		private TNode getRandomNode ()
 		{
 				TNode random;
