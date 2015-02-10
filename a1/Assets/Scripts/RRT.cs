@@ -51,7 +51,7 @@ public class RRT
             TNode closestNode = tree.findClose (rand.getPos ());
             counter++;
                 
-            if (counter > 100000) {
+            if (counter > 120000) {
                 Debug.Log ("Out of counter...");
                 break;
             }

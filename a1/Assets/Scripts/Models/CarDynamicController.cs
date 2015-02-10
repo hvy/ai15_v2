@@ -34,7 +34,7 @@ public class CarDynamicController : DynamicController, MovementModel
 		// TODO check if has reached waypoint. If so, update and assign new goal.
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 4.0f && goal != destination) {
+		if (distance < 3.0f && goal != destination) {
 			steps_++;
 			initialDistance = Vector3.Distance (goal, transform.position);
 		}
@@ -94,7 +94,7 @@ public class CarDynamicController : DynamicController, MovementModel
 		}
 
 		bool reverseToGoal = false;
-		if (Vector3.Dot(direction, transform.forward) < -0.70) {
+		if (Vector3.Dot(direction, transform.forward) < -0.75) {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
