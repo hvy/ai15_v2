@@ -118,7 +118,7 @@ public class PathFinding
         // PARAMETERS:
         // start, goal, RRT bounds, polygons, close to goal, step size, node min distance to object, 
         // max acceptable angle between nodes, min path distance to object corner
-        RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.15f, 0.0f, 90f, 2.5f);
+        RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.1f, 0.0f, 90f, 2.5f);
 
         // Demo small angular threshold
 		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 25f, 2.5f);

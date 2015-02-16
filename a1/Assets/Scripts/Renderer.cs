@@ -54,7 +54,6 @@ public class Renderer : MonoBehaviour
 								GL.Vertex (child.getPos ());
 						}
 				}
-
 		}
 
 		void OnPostRender ()

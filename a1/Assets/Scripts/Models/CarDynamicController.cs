@@ -39,13 +39,20 @@ public class CarDynamicController : DynamicController, MovementModel
 			initialDistance = Vector3.Distance (goal, transform.position);
 		}
 
-		goal = Agent.recalculateGoal(steps_);
-		destination = path [0].getPos ();
+
+        goal = Agent.recalculateGoal(steps_);
+        destination = path [0].getPos ();
+
+        if (distance < 0.5f && goal == destination) {
+            steps_++;
+            goal.x = -1f;
+        }
 
         if (!Agent.isRunning)
             return;
 
 		if (goal.x == -1f) {
+            Debug.Log ("boom!!!!!!!!");
             Agent.isRunning = false;
             Agent.isFinished = true;
 			return;
@@ -124,7 +131,7 @@ public class CarDynamicController : DynamicController, MovementModel
 //		if (acc > maxA) {
 //			acc = maxA;
 //		}
-		float acc = maxA;
+		float acc = maxA * Time.deltaTime;
 		
 		float distance = Vector3.Distance (rigidbody.position, goal);
 

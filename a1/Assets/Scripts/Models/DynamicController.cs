@@ -69,24 +69,25 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	protected void move ()
 	{	
-		Vector3 force = goal - rigidbody.position; // allow for slow down
-		float acc = force.magnitude;
-		if (acc > maxA) {
-			acc = maxA;
-		}
+//		Vector3 force = goal - rigidbody.position; // allow for slow down
+//		float acc = force.magnitude;
+//		if (acc > maxA) {
+//			acc = maxA;
+//		}
+        float acc = maxA * Time.fixedDeltaTime;
 
 		float distance = Vector3.Distance (rigidbody.position, goal);
 
 		if (initialDistance / distance > 2) {
-			velocity -= acc;
+            velocity -= acc;
 		} else {
 			velocity += acc;
 		}
 
 		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
 		// TODO change to destination instead of goal to keep velocity at waypoints
-		if (Vector3.Distance (transform.position, destination_) <= stoppingDistance) {
-				velocity -= 2*acc;
+		if (Vector3.Distance (transform.position, goal) <= stoppingDistance) {
+            velocity -= 2*acc;
 		}
 
 		velocity = (velocity == 0) ? 0.1f : velocity;

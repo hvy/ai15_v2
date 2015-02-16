@@ -218,6 +218,33 @@ public class StageManager : MonoBehaviour
 				setGoal (VectorUtility.toVector3 (goal2d));
 		}
 
+	public void createContinuousStage3 () {
+
+		clearStage ();
+		polygons = new List<Vector2[]> ();
+
+		string fileName = "output.txt";
+
+		LevelParser lp = new LevelParser ();
+		lp.parse (fileName);
+
+		List<List<Vector2>> triangles = lp.getTriangles ();
+
+		Debug.Log ("Total number of triangles: " + triangles.Count);
+
+		foreach (List<Vector2> triangle in triangles) {
+			GameObject obstacle = ObstacleFactory.createPolygonalObstacle (triangle.ToArray ());
+			obstacle.transform.parent = stage.transform;
+			polygons.Add (triangle.ToArray ());
+		}
+
+		// Set the start and goal positions
+		Vector2 start2d = lp.getStart ();
+		Vector2 goal2d = lp.getGoal ();
+		setStart (VectorUtility.toVector3 (start2d));
+		setGoal (VectorUtility.toVector3 (goal2d));
+	}
+		
 		public void clearStage ()
 		{
 				clearChildrenOf (stage);
