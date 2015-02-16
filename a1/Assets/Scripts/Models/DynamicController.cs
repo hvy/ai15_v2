@@ -85,7 +85,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
 		// TODO change to destination instead of goal to keep velocity at waypoints
-		if (Vector3.Distance (transform.position, destination_) <= stoppingDistance) {
+		if (Vector3.Distance (transform.position, goal) <= stoppingDistance) {
 				velocity -= 2*acc;
 		}
 
