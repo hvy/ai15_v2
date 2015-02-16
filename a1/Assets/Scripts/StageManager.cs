@@ -7,7 +7,8 @@ public class StageManager : MonoBehaviour
 {
 
 		// Input file name
-	public string discreteLevelFileName, polygonalLevelFileName, polygonalLevelFileName2, poly3FileName;
+		public string discreteLevelFileName, polygonalLevelFileName, polygonalLevelFileName2, poly3FileName;
+		public float width, height;
 
 		// Objects acting as parent object to instantiated obstacles and waypoint. Used for cleanup
 		public GameObject stage, waypoints;
@@ -228,11 +229,9 @@ public class StageManager : MonoBehaviour
 
 		List<List<Vector2>> triangles = lp.getTriangles ();
 
-		Debug.Log ("Total number of triangles: " + triangles.Count);
-
 		foreach (List<Vector2> triangle in triangles) {
 			GameObject obstacle = ObstacleFactory.createPolygonalObstacle (triangle.ToArray ());
-			obstacle.transform.parent = stage.transform;
+			//obstacle.transform.parent = stage.transform;
 			polygons.Add (triangle.ToArray ());
 		}
 
@@ -241,6 +240,11 @@ public class StageManager : MonoBehaviour
 		Vector2 goal2d = lp.getGoal ();
 		setStart (VectorUtility.toVector3 (start2d));
 		setGoal (VectorUtility.toVector3 (goal2d));
+
+		// Tell the GameManager that the width and height is updated
+		GameManager.width = width;
+		GameManager.height = height;
+		updateDimensions (width, height);
 	}
 		
 		public void clearStage ()
@@ -278,6 +282,11 @@ public class StageManager : MonoBehaviour
 
 		private void addToStage (Transform trans)
 		{
-				trans.parent = stage.transform;
+				//trans.parent = stage.transform;
+		}
+
+		private void updateDimensions(float width, float height) {
+			stage.transform.position = new Vector3 (width / 2.0f, 0, height / 2.0f);
+			GameObject.Find ("Ground").transform.localScale = new Vector3 (width, 0, height);
 		}
 }
