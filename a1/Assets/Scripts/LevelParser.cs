@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 public class LevelParser {
-	
+
 	private Vector2 start, goal;
 	private int width, height;
 	private List<List<Vector2>> polygons, triangles;
@@ -88,7 +88,7 @@ public class LevelParser {
 	// Triangulate the polygons using ear clipping
 	void triangulate ()
 	{
-		for (int i = 0; i < polygons[0].Count; i++) {
+		for (int i = 0; i < polygons.Count; i++) {
 			if (!isClockWise (polygons [i])) {
 				polygons[i].Reverse ();	
 			}
@@ -102,6 +102,8 @@ public class LevelParser {
 
 	private void earClipping (List<Vector2> polygonVertices) {
 
+		Debug.Log ("NEW POLYGON");
+
 		// Create a double linked cyclic list with all the polygon vertices
 		TriangleList vertices = new TriangleList (polygonVertices);
 		int numVertices = polygonVertices.Count;
@@ -113,7 +115,7 @@ public class LevelParser {
 		Debug.Log ("Number of reflexes: " + reflexes.Count);
 		Debug.Log ("Number of ears: " + ears.Count);
 
-		while (ears.Count > 3) {
+		while (numVertices > 3) {
 			TriangleListNode earToRemove = ears[0];
 			ears.RemoveAt(0);
 
@@ -130,10 +132,8 @@ public class LevelParser {
 			earToRemove.previous.next = earToRemove.next;
 			earToRemove.next.previous = earToRemove.previous;
 
-
 			// Add a triangle!
 			if (!isClockWise(triangle)) {
-				Debug.Log ("Reversed!!!");
 				triangle.Reverse();
 			}
 
@@ -141,6 +141,7 @@ public class LevelParser {
 			for (int i = 0; i < triangle.Count; i++) {
 				Debug.Log (triangle[i]);
 			}
+
 			triangles.Add (triangle);
 
 			// One vertex is removed
@@ -148,6 +149,13 @@ public class LevelParser {
 
 			reflexes = findReflexes (earToRemove.next, numVertices);
 			ears = findEars (earToRemove.next, numVertices, reflexes);
+
+
+			// DEBUG
+			Debug.Log ("=========================================");
+			Debug.Log ("Number of reflexes: " + reflexes.Count);
+			Debug.Log ("Number of ears: " + ears.Count);
+			Debug.Log ("=========================================");
 		}
 
 		List<Vector2> lastTriangle = new List<Vector2> ();
@@ -181,10 +189,11 @@ public class LevelParser {
 			TriangleListNode testNode = node;
 			bool hasVertexInsideTriangle = false;
 			for (int j = 0; j < numNodes; j++) {
-				if (isInsideTriangle(node.vertex, v0, v1, v2)) {
+				if (isInsideTriangle(testNode.vertex, v0, v1, v2)) {
 					hasVertexInsideTriangle = true; 					// This is not an ear
 					continue;
 				}
+				testNode = testNode.next;
 			}
 
 			if (!hasVertexInsideTriangle) {
@@ -213,8 +222,6 @@ public class LevelParser {
 			if (cross.z < 0) {
 				angle = 360 - angle;
 			}
-
-			Debug.Log ("Angle: " + angle);
 
 			if (angle > 180) {
 				reflexes.Add (v1);

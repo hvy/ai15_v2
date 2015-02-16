@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour
 {
 
 		// Input file name
-		public string discreteLevelFileName, polygonalLevelFileName, polygonalLevelFileName2;
+	public string discreteLevelFileName, polygonalLevelFileName, polygonalLevelFileName2, poly3FileName;
 
 		// Objects acting as parent object to instantiated obstacles and waypoint. Used for cleanup
 		public GameObject stage, waypoints;
@@ -223,10 +223,8 @@ public class StageManager : MonoBehaviour
 		clearStage ();
 		polygons = new List<Vector2[]> ();
 
-		string fileName = "output.txt";
-
 		LevelParser lp = new LevelParser ();
-		lp.parse (fileName);
+		lp.parse (poly3FileName);
 
 		List<List<Vector2>> triangles = lp.getTriangles ();
 
