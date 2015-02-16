@@ -286,7 +286,7 @@ public class StageManager : MonoBehaviour
 		}
 
 		private void updateDimensions(float width, float height) {
-			stage.transform.position = new Vector3 (width / 2.0f, 0, height / 2.0f);
-			GameObject.Find ("Ground").transform.localScale = new Vector3 (width, 0, height);
+			stage.transform.position = new Vector3 (width / 2.0f, -1.0f, height / 2.0f);
+			GameObject.Find ("Ground").transform.localScale = new Vector3 (width, 1.0f, height);
 		}
 }
