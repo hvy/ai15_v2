@@ -248,6 +248,9 @@ public class StageManager : MonoBehaviour
 		GameManager.width = width;
 		GameManager.height = height;
 		updateDimensions (width, height);
+
+		// Update the camera position according to the size of the current stage
+		CameraModel.updatePosition (width, height);
 	}
 		
 		public void clearStage ()
