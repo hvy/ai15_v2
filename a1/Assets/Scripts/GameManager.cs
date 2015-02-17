@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {	
 	public static Vector3 start, goal;
 	public static float width, height;
+    public static int discreteNeighbors;
 
 	void Start () 
 	{

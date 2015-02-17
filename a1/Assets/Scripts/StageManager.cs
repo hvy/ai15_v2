@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
 		// Input file name
 		public string discreteLevelFileName, polygonalLevelFileName, polygonalLevelFileName2, poly3FileName;
 		public float width, height;
+        public int discreteNeighbors;
 
 		// Objects acting as parent object to instantiated obstacles and waypoint. Used for cleanup
 		public GameObject stage, waypoints;
@@ -24,6 +25,8 @@ public class StageManager : MonoBehaviour
 		{
 
 				clearStage ();
+
+                GameManager.discreteNeighbors = discreteNeighbors;
 
 				// Parse data from file
 				DiscreteLevelParser dlp = new DiscreteLevelParser ();

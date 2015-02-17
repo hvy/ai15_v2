@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GraphBuilder
 {
 
-    public static int numNeighbors = 16;
+    //public static int numNeighbors = 16;
     //public static List<GNode> aStarPath {get;set;}
     private static GNode start, end;
 
@@ -45,10 +45,10 @@ public class GraphBuilder
         rayDirections [15] = new Vector3 (-2.0f, 0, -1.0f);
 
         for (int i = 0; i < waypointObjects.Length; i++) {
-            for (int j = 0; j < numNeighbors; j++) {
+            for (int j = 0; j < GameManager.discreteNeighbors; j++) {
                 RaycastHit[] hits;
 
-                if (numNeighbors < 9)
+                if (GameManager.discreteNeighbors < 9)
                     hits = Physics.RaycastAll (waypointObjects [i].transform.position, rayDirections [j], l);
                 else
                     hits = Physics.RaycastAll (waypointObjects [i].transform.position, rayDirections [j], 12f);
@@ -62,7 +62,7 @@ public class GraphBuilder
                 while (hitIdx < hits.Length) {
                     RaycastHit hit = hits [hitIdx];
 
-                    if (numNeighbors < 9) {
+                    if (GameManager.discreteNeighbors < 9) {
                         if (hit.collider.tag == "Waypoint") {
                             obj = hit.transform.gameObject;
                             nodes [waypointObjects [i]].addNeighbor (nodes [obj]);
@@ -81,7 +81,7 @@ public class GraphBuilder
                     hitIdx++;
                 }
 
-                if (numNeighbors > 8 && collisionCount <= 1 && obj != null) {
+                if (GameManager.discreteNeighbors > 8 && collisionCount <= 1 && obj != null) {
                     if (System.Math.Abs(rayDirections [j].x) >= 2 || System.Math.Abs(rayDirections [j].z) >= 2)
                     nodes [waypointObjects [i]].addNeighbor (nodes [obj]);
                 }

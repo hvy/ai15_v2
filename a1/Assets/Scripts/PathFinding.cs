@@ -118,7 +118,19 @@ public class PathFinding
         // PARAMETERS:
         // start, goal, RRT bounds, polygons, close to goal, step size, node min distance to object, 
         // max acceptable angle between nodes, min path distance to object corner
-        RRT rrt = new RRT (start, goal, bounds, polygons, 5.0f, 0.1f, 0.0f, 90f, 2.5f);
+
+        float acceptableWidth;
+        float minAngle;
+        if (Agent.type == 0 || Agent.type == 1 || Agent.type == 1) {
+            acceptableWidth = 0.0f;
+            minAngle = 90f;
+        }
+        else {
+            acceptableWidth = Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2);
+            minAngle = 32f;
+        }
+       
+        RRT rrt = new RRT (start, goal, bounds, polygons, 4.0f, 0.4f, acceptableWidth, minAngle, acceptableWidth);
 
         // Demo small angular threshold
 		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 25f, 2.5f);
