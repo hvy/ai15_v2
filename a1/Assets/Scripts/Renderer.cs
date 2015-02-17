@@ -16,7 +16,7 @@ public class Renderer : MonoBehaviour
 				if (path == null)
 						return;
 
-				GL.Color (new Color (0.2f, 0.2f, 0.8f, 1.0f));
+				GL.Color (new Color (0.3f, 1.0f, 0.2f, 1.0f));
 				for (int i = 0; i < path.Count - 1; i++) {
 						GL.Vertex (path [i].getPos ());
 						GL.Vertex (path [i + 1].getPos ());
@@ -46,7 +46,7 @@ public class Renderer : MonoBehaviour
 				if (tree == null)
 						return;
 
-				GL.Color (new Color (0.7f, 0.2f, 0.5f, 1.0f));
+				GL.Color (new Color (1.0f, 0.4f, 0.4f, 1.0f));
 				foreach (TNode parent in tree.nodeList) {
 
 						foreach (TNode child in parent.children) {
