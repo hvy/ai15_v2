@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ObstacleFactory : MonoBehaviour {
 
-	public static float obstacleHeight = 1.0f;
+	public static float obstacleHeight = 3.0f;
 	public static ObstacleFactory OF;
 
 	void Awake () {
@@ -41,7 +41,11 @@ public class ObstacleFactory : MonoBehaviour {
 
 		obstacle.AddComponent<MeshCollider> (); // Make sure collision is enabled
 		obstacle.name = "PolygonalObstacle";
-		obstacle.renderer.material.color = Color.red;
+
+		Material obstacleMaterial = (Material)Resources.Load("Materials/ObstacleMaterial", typeof(Material));
+
+		//obstacle.renderer.material.color = Color.red;
+		obstacle.renderer.sharedMaterial = obstacleMaterial;
 
 		return obstacle;
 	}
