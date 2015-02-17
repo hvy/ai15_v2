@@ -130,7 +130,7 @@ public class PathFinding
             minAngle = 32f;
         }
        
-        RRT rrt = new RRT (start, goal, bounds, polygons, 4.0f, 0.4f, acceptableWidth, minAngle, acceptableWidth);
+        RRT rrt = new RRT (start, goal, bounds, polygons, 4.0f, 0.5f, acceptableWidth, minAngle, acceptableWidth);
 
         // Demo small angular threshold
 		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 25f, 2.5f);

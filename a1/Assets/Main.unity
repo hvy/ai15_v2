@@ -1227,6 +1227,7 @@ MonoBehaviour:
   poly3FileName: outputPoly2.txt
   width: 300
   height: 300
+  discreteNeighbors: 0
   stage: {fileID: 1467275998}
   waypoints: {fileID: 784560713}
   startPrefab: {fileID: 479536, guid: cd0513368878b3645a95fc47edeedcab, type: 2}
@@ -3583,8 +3584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e91038946d43d8b1c95787cc36e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: .100000001
-  maxPhi: .100000001
+  maxA: 10
+  maxPhi: .200000003
 --- !u!114 &1767476413
 MonoBehaviour:
   m_ObjectHideFlags: 0
