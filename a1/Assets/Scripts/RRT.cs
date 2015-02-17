@@ -51,7 +51,7 @@ public class RRT
             TNode closestNode = tree.findClose (rand.getPos ());
             counter++;
                 
-            if (counter > 120000) {
+            if (counter > 150000) {
                 Debug.Log ("Out of counter...");
                 break;
             }
@@ -220,8 +220,8 @@ public class RRT
         // TODO use bounds, and goal bias (RRT*) and such
         //float x = UnityEngine.Random.Range (0f, 100f);
         //float z = UnityEngine.Random.Range (0f, 100f);
-		float x = UnityEngine.Random.Range (0f, GameManager.width);
-		float z = UnityEngine.Random.Range (0f, GameManager.height);
+        float x = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameManager.width - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
+        float z = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameManager.height - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
                         
         random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
         return random;

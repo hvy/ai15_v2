@@ -8,7 +8,7 @@ public class Agent : MonoBehaviour
 	
 		private List<MovementModel> models;
 
-		private int type = -1;
+		public static int type = -1;
 
         public static bool isRunning = false;
         public static bool isFinished = false;
