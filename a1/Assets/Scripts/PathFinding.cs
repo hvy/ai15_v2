@@ -126,7 +126,7 @@ public class PathFinding
             minAngle = 90f;
         }
         else {
-            acceptableWidth = Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2);
+            acceptableWidth = Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
             minAngle = 32f;
         }
        
