@@ -21,11 +21,14 @@ public class RRT
     private float acceptableAngleBetweenNodes;
     private float pathDistanceToCorner;
 
+	private float width;
+	private float height;
+
     
     // initialize the tree
     //TODO denna ska ta parametrar som förändrar beteendet av RRTn, typ bias osv.
     // TODO ta in en lista med alla linjer som definierar obstacles också.
-    public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold, float stepSize, float pointCloseToLine, float acceptableAngleBetweenNodes, float pathDistanceToCorner)
+    public RRT (Vector3 start, Vector3 goal, Vector3[] bounds, List<Vector2[]> polygons, float goalThreshold, float stepSize, float pointCloseToLine, float acceptableAngleBetweenNodes, float pathDistanceToCorner, float width, float height)
     {
         rootPos = start;
         destinationPos = goal;
@@ -37,6 +40,8 @@ public class RRT
         this.pointCloseToLineThreshold = pointCloseToLine;
         this.acceptableAngleBetweenNodes = acceptableAngleBetweenNodes;
         this.pathDistanceToCorner = pathDistanceToCorner;
+		this.height = height;
+		this.width = width;
         startGoal = new Tuple<GNode, GNode> ();
     }
 
@@ -220,8 +225,8 @@ public class RRT
         // TODO use bounds, and goal bias (RRT*) and such
         //float x = UnityEngine.Random.Range (0f, 100f);
         //float z = UnityEngine.Random.Range (0f, 100f);
-        float x = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameManager.width - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
-        float z = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameManager.height - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
+        float x = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, width - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
+        float z = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, height - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
                         
         random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
         return random;

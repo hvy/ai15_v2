@@ -112,8 +112,8 @@ public class PathFinding
 
 	public static void RRT(List<Vector2[]> polygons) {
 
-		Vector3 start = GameManager.start;
-		Vector3 goal = GameManager.goal;
+		Vector3 start = Vector3.zero; // TODO fix access to start and goal
+		Vector3 goal = Vector3.zero;
 		
 		Vector3[] bounds = new Vector3[4];
         // PARAMETERS:
@@ -131,7 +131,7 @@ public class PathFinding
             minAngle = 40f;
         }
        
-        RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.1f, acceptableWidth, minAngle, acceptableWidth);
+        RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.1f, acceptableWidth, minAngle, acceptableWidth, 100f, 100f);
 
         // Demo small angular threshold
 		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 25f, 2.5f);
