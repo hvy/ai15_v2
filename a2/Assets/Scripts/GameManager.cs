@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {	
@@ -27,9 +28,7 @@ public class GameManager : MonoBehaviour
 		stageFactory.createStage(_width, _height);
 
 		// Create waypoints
-		for (int i = 0; i < numWaypoints; i++) {
-			WaypointFactory.createWaypoint();
-		}
+		List<GameObject> waypoints = createRandomWaypoints (_width, _height, numWaypoints);
 
 		agentFact = new AgentFactory();
 
@@ -37,6 +36,28 @@ public class GameManager : MonoBehaviour
 			//GameObject agent = agentFact.createAgent();
 			//agent.transform.position = new Vector3(Random.Range(0, 100), 0.0f, Random.Range(0, 100));
 		}
+	}
+
+	List<GameObject> createRandomWaypoints(float width, float height, int numberOfWaypoints) {
+
+		GameObject parent = GameObject.Find ("Waypoints"); // Empty GameObject that acts as a parent for the waypoint objects
+
+		List<GameObject> waypoints = new List<GameObject> ();
+
+		for (int i = 0; i < numberOfWaypoints; i++) {
+			GameObject waypoint = WaypointFactory.createWaypoint ();
+
+			// Randomize the position of the waypoint
+			float x = Random.Range(0, width);
+			float y = 1.0f;
+			float z = Random.Range(0, height);
+			waypoint.transform.position = new Vector3 (x, y, z);
+			waypoint.transform.parent = parent.transform;
+			waypoint.name = "waypoint" + i;
+			waypoints.Add (waypoint);
+		}
+
+		return waypoints;
 	}
 
 
