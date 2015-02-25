@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
 		agentFact = new AgentFactory();
 
 		for (int i = 0; i < nr_agents; i++) {
-			//GameObject agent = agentFact.createAgent();
-			//agent.transform.position = new Vector3(Random.Range(0, 100), 0.0f, Random.Range(0, 100));
+			GameObject agent = AgentFactory.createAgent();
+			agent.transform.position = new Vector3(Random.Range(0, 100), 0.0f, Random.Range(0, 100));
 		}
 	}
 

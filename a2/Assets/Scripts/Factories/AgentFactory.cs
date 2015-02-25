@@ -3,21 +3,10 @@ using System.Collections;
 
 public class AgentFactory : MonoBehaviour {
 
-    public static Transform agentPreFab;
-
-
-
-    public static Transform createAgent(Vector3 pos) {
-        return Instantiate(agentPreFab, pos, Quaternion.identity) as Transform;
-    }
-
-	// Use this for initialization
-	void Start () {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public static GameObject createAgent () {
+		GameObject prefab = Resources.Load ("Prefabs/Agent", typeof(GameObject)) as GameObject;
+		GameObject agent = Instantiate (prefab, Vector3.zero, Quaternion.identity) as GameObject;
+		agent.transform.parent = GameObject.FindGameObjectWithTag("Agents").transform;
+		return agent;
 	}
 }
