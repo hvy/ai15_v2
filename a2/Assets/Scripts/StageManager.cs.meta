@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: da35e494985164244a3c9505f3c6b1a4
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - stage: {instanceID: 0}
+  - waypoints: {instanceID: 0}
+  - startPrefab: {fileID: 479536, guid: cd0513368878b3645a95fc47edeedcab, type: 2}
+  - goalPrefab: {fileID: 454722, guid: 9b69c981cadd6d94b876f685b2c0349b, type: 2}
+  - waypointPrefab: {instanceID: 0}
+  - boxPrefab: {instanceID: 0}
+  - obstaclePrefab: {fileID: 460824, guid: 3281e521e82fc492282c3f55e7b74a33, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
