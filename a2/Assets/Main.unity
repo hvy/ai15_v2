@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 100
   _height: 100
-  nr_agents: 3
+  nr_agents: 10
   numWaypoints: 10
 --- !u!1 &778638950
 GameObject:
