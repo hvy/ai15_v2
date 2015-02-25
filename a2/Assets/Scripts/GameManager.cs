@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
 
 
 	public int nr_agents, numWaypoints;
-	
-	AgentFactory agentFact;
 
 	void Start () 
 	{
@@ -30,17 +28,27 @@ public class GameManager : MonoBehaviour
 		// Create waypoints
 		List<GameObject> waypoints = createRandomWaypoints (_width, _height, numWaypoints);
 
-		agentFact = new AgentFactory();
+		// Create agents
+		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
 
-		for (int i = 0; i < nr_agents; i++) {
-			GameObject agent = AgentFactory.createAgent();
-			agent.transform.position = new Vector3(Random.Range(0, (int)_width), 0.0f, Random.Range(0, (int)_height));
-		}
-
-		List<GameObject> agents = null;
-
+		// Run Collision avoidance algo (returns list of paths)
 		PathPlanner pp = new PathPlanner ();
 		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints);
+
+	
+	}
+
+	List<GameObject> createRandomAgents(float width, float height, int numberOfAgents) {
+
+		List<GameObject> agents = new List<GameObject> ();
+
+		for (int i = 0; i < numberOfAgents; i++) {
+			GameObject agent = AgentFactory.createAgent();
+			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
+			agents.Add (agent);
+		}
+
+		return agents;
 	}
 
 	List<GameObject> createRandomWaypoints(float width, float height, int numberOfWaypoints) {

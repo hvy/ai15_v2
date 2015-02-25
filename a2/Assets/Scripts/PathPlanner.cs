@@ -30,7 +30,11 @@ class PathPlanner
 			customers.RemoveAt(0);
 
 			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
+
 			PathFinding.draw (path);
+
+
+			Debug.Log ("Found path");
 
 			paths.Add (path);
 		}
