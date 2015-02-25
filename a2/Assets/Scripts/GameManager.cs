@@ -3,26 +3,31 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour 
 {	
+
 	public static Vector3 start, goal;
 	public static float width, height;
-    public static int discreteNeighbors;
+	public static int discreteNeighbors;
+
+	public static int nr_agents;
+
+
+	AgentFactory agentFact;
 
 	void Start () 
 	{
-		start = new Vector3 (8.5f, 0, 9f);
-		goal = new Vector3 (87.5f, 0, 87.5f);
-
-		width = GameObject.Find ("Ground").transform.localScale.x;
-		height = GameObject.Find ("Ground").transform.localScale.z;
-
-		resetAgent ();
+		init();
 	}
 
-	public static void resetAgent() 
-	{
-		Agent.start = start;
-		Agent.goal = goal;
+	void init() {
 
-		GameObject.FindWithTag ("Agent").transform.position = start;
+		agentFact = new AgentFactory();
+
+		for (int i = 0; i < nr_agents; i++) {
+			//GameObject agent = agentFact.createAgent();
+			//agent.transform.position = new Vector3(Random.Range(0, 100), 0.0f, Random.Range(0, 100));
+		}
 	}
+
+
+	
 }
