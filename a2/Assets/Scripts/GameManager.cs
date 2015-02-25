@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
 			GameObject agent = AgentFactory.createAgent();
 			agent.transform.position = new Vector3(Random.Range(0, (int)_width), 0.0f, Random.Range(0, (int)_height));
 		}
+
+		List<GameObject> agents = null;
+
+		PathPlanner pp = new PathPlanner ();
+		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints);
 	}
 
 	List<GameObject> createRandomWaypoints(float width, float height, int numberOfWaypoints) {
