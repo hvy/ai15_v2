@@ -233,7 +233,9 @@ public class PathFinding
 		
 				if (!(renderer = camera.GetComponent<Renderer> ()))
 						renderer = camera.AddComponent<Renderer> ();
-				renderer.path = p;
+				if (renderer.paths == null)
+					renderer.paths = new List<List<GNode>>();
+				renderer.paths.Add(p);
 		}
 
 }

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
 
-		// Run Collision avoidance algo (returns list of paths)
+		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
 		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints);
 
