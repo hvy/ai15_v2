@@ -52,7 +52,6 @@ public class CarDynamicController : DynamicController, MovementModel
             return;
 
 		if (goal.x == -1f) {
-            Debug.Log ("boom!!!!!!!!");
             Agent.isRunning = false;
             Agent.isFinished = true;
 			return;

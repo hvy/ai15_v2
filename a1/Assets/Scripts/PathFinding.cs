@@ -127,10 +127,10 @@ public class PathFinding
         }
         else {
             acceptableWidth = Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
-            minAngle = 32f;
+            minAngle = 40f;
         }
        
-        RRT rrt = new RRT (start, goal, bounds, polygons, 4.0f, 0.5f, acceptableWidth, minAngle, acceptableWidth);
+        RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.1f, acceptableWidth, minAngle, acceptableWidth);
 
         // Demo small angular threshold
 		//RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.2f, 0.0f, 25f, 2.5f);

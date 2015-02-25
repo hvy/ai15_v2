@@ -3610,8 +3610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace2ae2afea5341b8b0f33c777242e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 10
-  Wmax: 10
+  velocity: 20
+  Wmax: .5
 --- !u!114 &1767476415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3624,7 +3624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 4
+  maxA: 10
 --- !u!114 &1767476416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3637,7 +3637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44281fc26cacf4dd59d137dfa888f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 100
+  velocity: 30
 --- !u!114 &1767476417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3661,10 +3661,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!23 &1767476419
 Renderer:
@@ -4318,7 +4318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1969165268
 MonoBehaviour:
   m_ObjectHideFlags: 0

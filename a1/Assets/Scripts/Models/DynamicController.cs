@@ -35,7 +35,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		//Debug.Log ("Moving: " + rigidbody.transform.position);	
 		float distance = Vector3.Distance (goal, transform.position);
 		
-		if (distance < 0.01f) {
+		if (distance < 4.0f) {
 			steps++;
 			if (path.Count == steps+1) {
 				Debug.Log ("LAST GOAL");
@@ -91,15 +91,11 @@ public class DynamicController : MonoBehaviour, MovementModel
 		}
 
 		velocity = (velocity == 0) ? 0.1f : velocity;
-		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-
-//		if (!lastGoal)
-//			rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-//		else {
-//			if (distance > 10.0f)
-//				rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-//			else
-//				rigidbody.MovePosition (rigidbody.position + force * Time.deltaTime);
-//		}
+		//rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
+       
+        //rigidbody.velocity = 
+        Vector3 force = goal - rigidbody.position;
+        Debug.Log (force.x);
+        rigidbody.AddRelativeForce(force * 1f);
 	}
 }

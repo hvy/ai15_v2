@@ -12,7 +12,7 @@ public class DifferentialController : KinematicController
 	protected Quaternion lookRotation;
 
 	void Start() {
-		angularThreshold = 0.03f;
+		angularThreshold = 0.01f;
 	}
 
 	// Implements interface member
