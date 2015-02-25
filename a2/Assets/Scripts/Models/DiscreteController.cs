@@ -4,26 +4,25 @@ using System.Collections.Generic;
 
 public class DiscreteController : MonoBehaviour, MovementModel
 {
-	private List<GNode> path;
 	private int steps;
+	int counter = 0;
 
 	// Implements interface member
 	public void findPath() {
-		path = PathFinding.currentPath;
-		Debug.Log ("Path distance: " + PathFinding.calculateDistance(path));
+		//Debug.Log ("Path distance: " + PathFinding.calculateDistance(path));
 	}
 
 	// Implements interface member
-	public void stepPath() {
-		if (steps < path.Count) {
-			rigidbody.transform.position = path [path.Count - steps - 1].getPos ();
-			steps++;
+	public void stepPath(Vector3 goal) {
+		counter++;
+		if (counter % 50 == 0) {
+			rigidbody.transform.position = goal;
+			counter = 0;
 		}
 	}
 
 	// Implements interface member
 	public void reset(Vector3 position) {
-		path = null;
 		steps = 0;
 		rigidbody.transform.position = position;
 	}

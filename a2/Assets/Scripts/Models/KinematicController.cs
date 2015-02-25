@@ -6,45 +6,22 @@ public class KinematicController : MonoBehaviour, MovementModel
 {
 	public float velocity;
 
-	protected List<GNode> path;
-	protected Vector3 goal;
-	protected int steps;
-
 	// Implements interface member
 	public void findPath() {
-		path = PathFinding.currentPath;
 
 	}
 	
 	// Implements interface member
-	virtual public void stepPath() {
-		float distance = Vector3.Distance (goal, transform.position);
-		
-		if (distance < 0.3f) {
-			steps++;
-		}
-		goal = Agent.recalculateGoal(steps);
-
-        if (!Agent.isRunning)
-            return;
-		
-		if (goal.x == -1f) {
-            Agent.isRunning = false;
-            Agent.isFinished = true;
-			return;
-		}
-
-		move ();
+	virtual public void stepPath(Vector3 goal) {
+		move (goal);
 	}
 	
 	// Implements interface member
 	public void reset(Vector3 position) {
-		path = null;
-		steps = 0;
 		rigidbody.transform.position = position;
 	}
 
-	protected void move ()
+	protected void move (Vector3 goal)
 	{
 		float distance = Vector3.Distance (rigidbody.position, goal);
 

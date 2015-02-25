@@ -122,14 +122,14 @@ public class PathFinding
 
         float acceptableWidth;
         float minAngle;
-        if (Agent.type == 0 || Agent.type == 1 || Agent.type == 1) {
-            acceptableWidth = 0.0f;
-            minAngle = 90f;
-        }
-        else {
+//        if (Agent.type == 0 || Agent.type == 1 || Agent.type == 1) {
+//            acceptableWidth = 0.0f;
+//            minAngle = 90f;
+//        }
+//        else {
             acceptableWidth = Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
             minAngle = 40f;
-        }
+//        }
        
         RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.1f, acceptableWidth, minAngle, acceptableWidth, 100f, 100f);
 

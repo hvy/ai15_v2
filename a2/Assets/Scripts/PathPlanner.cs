@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 class PathPlanner
 {
+
 	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers) {
 
 		GNode[,] graph = buildGraph (width, height);
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
+
 
 		while (customers.Count > 0) {
 
@@ -43,6 +45,13 @@ class PathPlanner
 
 			PathFinding.draw (path);
 
+
+			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+			a.init();
+			a.setStart(path[path.Count-1].getPos());
+			a.setGoal(path[0].getPos ());
+			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
+			a.setPath(path);
 
 			Debug.Log ("Found path");
 
