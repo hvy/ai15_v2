@@ -4,9 +4,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour 
 {	
 	// TODO FIX
-	public static Vector3 start, goal;
+	//public static Vector3 start, goal;
 	public static int discreteNeighbors;
-	public static float width, height;
+	//public static float width, height;
 
 	public float _width, _height;
 

@@ -36,7 +36,7 @@ public class StageManager : MonoBehaviour
 				int numWaypoints = 0;		
 				int numObstacles = dlp.getNumObstacles ();
 				List<Vector2> obstaclePositions = dlp.getObstaclePositions ();
-				float obstacleWidth = GameManager.width / (float)width;
+				float obstacleWidth = width / (float)width;
 		
 				bool[,] hasObstacle = new bool[width, height];
 
@@ -245,8 +245,8 @@ public class StageManager : MonoBehaviour
 		setGoal (VectorUtility.toVector3 (goal2d));
 
 		// Tell the GameManager that the width and height is updated
-		GameManager.width = width;
-		GameManager.height = height;
+//		GameManager.width = width;
+//		GameManager.height = height;
 		updateDimensions (width, height);
 
 		// Update the camera position according to the size of the current stage
@@ -275,14 +275,14 @@ public class StageManager : MonoBehaviour
 		private void setStart (Vector3 pos)
 		{
 				Transform start = Instantiate (startPrefab, pos, Quaternion.identity) as Transform;
-				GameManager.start = pos;
+				//GameManager.start = pos;
 				addToStage (start);
 		}
 
 		private void setGoal (Vector3 pos)
 		{
 				Transform goal = Instantiate (goalPrefab, pos, Quaternion.identity) as Transform;
-				GameManager.goal = pos;
+				//GameManager.goal = pos;
 				addToStage (goal);
 		}
 
