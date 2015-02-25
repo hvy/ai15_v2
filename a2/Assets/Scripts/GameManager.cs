@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
 		for (int i = 0; i < nr_agents; i++) {
 			GameObject agent = AgentFactory.createAgent();
-			agent.transform.position = new Vector3(Random.Range(0, 100), 0.0f, Random.Range(0, 100));
+			agent.transform.position = new Vector3(Random.Range(0, (int)_width), 0.0f, Random.Range(0, (int)_height));
 		}
 	}
 
@@ -48,9 +48,9 @@ public class GameManager : MonoBehaviour
 			GameObject waypoint = WaypointFactory.createWaypoint ();
 
 			// Randomize the position of the waypoint
-			float x = Random.Range(0, width);
+			float x = Random.Range(0, (int)width);
 			float y = 1.0f;
-			float z = Random.Range(0, height);
+			float z = Random.Range(0, (int)height);
 			waypoint.transform.position = new Vector3 (x, y, z);
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;
