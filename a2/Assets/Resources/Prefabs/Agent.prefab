@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44281fc26cacf4dd59d137dfa888f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 30
+  velocity: 1
 --- !u!114 &11435916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -570,6 +570,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 10
+  goal: {x: 0, y: 0, z: 0}
+  velocity: 0
+  lastGoal: 0
+  destination_: {x: 0, y: 0, z: 0}
+  initialDistance: 0
+  steps: 0
 --- !u!114 &11435918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -582,7 +588,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 20
+  goal: {x: 0, y: 0, z: 0}
+  steps: 0
   Wmax: .5
+  angularThreshold: 0
+  lookRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11435920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,7 +605,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  goal: {x: 0, y: 0, z: 0}
+  steps: 0
   maxPhi: .100000001
+  reverse: 0
+  reverseCrossThreshold: .75
 --- !u!114 &11435922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,7 +622,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 10
+  goal: {x: 0, y: 0, z: 0}
+  velocity: 0
+  lastGoal: 0
+  destination_: {x: 0, y: 0, z: 0}
+  initialDistance: 0
+  steps: 0
+  reverse: 0
+  keepSteady: 1
+  reverseCrossThreshold: .75
+  destination: {x: 0, y: 0, z: 0}
   maxPhi: .200000003
+  steps_: 0
+  previousDistance: 1e+06
 --- !u!114 &11435924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,6 +657,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848ff33c590a8f64f954efb10f36f65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start: {x: 0, y: 0, z: 0}
+  goal: {x: 0, y: 0, z: 0}
+  type: -1
+  isRunning: 0
+  isFinished: 0
 --- !u!136 &13635920
 CapsuleCollider:
   m_ObjectHideFlags: 1
