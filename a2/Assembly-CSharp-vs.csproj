@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Agent.cs" />
-     <Compile Include="Assets\Scripts\AgentFactory.cs" />
      <Compile Include="Assets\Scripts\CameraModel.cs" />
      <Compile Include="Assets\Scripts\CarPhysics.cs" />
      <Compile Include="Assets\Scripts\DiscreteLevelParser.cs" />
+     <Compile Include="Assets\Scripts\Factories\AgentFactory.cs" />
+     <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
+     <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
      <Compile Include="Assets\Scripts\GNode.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GraphBuilder.cs" />

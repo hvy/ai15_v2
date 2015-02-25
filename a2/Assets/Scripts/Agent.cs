@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Agent : MonoBehaviour
 {
-		public static Vector3 start, goal;
+		public static Vector3 start, goal; // TODO Make sure start and goal is assignmed by the game manager
 	
 		private List<MovementModel> models;
 
@@ -50,7 +50,7 @@ public class Agent : MonoBehaviour
                          }
 
 						// Find the optimal path for the new model
-						models [newType].reset (GameManager.start);
+						models [newType].reset (start);
 						models [newType].findPath ();
 
 						type = newType;		

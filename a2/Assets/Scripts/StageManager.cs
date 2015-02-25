@@ -75,7 +75,7 @@ public class StageManager : MonoBehaviour
 				setGoal (new Vector3 (goal3dx, 0, goal3dy));
 
 				// Find the optimal path and save it in the graph builde
-				GraphBuilder.buildGraphFromScene ();
+				//GraphBuilder.buildGraphFromScene ();
 		}
 
 		public void createContinuousStage ()

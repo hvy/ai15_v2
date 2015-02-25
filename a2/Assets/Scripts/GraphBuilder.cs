@@ -88,19 +88,19 @@ public class GraphBuilder
             }
         }
 
-        // Find the start and the goal waypoints
-        for (int i = 0; i < waypointObjects.Length; i++) {
-            if (waypointObjects [i].transform.position.x == GameManager.start.x && 
-                waypointObjects [i].transform.position.z == GameManager.start.z) {
-                start = nodes [waypointObjects [i]];
-            } else if (waypointObjects [i].transform.position.x == GameManager.goal.x &&
-                waypointObjects [i].transform.position.z == GameManager.goal.z) {
-                end = nodes [waypointObjects [i]];
-            }       
-        }
-                
-        PathFinding.aStarPath (start, end, distance);
-        PathFinding.draw (PathFinding.currentPath);
+//        // Find the start and the goal waypoints
+//        for (int i = 0; i < waypointObjects.Length; i++) {
+//            if (waypointObjects [i].transform.position.x == GameManager.start.x && 
+//                waypointObjects [i].transform.position.z == GameManager.start.z) {
+//                start = nodes [waypointObjects [i]];
+//            } else if (waypointObjects [i].transform.position.x == GameManager.goal.x &&
+//                waypointObjects [i].transform.position.z == GameManager.goal.z) {
+//                end = nodes [waypointObjects [i]];
+//            }       
+//        }
+//                
+//        PathFinding.aStarPath (start, end, distance);
+//        PathFinding.draw (PathFinding.currentPath);
     }
     
     public static double distance (GNode a, GNode b)

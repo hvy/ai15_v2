@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 0a86f62aff74146d1af6101f2e3c6396
+guid: 07edcc921d97540fb9b9658ddfd725b9
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - prefab: {fileID: 135914, guid: 50be94ffb9e33475a8326f9246463938, type: 2}
+  - agentPreFab: {fileID: 435914, guid: 50be94ffb9e33475a8326f9246463938, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
