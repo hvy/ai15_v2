@@ -73,7 +73,6 @@ public class Agent : MonoBehaviour
 
 		if (GameManager.customerPos.ContainsKey(goal) && goal != currentPath[0].getPos ()) {
 			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
-			Debug.Log("Distance to goal: " + currentPath.Count);
 			List<GNode> newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), GameManager.obstacles);	// recalculate path
 
 			if (newPath == null) {

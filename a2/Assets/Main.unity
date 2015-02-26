@@ -179,11 +179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6d0f7e3748cc4380d1106560aa792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 20
-  _height: 20
-  nr_agents: 50
-  numWaypoints: 50
-  neighbors: 4
+  _width: 30
+  _height: 30
+  nr_agents: 100
+  numWaypoints: 100
+  neighbors: 8
 --- !u!1 &778638950
 GameObject:
   m_ObjectHideFlags: 0
