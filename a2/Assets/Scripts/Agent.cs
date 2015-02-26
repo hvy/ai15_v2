@@ -14,6 +14,7 @@ public class Agent : MonoBehaviour
 		public bool isFinished = false;
 		private float startTime;
 		private int steps;
+		public bool paused = false;
 
 		void Start ()
 		{
@@ -61,21 +62,40 @@ public class Agent : MonoBehaviour
 				}
 		
 		}
+
+	private bool recalculatePath() {
+
+		if (GameManager.agentPos[goal].paused) {
+			obstacles.Add (goal);
+			Debug.Log("Recalculate path because of agent paused");
+			PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
+		}
+
+		if (GameManager.customerPos.ContainsKey(goal) && goal != currentPath[0].getPos ()) {
+			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
+			Debug.Log("Distance to goal: " + currentPath.Count);
+			List<GNode> newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), GameManager.obstacles);	// recalculate path
+
+			if (newPath == null) {
+				return false;
+			}
+			return true;
+			
+		}
+		return false;
+	}
 	
-		void FixedUpdate ()
-		{
-				if (isValidType (type) && goal.x != -1f) {
+	void FixedUpdate ()
+	{
+		if (isValidType (type) && goal.x != -1f) {
 					
 						if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
-
-								if (GameManager.customerPos.ContainsKey(goal) && goal != currentPath[0].getPos ()) {
-									obstacles.Add (goal);
-									Debug.Log("Recalculate path");
-									Debug.Log("Obstacles: " + obstacles.Count);
-									PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
-								} else
+								if (!recalculatePath()) {
+									paused = true;
 									return; // Pause
+								}
 						}
+						paused = false;
 						models [type].stepPath (goal);	
 						executeStep ();
 
@@ -105,7 +125,7 @@ public class Agent : MonoBehaviour
 
 						type = newType;		
 
-						Debug.Log ("Using model: " + type);
+						//Debug.Log ("Using model: " + type);
 				}
 		}
 
@@ -120,8 +140,10 @@ public class Agent : MonoBehaviour
 
 				Vector3 goal;
 				List<GNode> path = currentPath;
-				if (path.Count - counter - 1 < 0)
+				if (path.Count - counter - 1 < 0) {
+						GameManager.obstacles.Add (path[0].getPos());
 						return new Vector3 (-1f, -1f, -1f);
+				}
 				
 				goal = path [path.Count - counter - 1].getPos ();
 				

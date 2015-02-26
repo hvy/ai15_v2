@@ -179,11 +179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6d0f7e3748cc4380d1106560aa792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 30
-  _height: 30
+  _width: 20
+  _height: 20
   nr_agents: 50
   numWaypoints: 50
-  neighbors: 8
+  neighbors: 4
 --- !u!1 &778638950
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 3
   m_Type: 1
-  m_Color: {r: .544117689, g: .548118532, b: .548118532, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: .699999988
   m_Range: 10
   m_SpotAngle: 30

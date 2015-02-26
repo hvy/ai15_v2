@@ -7,6 +7,7 @@ public class Renderer : MonoBehaviour
 
 		public Tree tree{ get; set; }
 		public List<List<GNode>> paths { get; set; }
+		public List<Color> colors {get; set;}
 
 		Material lineMaterial{ get; set; }
 	
@@ -17,14 +18,19 @@ public class Renderer : MonoBehaviour
 				if (paths == null)
 						return;
 
-			GL.Color (new Color (0.0f, 0.4f, 0.8f, 1.0f));
-			for (int i = 0; i < paths.Count; i++)
+			for (int i = 0; i < paths.Count; i++) {
+
+					//GL.Color (new Color (0.0f, 0.4f, 0.8f, 1.0f));
+					
+					GL.Color (colors[i]);
+
 					for (int j = 0; j < paths[i].Count - 1; j++) {
 							GL.Vertex3(paths[i][j].getPos ().x, 1.0f, paths[i][j].getPos ().z);
 							GL.Vertex3 (paths[i][j + 1].getPos ().x, 1.0f, paths[i][j + 1].getPos ().z);
 			//GL.Vertex (paths[i][j].getPos ());
 							//GL.Vertex (paths[i][j + 1].getPos ());
 					}
+		}
 		
 		
 		}

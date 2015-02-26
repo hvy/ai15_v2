@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
 	public static Dictionary<Vector3, Agent> agentPos;
 	public static Dictionary<Vector3, GameObject> customerPos;
+	public static List<Vector3> obstacles;
 
 
 	public float _width, _height;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
 		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
 		agentPos = new Dictionary<Vector3, Agent>();
 		customerPos = new Dictionary<Vector3, GameObject>();
+		obstacles = new List<Vector3>();
 		init();
 	}
 
@@ -81,17 +83,7 @@ public class GameManager : MonoBehaviour
 
 	
 	}
-
-//	public static List<GNode> recalculatePath(Agent agent, Vector3 goal, List<Vector3> obstacles) {
-//		PathPlanner pp = new PathPlanner ();
-//		List<GameObject> agents = new List<GameObject>();
-//		List<GameObject> waypoints = new List<GameObject>();
-//		agents.Add (agent.gameObject);
-//		waypoints.Add (customerPos[goal]);
-//
-//		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
-//	} 
-
+	
 	List<GameObject> createRandomAgents(float width, float height, int numberOfAgents) {
 
 		List<GameObject> agents = new List<GameObject> ();
@@ -123,6 +115,10 @@ public class GameManager : MonoBehaviour
 			float y = 0.0f;
 			float z = Random.Range(0, (int)height);
 			waypoint.transform.position = new Vector3 (x, y, z);
+
+			while (customerPos.ContainsKey(waypoint.transform.position))
+				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
+
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;
 			waypoints.Add (waypoint);

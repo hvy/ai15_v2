@@ -235,7 +235,16 @@ public class PathFinding
 						renderer = camera.AddComponent<Renderer> ();
 				if (renderer.paths == null)
 					renderer.paths = new List<List<GNode>>();
+
+				if (renderer.colors == null)
+					renderer.colors = new List<Color>();
+
 				renderer.paths.Add(p);
+				float r = UnityEngine.Random.Range(0.5f, 1f);
+				float b = UnityEngine.Random.Range(0.5f, 1f);
+				float g = UnityEngine.Random.Range(0.5f, 1f);
+				Color col = new Color (0.0f, r, b, g);
+				renderer.colors.Add(col);
 		}
 
 }

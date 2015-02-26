@@ -60,8 +60,6 @@ class PathPlanner
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
 			a.setPath(path);
 
-			Debug.Log ("Found path");
-
 			paths.Add (path);
 		}
 
@@ -92,12 +90,14 @@ class PathPlanner
 			
 			GNode start = graph [x, z];
 
-			Debug.Log ("graph size: " + graph.Length);
 			
 			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
 			
-			if (path == null)
-				Debug.Log ("VARFÖR ÄR DEN NULL!?!?!?!");
+			if (path == null) {
+			Debug.Log ("Didn't find path!");
+			return null;
+		}
+
 			PathFinding.draw (path);
 			
 			
@@ -108,26 +108,11 @@ class PathPlanner
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
 			a.setPath(path);
 			
-			Debug.Log ("Found path");
 			
 
 		return path;
-		//planDiscretePaths ((int) lastWidth, (int) lastHeight, agents, waypoints, lastNeighbors, obstacles);
 	} 
 
-//	public List<GNode> recalculatePath(List<Vector3> occupiedSlots) {
-//
-//		// fyfan, komplexiteten på denna alltså
-//		foreach (GNode node in graph) {
-//			foreach (GNode neighbor in node.getNeighbors) {
-//				foreach (Vector3 occ in occupiedSlots)
-//					if (neighbor.getPos() == occ)
-//						node.removeNeighbor(neighbor);
-//			}
-//		}
-//
-//
-//	}
 
 
 

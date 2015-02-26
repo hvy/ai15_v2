@@ -500,7 +500,7 @@ TrailRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -662,6 +662,7 @@ MonoBehaviour:
   type: -1
   isRunning: 0
   isFinished: 0
+  paused: 0
 --- !u!136 &13635920
 CapsuleCollider:
   m_ObjectHideFlags: 1
