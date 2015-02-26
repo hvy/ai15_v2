@@ -45,6 +45,7 @@ public class Agent : MonoBehaviour
 				if (distance < 0.1f) {
 						steps++;
 				}
+				
 				goal = recalculateGoal (steps);
 		
 				if (!isRunning)
@@ -61,11 +62,17 @@ public class Agent : MonoBehaviour
 		void FixedUpdate ()
 		{
 
-		if (isValidType (type) && goal.x != -1f) {
-			models [type].stepPath (goal);	
+				if (isValidType (type) && goal.x != -1f) {
+					
+						if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
+								return; // Pause
+						}
+						models [type].stepPath (goal);	
 						executeStep ();
 
 				}
+
+	
 				if (isFinished) {
 						Debug.Log ("Total time: " + (Time.time - startTime));
 						isFinished = false;
@@ -105,8 +112,9 @@ public class Agent : MonoBehaviour
 				List<GNode> path = currentPath;
 				if (path.Count - counter - 1 < 0)
 						return new Vector3 (-1f, -1f, -1f);
+				
 				goal = path [path.Count - counter - 1].getPos ();
-				//Debug.Log ("NEW WAYPOINT: " + goal.x + " " + goal.z);
+				
 				return goal;
 		}
 
@@ -118,6 +126,7 @@ public class Agent : MonoBehaviour
 		public void setStart (Vector3 s)
 		{
 				start = s;
+			
 		}
 
 		public void setGoal (Vector3 g)

@@ -5,12 +5,13 @@ using System.Collections.Generic;
 class PathPlanner
 {
 
+
+
 	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors) {
 
 		GNode[,] graph = buildGraph (width, height, neighbors);
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
-
 
 		while (customers.Count > 0) {
 
@@ -50,7 +51,7 @@ class PathPlanner
 			a.init();
 			a.setStart(path[path.Count-1].getPos());
 			a.setGoal(path[0].getPos ());
-			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
+			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
 			a.setPath(path);
 
 			Debug.Log ("Found path");
@@ -61,6 +62,8 @@ class PathPlanner
 		return paths;
 
 	}
+
+
 
 	public List<List<GNode>> planContinuousPaths (float width, float height, List<GameObject> agents, List<GameObject> customers) {
 		// Uses RRT

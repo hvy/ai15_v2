@@ -9,15 +9,18 @@ public class GameManager : MonoBehaviour
 	public static int discreteNeighbors;
 	//public static float width, height;
 
+
+	public static Dictionary<Vector3, Agent> agentPos;
+
+
 	public float _width, _height;
-
-
 	public int nr_agents, numWaypoints;
 	public int neighbors;
 
 	void Start () 
 	{
 		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
+		agentPos = new Dictionary<Vector3, Agent>();
 		init();
 	}
 
@@ -48,6 +51,10 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < numberOfAgents; i++) {
 			GameObject agent = AgentFactory.createAgent();
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
+			while (agentPos.ContainsKey(agent.transform.position))
+				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
+
+			agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
 			agents.Add (agent);
 		}
 

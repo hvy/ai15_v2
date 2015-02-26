@@ -15,9 +15,15 @@ public class DiscreteController : MonoBehaviour, MovementModel
 	// Implements interface member
 	public void stepPath(Vector3 goal) {
 		counter++;
-		if (counter % 50 == 0) {
+		if (counter % 100 == 0) {
+
+			Agent a = GameManager.agentPos[rigidbody.transform.position];
+			GameManager.agentPos.Remove(rigidbody.transform.position);
 			rigidbody.transform.position = goal;
+			GameManager.agentPos[rigidbody.transform.position] = a;
+
 			counter = 0;
+
 		}
 	}
 
