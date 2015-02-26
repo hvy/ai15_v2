@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
 
 	public int nr_agents, numWaypoints;
+	public int neighbors;
 
 	void Start () 
 	{
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
-		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints);
+		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors);
 
 	
 	}

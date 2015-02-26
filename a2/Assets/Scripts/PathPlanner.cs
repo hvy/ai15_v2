@@ -5,9 +5,9 @@ using System.Collections.Generic;
 class PathPlanner
 {
 
-	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers) {
+	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors) {
 
-		GNode[,] graph = buildGraph (width, height);
+		GNode[,] graph = buildGraph (width, height, neighbors);
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
 
@@ -72,7 +72,7 @@ class PathPlanner
 		
 	}
 
-	GNode[,] buildGraph (int width, int height)
+	GNode[,] buildGraph (int width, int height, int neighbors)
 	{
 		GNode[,] gnodes = new GNode[width, height];
 
@@ -93,6 +93,7 @@ class PathPlanner
 					node.addNeighbor (gnodes[i, j - 1]);
 				}
 
+
 				// Right
 				if (i < width - 1) {
 					node.addNeighbor (gnodes[i + 1, j]);
@@ -107,6 +108,25 @@ class PathPlanner
 				if (i > 0) {
 					node.addNeighbor (gnodes[i - 1, j]);
 				}
+
+				if (neighbors != 8)
+					continue;
+
+				// North West
+				if (i > 0 && j > 0)
+					node.addNeighbor (gnodes[i - 1, j - 1]);
+
+				// North East
+				if (i < width - 1 && j > 0)
+					node.addNeighbor (gnodes[i + 1, j - 1]);
+
+				// South West
+				if (i > 0 && j < height -1)
+					node.addNeighbor (gnodes[i - 1, j + 1]);
+
+				// South East
+				if (i < width - 1 && j < height - 1)
+					node.addNeighbor (gnodes[i + 1, j + 1]);
 			}
 		}
 
