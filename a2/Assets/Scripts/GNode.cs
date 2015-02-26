@@ -33,4 +33,8 @@ public class GNode {
 	public void addNeighbor(GNode node) {
 		Neighbors.Add (node);
 	}
+
+	public void removeNeighbor(GNode node) {
+		Neighbors.Remove(node);
+	}
 }

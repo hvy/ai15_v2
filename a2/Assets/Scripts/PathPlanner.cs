@@ -5,11 +5,17 @@ using System.Collections.Generic;
 class PathPlanner
 {
 
+	private static int lastWidth;
+	private static int lastHeight;
+	private static int lastNeighbors;
+	
+	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
 
+		lastWidth = width;
+		lastHeight = height;
+		lastNeighbors = neighbors;
 
-	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors) {
-
-		GNode[,] graph = buildGraph (width, height, neighbors);
+		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
 
@@ -63,6 +69,66 @@ class PathPlanner
 
 	}
 
+	public static List<GNode> recalculatePath(Agent _agent, Vector3 _goal, List<Vector3> obstacles) {
+		PathPlanner pp = new PathPlanner ();
+		List<GameObject> agents = new List<GameObject>();
+		List<GameObject> waypoints = new List<GameObject>();
+		agents.Add (_agent.gameObject);
+		waypoints.Add (GameManager.customerPos[_goal]);
+
+		GNode[,] graph = buildGraph (lastWidth, lastHeight, lastNeighbors, obstacles);
+							
+			
+			int x = (int) _goal.x;
+			int z = (int) _goal.z;
+			
+			GNode goal = graph [x, z];
+			
+			// Find the closest agent
+			
+			GameObject agent = _agent.gameObject;
+			x = (int) agent.transform.position.x;
+			z = (int) agent.transform.position.z;
+			
+			GNode start = graph [x, z];
+
+			Debug.Log ("graph size: " + graph.Length);
+			
+			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
+			
+			if (path == null)
+				Debug.Log ("VARFÖR ÄR DEN NULL!?!?!?!");
+			PathFinding.draw (path);
+			
+			
+			Agent a = _agent;
+			a.init();
+			a.setStart(path[path.Count-1].getPos());
+			a.setGoal(path[path.Count-1].getPos ());
+			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
+			a.setPath(path);
+			
+			Debug.Log ("Found path");
+			
+
+		return path;
+		//planDiscretePaths ((int) lastWidth, (int) lastHeight, agents, waypoints, lastNeighbors, obstacles);
+	} 
+
+//	public List<GNode> recalculatePath(List<Vector3> occupiedSlots) {
+//
+//		// fyfan, komplexiteten på denna alltså
+//		foreach (GNode node in graph) {
+//			foreach (GNode neighbor in node.getNeighbors) {
+//				foreach (Vector3 occ in occupiedSlots)
+//					if (neighbor.getPos() == occ)
+//						node.removeNeighbor(neighbor);
+//			}
+//		}
+//
+//
+//	}
+
 
 
 	public List<List<GNode>> planContinuousPaths (float width, float height, List<GameObject> agents, List<GameObject> customers) {
@@ -75,7 +141,7 @@ class PathPlanner
 		
 	}
 
-	GNode[,] buildGraph (int width, int height, int neighbors)
+	private static GNode[,] buildGraph (int width, int height, int neighbors, List<Vector3> occupiedSlots)
 	{
 		GNode[,] gnodes = new GNode[width, height];
 
@@ -92,23 +158,23 @@ class PathPlanner
 				GNode node = gnodes[i, j];
 
 				// Up
-				if (j > 0) {
+				if (j > 0 && !occupiedSlots.Contains(gnodes[i, j - 1].getPos())) {
 					node.addNeighbor (gnodes[i, j - 1]);
 				}
 
 
 				// Right
-				if (i < width - 1) {
+				if (i < width - 1 && !occupiedSlots.Contains(gnodes[i+1, j].getPos())) {
 					node.addNeighbor (gnodes[i + 1, j]);
 				}
 
 				// Down
-				if (j < height - 1) {
+				if (j < height - 1 && !occupiedSlots.Contains(gnodes[i, j + 1].getPos())) {
 					node.addNeighbor (gnodes[i, j + 1]);
 				}
 
 				// Left
-				if (i > 0) {
+				if (i > 0 && !occupiedSlots.Contains(gnodes[i - 1, j].getPos())) {
 					node.addNeighbor (gnodes[i - 1, j]);
 				}
 
@@ -116,19 +182,19 @@ class PathPlanner
 					continue;
 
 				// North West
-				if (i > 0 && j > 0)
+				if (i > 0 && j > 0 && !occupiedSlots.Contains(gnodes[i - 1, j - 1].getPos()))
 					node.addNeighbor (gnodes[i - 1, j - 1]);
 
 				// North East
-				if (i < width - 1 && j > 0)
+				if (i < width - 1 && j > 0 && !occupiedSlots.Contains(gnodes[i + 1, j - 1].getPos()))
 					node.addNeighbor (gnodes[i + 1, j - 1]);
 
 				// South West
-				if (i > 0 && j < height -1)
+				if (i > 0 && j < height -1 && !occupiedSlots.Contains(gnodes[i - 1, j + 1].getPos()))
 					node.addNeighbor (gnodes[i - 1, j + 1]);
 
 				// South East
-				if (i < width - 1 && j < height - 1)
+				if (i < width - 1 && j < height - 1 && !occupiedSlots.Contains(gnodes[i + 1, j + 1].getPos()))
 					node.addNeighbor (gnodes[i + 1, j + 1]);
 			}
 		}

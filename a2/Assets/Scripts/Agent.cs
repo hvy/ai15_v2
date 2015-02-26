@@ -8,6 +8,7 @@ public class Agent : MonoBehaviour
 	
 		private List<MovementModel> models;
 		private List<GNode> currentPath;
+		private List<Vector3> obstacles;
 		public int type = 1;
 		public bool isRunning = false;
 		public bool isFinished = false;
@@ -20,6 +21,7 @@ public class Agent : MonoBehaviour
 				models.Add (GetComponent<DiscreteController> ());
 //				models.Add (GetComponent<DynamicController> ());
 				models.Add (GetComponent<KinematicController> ());
+		obstacles = new List<Vector3>();
 //				models.Add (GetComponent<DifferentialController> ());
 //				models.Add (GetComponent<CarDynamicController> ());
 //				models.Add (GetComponent<CarKinematicController> ());
@@ -32,6 +34,7 @@ public class Agent : MonoBehaviour
 				models.Add (GetComponent<DiscreteController> ());
 //		models.Add (GetComponent<DynamicController> ());
 				models.Add (GetComponent<KinematicController> ());
+		obstacles = new List<Vector3>();
 //		models.Add (GetComponent<DifferentialController> ());
 //		models.Add (GetComponent<CarDynamicController> ());
 //		models.Add (GetComponent<CarKinematicController> ());
@@ -61,11 +64,17 @@ public class Agent : MonoBehaviour
 	
 		void FixedUpdate ()
 		{
-
 				if (isValidType (type) && goal.x != -1f) {
 					
 						if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
-								return; // Pause
+
+								if (GameManager.customerPos.ContainsKey(goal) && goal != currentPath[0].getPos ()) {
+									obstacles.Add (goal);
+									Debug.Log("Recalculate path");
+									Debug.Log("Obstacles: " + obstacles.Count);
+									PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
+								} else
+									return; // Pause
 						}
 						models [type].stepPath (goal);	
 						executeStep ();
@@ -74,7 +83,7 @@ public class Agent : MonoBehaviour
 
 	
 				if (isFinished) {
-						Debug.Log ("Total time: " + (Time.time - startTime));
+						//Debug.Log ("Total time: " + (Time.time - startTime));
 						isFinished = false;
             
 				}
@@ -103,6 +112,7 @@ public class Agent : MonoBehaviour
 		public void setPath (List<GNode> path)
 		{
 				currentPath = path;
+				steps = 0;
 		}
 	
 		public Vector3 recalculateGoal (int counter)
