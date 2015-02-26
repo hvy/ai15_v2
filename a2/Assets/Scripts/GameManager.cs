@@ -16,8 +16,10 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
+		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
 		init();
 	}
+
 
 	void init() {
 

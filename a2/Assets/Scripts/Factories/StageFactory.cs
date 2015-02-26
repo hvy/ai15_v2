@@ -15,7 +15,6 @@ public class StageFactory : MonoBehaviour {
 		stage.transform.position = new Vector3 (width / 2.0f, -0.5f, height / 2.0f);
 		stage.transform.localScale = new Vector3 (width, -1.0f, height);
 		stage.name = "Stage";
-
 		return stage;
 	}
 }
