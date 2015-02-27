@@ -242,10 +242,10 @@ public class PathFinding
 					renderer.colors = new List<Color>();
 
 				renderer.paths.Add(p);
-				float r = UnityEngine.Random.Range(0.5f, 1f);
-				float b = UnityEngine.Random.Range(0.5f, 1f);
-				float g = UnityEngine.Random.Range(0.5f, 1f);
-				Color col = new Color (0.0f, r, b, g);
+				float r = UnityEngine.Random.Range(0.0f, 1f);
+				float b = UnityEngine.Random.Range(0.0f, 1f);
+				float g = UnityEngine.Random.Range(0.0f, 1f);
+				Color col = new Color (r, g, b, 1.0f);
 				renderer.colors.Add(col);
 		}
 
