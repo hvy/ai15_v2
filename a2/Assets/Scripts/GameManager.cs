@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 	public static Dictionary<Vector3, Agent> agentPos;
 	public static Dictionary<Vector3, GameObject> customerPos;
 	public static List<Vector3> obstacles;
-
+	public static int gameTick = 0;
 
 	public float _width, _height;
 	public int nr_agents, numWaypoints;

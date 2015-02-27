@@ -15,6 +15,9 @@ public class Agent : MonoBehaviour
 		private float startTime;
 		private int steps;
 		public bool paused = false;
+		private bool hasPrintedTime = false;
+		
+		public int tick = 0;
 
 		void Start ()
 		{
@@ -65,45 +68,54 @@ public class Agent : MonoBehaviour
 
 	private bool recalculatePath() {
 
+		List<GNode> newPath = null;
+//		int c = 0;
+//		while (this.tick > GameManager.agentPos [goal].tick) {
+//			Debug.Log ("waiting...");
+//			c++;
+//			if (c > 200)
+//				break;
+//		}
+
 		if (GameManager.agentPos[goal].paused) {
 			obstacles.Add (goal);
 			Debug.Log("Recalculate path because of agent paused");
-			PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
+			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
 		}
 
-		if (GameManager.customerPos.ContainsKey(goal) && goal != currentPath[0].getPos ()) {
+		if (GameManager.agentPos[goal].isFinished) {
 			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
-			List<GNode> newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), GameManager.obstacles);	// recalculate path
+			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), GameManager.obstacles);	// recalculate path
 
-			if (newPath == null) {
-				return false;
-			}
+		}
+		if (newPath != null) {
 			return true;
-			
 		}
 		return false;
 	}
 	
 	void FixedUpdate ()
 	{
-		if (isValidType (type) && goal.x != -1f) {
+		if (isValidType (type) && goal.x != -1f && !isFinished) {
 					
-						if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
-								if (!recalculatePath()) {
+			if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
+								if (!recalculatePath() && this.tick < GameManager.agentPos [goal].tick) {
 									paused = true;
 									return; // Pause
 								}
 						}
 						paused = false;
-						models [type].stepPath (goal);	
+						models [type].stepPath (this, goal);	
 						executeStep ();
 
 				}
 
 	
-				if (isFinished) {
-						//Debug.Log ("Total time: " + (Time.time - startTime));
-						isFinished = false;
+				if (isFinished && !hasPrintedTime) {
+						Debug.Log ("Total time: " + (Time.time - startTime));
+						Debug.Log ("Total ticks: " + tick);
+						hasPrintedTime = true;
+						//isFinished = false;
             
 				}
 		}

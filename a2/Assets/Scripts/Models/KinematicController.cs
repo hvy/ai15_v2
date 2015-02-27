@@ -12,7 +12,7 @@ public class KinematicController : MonoBehaviour, MovementModel
 	}
 	
 	// Implements interface member
-	virtual public void stepPath(Vector3 goal) {
+	virtual public void stepPath(Agent agent, Vector3 goal) {
 		move (goal);
 	}
 	

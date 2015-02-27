@@ -31,7 +31,7 @@ public class PathFinding
                         
                         // TODO A* with space-time should also add time steps in total cost here, if Pause is executed.
 						if (GameManager.customerPos.ContainsKey(step.getPos()))
-							return new Path (step, this, TotalCost + stepCost + 0.5f, Length + 1); // heuristics, costs more going through waypoints.
+							return new Path (step, this, TotalCost + stepCost + 0.0f, Length + 1); // heuristics, costs more going through waypoints.
 						return new Path (step, this, TotalCost + stepCost, Length + 1);
 				}
 				public IEnumerator GetEnumerator ()
