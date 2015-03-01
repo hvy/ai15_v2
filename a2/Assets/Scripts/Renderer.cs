@@ -48,6 +48,12 @@ public class Renderer : MonoBehaviour
 						lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
 				}
 		}
+
+	public void clear() {
+		GL.Clear(true, true, Color.white);
+		paths = new List<List<GNode>>();
+		colors = new List<Color>();
+	}
 	
 		private void renderTree ()
 		{

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 	public int nr_agents, numWaypoints;
 	public int neighbors;
 	public int task;
+	public int VRPIterations;
 
 	void Start () 
 	{
@@ -41,7 +42,8 @@ public class GameManager : MonoBehaviour
 
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
-		
+
+		//test (agents, waypoints);
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
@@ -51,9 +53,30 @@ public class GameManager : MonoBehaviour
 		if (task == 1)
 			 paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
 		else if (task == 2)
-			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
+			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, VRPIterations);
 
 	
+	}
+
+	private void test(List<GameObject> agents, List<GameObject> waypoints) {
+		//agents.RemoveRange(1, agents.Count-1);
+		//waypoints.RemoveRange(9, waypoints.Count-10);
+
+		agents[0].transform.position = new Vector3(0,0,0);
+		agents[1].transform.position = new Vector3(3,0,0);
+
+		waypoints[7].transform.position = new Vector3(1,0,9);
+		waypoints[1].transform.position = new Vector3(2,0,2);
+		waypoints[2].transform.position = new Vector3(3,0,1);
+		waypoints[0].transform.position = new Vector3(1,0,1);
+		waypoints[3].transform.position = new Vector3(5,0,2);
+		waypoints[4].transform.position = new Vector3(6,0,2);
+		waypoints[5].transform.position = new Vector3(9,0,8);
+		waypoints[6].transform.position = new Vector3(7,0,3);
+		waypoints[8].transform.position = new Vector3(3,0,9);
+		waypoints[9].transform.position = new Vector3(2,0,4);
+
+
 	}
 	
 	List<GameObject> createRandomAgents(float width, float height, int numberOfAgents) {

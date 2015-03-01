@@ -70,13 +70,14 @@ class PathPlanner
 
 	}
 
-	public Dictionary<GameObject, List<List<GNode>>> planVRPPaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
+	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots, int iterations) {
 		
 		lastWidth = width;
 		lastHeight = height;
 		lastNeighbors = neighbors;
 
-		Dictionary<GameObject, List<List<GNode>>> result = new Dictionary<GameObject, List<List<GNode>>>();
+		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
+		Dictionary<Agent, List<List<GNode>>> bestResult = new Dictionary<Agent, List<List<GNode>>>();
 
 		int[] chromosome = new int[customers.Count+agents.Count];
 
@@ -93,71 +94,161 @@ class PathPlanner
 			c++;
 		}
 
-		Shuffle (chromosome);
 
-		for (int i = 0; i < chromosome.Length; i++) {
-			Debug.Log (chromosomeIDs[chromosome[i]]);
+		// PERFORM EUCLIDEAN FITNESS
+		float bestFitness = 1000000000f;
+		for (int i = 0; i < iterations*5; i++) {
+			Shuffle (chromosome);
+			float newFitness = euclidean_fitness(chromosome);
+			if (newFitness < bestFitness)
+				bestFitness = newFitness;
 		}
-
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
 		
-		List<List<GNode>> paths = new List<List<GNode>> ();
 
-		int totalCustomers = 0;
-		for (int i = 0; i < chromosome.Length; ) {
-			GameObject agent = chromosomeIDs[chromosome[i]];
+		// PERFORM A-STAR MAXIMUM PATH LENGTH FITNESS (TIME FITNESS)
+		float current_best = 100000000f;
+		for (int iter = 0; iter < iterations; iter++) {
+			Shuffle(chromosome);
 
-			int x = (int) agent.transform.position.x;
-			int z = (int) agent.transform.position.z;
-			GNode start = graph [x, z];
+			float max_astar_distance = 0f;
+			List<List<GNode>> paths = new List<List<GNode>> ();
+			int totalCustomers = 0;
+			for (int i = 0; i < chromosome.Length; ) {
+				GameObject agent = chromosomeIDs[chromosome[i]];
 
-			int number_of_customers = 0;
-			if (totalCustomers >= customers.Count)
-				break;
+				int x = (int) agent.transform.position.x;
+				int z = (int) agent.transform.position.z;
+				GNode start = graph [x, z];
 
-			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			a.init();
-			a.setStart(start.getPos ());
-			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
-
-			GNode previousGoal = start;
-
-			List<GNode> fullPath = new List<GNode>();
-
-			float r = UnityEngine.Random.Range(0.0f, 1f);
-			float b = UnityEngine.Random.Range(0.0f, 1f);
-			float g = UnityEngine.Random.Range(0.0f, 1f);
-			Color color = new Color (r, g, b, 1.0f);
-
-			while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
-
-				GameObject customer = customers[totalCustomers];
-				int c_x = (int) customer.transform.position.x;
-				int c_z = (int) customer.transform.position.z;
-				GNode goal = graph [c_x, c_z];
-				number_of_customers++;
-				totalCustomers++;
-
-				List<GNode> path = PathFinding.aStarPath(previousGoal, goal, GraphBuilder.distance);
-				result[agent] = new List<List<GNode>>();
-				result[agent].Add(path);
-				fullPath.InsertRange(0, path);
-				previousGoal = path[0];
-				a.addPath(path);
-				PathFinding.draw (path, color);
-
+				int number_of_customers = 0;
 				if (totalCustomers >= customers.Count)
 					break;
-				
+
+				Agent a = (Agent) agent.GetComponent(typeof(Agent));
+				a.init();
+				a.setStart(start.getPos ());
+				a.setGoal(start.getPos());
+				a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
+
+				GNode previousGoal = start;
+
+				float distance = 0f;
+				Color color = randomizeColor();
+
+				result[a] = new List<List<GNode>>();
+
+				while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
+
+					GameObject customer = customers[totalCustomers];
+					int c_x = (int) customer.transform.position.x;
+					int c_z = (int) customer.transform.position.z;
+					GNode goal = graph [c_x, c_z];
+					number_of_customers++;
+					totalCustomers++;
+
+					//Debug.Log ("start: " + previousGoal.getPos ().x + " " + previousGoal.getPos ().z + " goal: " + c_x + " " + c_z);
+
+					List<GNode> path = PathFinding.aStarPath(previousGoal, goal, GraphBuilder.distance);
+
+					previousGoal = path[0];
+
+					result[a].Add (path);
+
+					distance += distance_astar_discrete(path);
+
+					if (totalCustomers >= customers.Count)
+						break;
+					
+				}
+
+
+				if (distance > max_astar_distance)
+					max_astar_distance = distance;
+
+				i = i + number_of_customers + 1;
+
 			}
 
-			i = i + number_of_customers + 1;
+			if (current_best > max_astar_distance) {
+				current_best = max_astar_distance;
+				Debug.Log ("current best: " + current_best);
+				bestResult = result;
+				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
+				{
+					entry.Key.removePaths();
+					if (entry.Value.Count != 0)
+						addPaths(entry.Key, entry.Value);
+					PathFinding.clearDrawnPaths();
+					drawPaths (bestResult);
+				}
 
+			}
 		}
 
-		return result;
+		Debug.Log ("Best distance: " + current_best);
+		return bestResult;
 		
+	}
+
+	private void drawPaths(Dictionary<Agent, List<List<GNode>>> res) {
+		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in res)
+		{
+			Color color = randomizeColor();
+			for (int i = 0; i < entry.Value.Count;i++) {
+				PathFinding.draw (entry.Value[i], color);
+
+			}
+		}
+	}
+
+	private void addPaths(Agent a, List<List<GNode>> paths) {
+		for (int i = 0; i < paths.Count;i++) {
+			a.addPath(paths[i]);
+
+		}
+	}
+
+	private float euclidean_fitness(int[] chromo) {
+		float max_distance = 0f;
+		float dist = 0;
+
+		for (int i = 0; i < chromo.Length - 1; i++) {
+
+			if (chromosomeIDs[chromo[i+1]].GetComponent("Agent") != null) {
+				GameObject obj = chromosomeIDs[chromo[i]];
+				GameObject nextobj = chromosomeIDs[chromo[i+1]];
+				dist += Vector3.Distance(obj.transform.position, nextobj.transform.position);
+			} else {
+				if (dist > max_distance)
+					max_distance = dist;
+				dist = 0;
+			}
+			
+		}
+		Debug.Log ("max distance: " + max_distance);
+		return max_distance;
+
+	}
+
+	private float distance_astar(List<GNode> path) {
+		float distance = 0f;
+		for (int i = 0; i < path.Count-1; i++) {
+			distance += Vector3.Distance(path[i].getPos(), path[i+1].getPos ());
+		}
+		return distance;
+	}
+
+	private float distance_astar_discrete(List<GNode> path) {
+		return path.Count;
+	}
+
+	private Color randomizeColor() {
+		float r = UnityEngine.Random.Range(0.0f, 1f);
+		float b = UnityEngine.Random.Range(0.0f, 1f);
+		float g = UnityEngine.Random.Range(0.0f, 1f);
+		return new Color (r, g, b, 1.0f);
 	}
 
 	void Shuffle(int[] array)

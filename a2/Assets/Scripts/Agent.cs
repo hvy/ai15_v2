@@ -156,6 +156,11 @@ public class Agent : MonoBehaviour
 			steps = 0;
 		}
 
+		public void removePaths() {
+			paths  = new List<List<GNode>>();
+			currentPath = null;
+		}
+
 		public Vector3 recalculateGoal (int counter)
 		{
 
