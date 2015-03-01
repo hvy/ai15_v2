@@ -8,6 +8,9 @@ class PathPlanner
 	private static int lastWidth;
 	private static int lastHeight;
 	private static int lastNeighbors;
+	static System.Random _random = new System.Random();
+
+	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
 	
 	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
 
@@ -64,6 +67,120 @@ class PathPlanner
 		}
 
 		return paths;
+
+	}
+
+	public Dictionary<GameObject, List<List<GNode>>> planVRPPaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
+		
+		lastWidth = width;
+		lastHeight = height;
+		lastNeighbors = neighbors;
+
+		Dictionary<GameObject, List<List<GNode>>> result = new Dictionary<GameObject, List<List<GNode>>>();
+
+		int[] chromosome = new int[customers.Count+agents.Count];
+
+		int c = 0;
+		foreach (GameObject a in agents) {
+			chromosome[c] = a.GetInstanceID();
+			chromosomeIDs[a.GetInstanceID()] = a;
+			c++;
+		}
+
+		foreach (GameObject a in customers) {
+			chromosome[c] = a.GetInstanceID();
+			chromosomeIDs[a.GetInstanceID()] = a;
+			c++;
+		}
+
+		Shuffle (chromosome);
+
+		for (int i = 0; i < chromosome.Length; i++) {
+			Debug.Log (chromosomeIDs[chromosome[i]]);
+		}
+
+
+		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
+		
+		List<List<GNode>> paths = new List<List<GNode>> ();
+
+		int totalCustomers = 0;
+		for (int i = 0; i < chromosome.Length; ) {
+			GameObject agent = chromosomeIDs[chromosome[i]];
+
+			int x = (int) agent.transform.position.x;
+			int z = (int) agent.transform.position.z;
+			GNode start = graph [x, z];
+
+			int number_of_customers = 0;
+			if (totalCustomers >= customers.Count)
+				break;
+
+			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+			a.init();
+			a.setStart(start.getPos ());
+			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
+
+			GNode previousGoal = start;
+
+			List<GNode> fullPath = new List<GNode>();
+
+			float r = UnityEngine.Random.Range(0.0f, 1f);
+			float b = UnityEngine.Random.Range(0.0f, 1f);
+			float g = UnityEngine.Random.Range(0.0f, 1f);
+			Color color = new Color (r, g, b, 1.0f);
+
+			while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
+
+				GameObject customer = customers[totalCustomers];
+				int c_x = (int) customer.transform.position.x;
+				int c_z = (int) customer.transform.position.z;
+				GNode goal = graph [c_x, c_z];
+				number_of_customers++;
+				totalCustomers++;
+
+				List<GNode> path = PathFinding.aStarPath(previousGoal, goal, GraphBuilder.distance);
+				result[agent] = new List<List<GNode>>();
+				result[agent].Add(path);
+				fullPath.InsertRange(0, path);
+				previousGoal = path[0];
+				a.addPath(path);
+				PathFinding.draw (path, color);
+
+				if (totalCustomers >= customers.Count)
+					break;
+				
+			}
+
+			i = i + number_of_customers + 1;
+
+		}
+
+		return result;
+		
+	}
+
+	void Shuffle(int[] array)
+	{
+		int n = array.Length;
+		for (int i = 0; i < n; i++)
+		{
+			int r = i + (int)(_random.NextDouble() * (n - i));
+			Random hej = new Random();
+			int t = array[r];
+			array[r] = array[i];
+			array[i] = t;
+		}
+
+		int index_first_agent = 0;
+		while (chromosomeIDs[array[index_first_agent]].GetComponent("Agent") == null) {
+			index_first_agent++;
+		}
+
+		int temp = array[index_first_agent];
+		array[index_first_agent] = array[0];
+		array[0] = temp;
+
 
 	}
 

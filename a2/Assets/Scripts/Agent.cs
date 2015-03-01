@@ -7,14 +7,19 @@ public class Agent : MonoBehaviour
 		public Vector3 start, goal; // TODO Make sure start and goal is assignmed by the game manager
 	
 		private List<MovementModel> models;
+		private List<List<GNode>> paths = new List<List<GNode>>();
 		private List<GNode> currentPath;
 		private List<Vector3> obstacles;
+		
 		public int type = 1;
 		public bool isRunning = false;
 		public bool isFinished = false;
-		private float startTime;
-		private int steps;
 		public bool paused = false;
+
+
+		private float startTime;
+		private int currentPathIndex = 0;
+		private int steps;
 		private bool hasPrintedTime = false;
 		
 		public int tick = 0;
@@ -25,7 +30,7 @@ public class Agent : MonoBehaviour
 				models.Add (GetComponent<DiscreteController> ());
 //				models.Add (GetComponent<DynamicController> ());
 				models.Add (GetComponent<KinematicController> ());
-		obstacles = new List<Vector3>();
+				obstacles = new List<Vector3>();
 //				models.Add (GetComponent<DifferentialController> ());
 //				models.Add (GetComponent<CarDynamicController> ());
 //				models.Add (GetComponent<CarKinematicController> ());
@@ -34,14 +39,10 @@ public class Agent : MonoBehaviour
 
 		public void init ()
 		{
-				models = new List<MovementModel> ();
-				models.Add (GetComponent<DiscreteController> ());
-//		models.Add (GetComponent<DynamicController> ());
-				models.Add (GetComponent<KinematicController> ());
-		obstacles = new List<Vector3>();
-//		models.Add (GetComponent<DifferentialController> ());
-//		models.Add (GetComponent<CarDynamicController> ());
-//		models.Add (GetComponent<CarKinematicController> ());
+			models = new List<MovementModel> ();
+			models.Add (GetComponent<DiscreteController> ());
+			models.Add (GetComponent<KinematicController> ());
+			obstacles = new List<Vector3>();
 		
 		}
 
@@ -52,8 +53,17 @@ public class Agent : MonoBehaviour
 				if (distance < 0.1f) {
 						steps++;
 				}
-				
-				goal = recalculateGoal (steps);
+			
+			if (currentPath == null)
+				return;
+			
+			if (currentPath.Count - steps - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
+				currentPathIndex++;
+				currentPath = paths[currentPathIndex];
+				steps = 0;
+			}
+
+			goal = recalculateGoal (steps);
 		
 				if (!isRunning)
 						return;
@@ -69,13 +79,6 @@ public class Agent : MonoBehaviour
 	private bool recalculatePath() {
 
 		List<GNode> newPath = null;
-//		int c = 0;
-//		while (this.tick > GameManager.agentPos [goal].tick) {
-//			Debug.Log ("waiting...");
-//			c++;
-//			if (c > 200)
-//				break;
-//		}
 
 		if (GameManager.agentPos[goal].paused) {
 			obstacles.Add (goal);
@@ -143,14 +146,24 @@ public class Agent : MonoBehaviour
 		public void setPath (List<GNode> path)
 		{
 				currentPath = path;
+				//paths[0] = path;
 				steps = 0;
 		}
-	
+
+		public void addPath(List<GNode> path) {				
+			paths.Add (path);
+			currentPath = paths[0];
+			steps = 0;
+		}
+
 		public Vector3 recalculateGoal (int counter)
 		{
 
 				Vector3 goal;
 				List<GNode> path = currentPath;
+
+				if (path == null)
+					return transform.position;
 				if (path.Count - counter - 1 < 0) {
 						GameManager.obstacles.Add (path[0].getPos());
 						return new Vector3 (-1f, -1f, -1f);

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 	public float _width, _height;
 	public int nr_agents, numWaypoints;
 	public int neighbors;
+	public int task;
 
 	void Start () 
 	{
@@ -40,46 +41,17 @@ public class GameManager : MonoBehaviour
 
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
-
-		// For testing
-//		List<GameObject> agents = new List<GameObject>();
-//		List<GameObject> waypoints = new List<GameObject>();
-//
-//		GameObject agent = AgentFactory.createAgent();
-//		agent.transform.position = new Vector3(0f, 0.0f, 0f);
-//		agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
-//		agents.Add (agent);
-//
-//		agent = AgentFactory.createAgent();
-//		agent.transform.position = new Vector3(1f, 0.0f, 1f);
-//		agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
-//		agents.Add (agent);
-//
-//		agent = AgentFactory.createAgent();
-//		agent.transform.position = new Vector3(1f, 0.0f, 2f);
-//		agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
-//		agents.Add (agent);
-//
-//		GameObject wp = WaypointFactory.createWaypoint();
-//		wp.transform.position = new Vector3(2f, 0.0f, 2f);
-//		customerPos[wp.transform.position] = wp;
-//		waypoints.Add (wp);
-//
-//		wp = WaypointFactory.createWaypoint();
-//		wp.transform.position = new Vector3(3f, 0.0f, 3f);
-//		customerPos[wp.transform.position] = wp;
-//		waypoints.Add (wp);
-//
-//		wp = WaypointFactory.createWaypoint();
-//		wp.transform.position = new Vector3(3f, 0.0f, 2f);
-//		customerPos[wp.transform.position] = wp;
-//		waypoints.Add (wp);
 		
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
 		List<Vector3> obstacles = new List<Vector3>();
-		List<List<GNode>> paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
+
+		List<List<GNode>> paths;
+		if (task == 1)
+			 paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
+		else if (task == 2)
+			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
 
 	
 	}

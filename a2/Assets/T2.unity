@@ -341,11 +341,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e6d0f7e3748cc4380d1106560aa792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 28
-  _height: 28
-  nr_agents: 150
-  numWaypoints: 150
+  _width: 10
+  _height: 10
+  nr_agents: 10
+  numWaypoints: 20
   neighbors: 8
+  task: 2
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0

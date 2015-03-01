@@ -249,4 +249,21 @@ public class PathFinding
 				renderer.colors.Add(col);
 		}
 
+	public static void draw (List<GNode> p, Color color)
+	{
+		GameObject camera = GameObject.FindGameObjectWithTag ("MainCamera");
+		Renderer renderer;
+		
+		if (!(renderer = camera.GetComponent<Renderer> ()))
+			renderer = camera.AddComponent<Renderer> ();
+		if (renderer.paths == null)
+			renderer.paths = new List<List<GNode>>();
+		
+		if (renderer.colors == null)
+			renderer.colors = new List<Color>();
+		
+		renderer.paths.Add(p);
+		renderer.colors.Add(color);
+	}
+	
 }

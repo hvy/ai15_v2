@@ -1,32 +1,32 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PathFinding.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PathPlanner.cs">
     <Files>
-      <File FileName="Assets/Scripts/Factories/AgentFactory.cs" Line="10" Column="16" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="27" Column="35" />
+      <File FileName="Assets/Scripts/Factories/AgentFactory.cs" Line="8" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="54" Column="4" />
       <File FileName="Assets/Scripts/ObstacleMesh.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/StageManager.cs" Line="253" Column="10" />
+      <File FileName="Assets/Scripts/StageManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WaypointRotation.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/CarPhysics.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Factories/WaypointFactory.cs" Line="6" Column="2" />
-      <File FileName="Assets/Scripts/Models/DynamicController.cs" Line="79" Column="26" />
-      <File FileName="Assets/Scripts/Factories/StageFactory.cs" Line="18" Column="1" />
-      <File FileName="Assets/Scripts/Models/DifferentialController.cs" Line="18" Column="34" />
-      <File FileName="Assets/Scripts/GraphBuilder.cs" Line="18" Column="3" />
-      <File FileName="Assets/Scripts/Agent.cs" Line="75" Column="54" />
-      <File FileName="Assets/Scripts/PathFinding.cs" Line="240" Column="42" />
-      <File FileName="Assets/Scripts/RRT.cs" Line="24" Column="22" />
-      <File FileName="Assets/Scripts/PathManager.cs" Line="4" Column="43" />
-      <File FileName="Assets/Scripts/GNode.cs" Line="27" Column="3" />
-      <File FileName="Assets/Scripts/Renderer.cs" Line="24" Column="6" />
-      <File FileName="Assets/Scripts/Models/KinematicController.cs" Line="16" Column="15" />
-      <File FileName="Assets/Scripts/PathPlanner.cs" Line="104" Column="21" />
-      <File FileName="Assets/Scripts/Models/CarKinematicController.cs" Line="14" Column="18" />
-      <File FileName="Assets/Scripts/Tuple.cs" Line="12" Column="22" />
-      <File FileName="Assets/Scripts/Models/MovementModel.cs" Line="7" Column="29" />
-      <File FileName="Assets/Scripts/Models/DiscreteController.cs" Line="22" Column="40" />
-      <File FileName="Assets/Scripts/Models/CarDynamicController.cs" Line="11" Column="48" />
-      <File FileName="Assets/Scripts/CameraModel.cs" Line="20" Column="33" />
+      <File FileName="Assets/Scripts/Factories/WaypointFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/DynamicController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Factories/StageFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/DifferentialController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GraphBuilder.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Agent.cs" Line="150" Column="35" />
+      <File FileName="Assets/Scripts/PathFinding.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RRT.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PathManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GNode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Renderer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/KinematicController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PathPlanner.cs" Line="125" Column="5" />
+      <File FileName="Assets/Scripts/Models/CarKinematicController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tuple.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/MovementModel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/DiscreteController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/CarDynamicController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CameraModel.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
