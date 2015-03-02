@@ -8,6 +8,7 @@ class PathPlanner
 	private static float lastWidth;
 	private static float lastHeight;
 	private static int lastNeighbors;
+	private float max_astar_distance = 0f;
 	static System.Random _random = new System.Random();
 
 	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
@@ -116,9 +117,9 @@ class PathPlanner
 		for (int iter = 0; iter < iterations; iter++) {
 			Shuffle(chromosome);
 
-			float max_astar_distance = 0f;
+			//float max_astar_distance = 0f;
 
-			result = chromosomeToResult(chromosome, customers, graph, max_astar_distance);
+			result = chromosomeToResult(chromosome, customers, graph);
 
 
 			if (current_best > max_astar_distance) {
@@ -137,13 +138,13 @@ class PathPlanner
 			}
 		}
 
-		robin_hood(chromosome);
+		//robin_hood(chromosome);
 		Debug.Log ("Best distance: " + current_best);
 		return bestResult;
 		
 	}
 
-	private Dictionary<Agent, List<List<GNode>>> chromosomeToResult(int[] chromosome, List<GameObject> customers, GNode[,] graph, float max_astar_distance) {
+	private Dictionary<Agent, List<List<GNode>>> chromosomeToResult(int[] chromosome, List<GameObject> customers, GNode[,] graph) {
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 
 		int totalCustomers = 0;
@@ -460,9 +461,9 @@ class PathPlanner
 		for (int iter = 0; iter < iterations; iter++) {
 			Shuffle(chromosome);
 			
-			float max_astar_distance = 0f;
+			//float max_astar_distance = 0f;
 			
-			result = chromosomeToResultContinous(chromosome, customers, max_astar_distance, polygons, width, height);
+			result = chromosomeToResultContinous(chromosome, customers, polygons, width, height);
 			
 			
 			if (current_best > max_astar_distance) {
@@ -484,7 +485,7 @@ class PathPlanner
 		
 	}
 
-	private Dictionary<Agent, List<List<GNode>>> chromosomeToResultContinous(int[] chromosome, List<GameObject> customers, float max_astar_distance, List<Vector2[]> polygons, float width, float height) {
+	private Dictionary<Agent, List<List<GNode>>> chromosomeToResultContinous(int[] chromosome, List<GameObject> customers, List<Vector2[]> polygons, float width, float height) {
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 		
 		int totalCustomers = 0;

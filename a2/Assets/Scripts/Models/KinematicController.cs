@@ -33,7 +33,7 @@ public class KinematicController : MonoBehaviour, MovementModel
 	private bool clearToMove(Agent agent, Vector3 goal) {
 		Vector3 fwd = transform.TransformDirection(goal-transform.position);
 
-		Collider[] hitColliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2);
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2+0.5f);
 		int i = 0;
 		bool ret = true;
 		collisionAgents.Clear();

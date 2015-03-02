@@ -56,8 +56,12 @@ public class Agent : MonoBehaviour
 						steps++;
 				}
 			
-			if (currentPath == null)
+			if (currentPath == null) {
+				GameManager.agentPos[transform.position].isFinished = true;
+				GameManager.obstacles.Add (transform.position);
+				tick = 1000;
 				return;
+			}
 			
 			if (currentPath.Count - steps - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
 				currentPathIndex++;
@@ -73,6 +77,8 @@ public class Agent : MonoBehaviour
 				if (goal.x == -1f) {
 						isRunning = false;
 						isFinished = true;
+						GameManager.obstacles.Add (transform.position);
+						tick = 10000;
 						return;
 				}
 		
@@ -82,18 +88,21 @@ public class Agent : MonoBehaviour
 
 		List<GNode> newPath = null;
 
-		if (GameManager.agentPos[goal].paused) {
+		if (GameManager.agentPos[goal].paused || GameManager.agentPos[goal].isFinished) {
 			obstacles.Add (goal);
 			obstacles.AddRange(GameManager.obstacles);
-			Debug.Log("Recalculate path because of agent paused");
+			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
 			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
 		}
 
-		if (GameManager.agentPos[goal].isFinished) {
-			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
-			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), GameManager.obstacles);	// recalculate path
+//		if () {
+//			obstacles.Add (goal);
+//			Debug.Log("Recalculate path because of agent paused");
+//			obstacles.AddRange(GameManager.obstacles);
+//			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
+//
+//		}
 
-		}
 		if (newPath != null) {
 			return true;
 		}
