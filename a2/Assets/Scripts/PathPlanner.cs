@@ -469,7 +469,7 @@ class PathPlanner
 			
 			if (current_best > max_astar_distance) {
 				current_best = max_astar_distance;
-			//	Debug.Log ("current best: " + current_best);
+				Debug.Log ("current best: " + current_best);
 				bestResult = result;
 				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
 				{
@@ -522,10 +522,10 @@ class PathPlanner
 				float minAngle;
 				
 				acceptableWidth = System.Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
-				minAngle = 90f;
+				minAngle = 180f;
 				Vector3[] bounds = new Vector3[4];
 				
-				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 2.0f, 0.5f, acceptableWidth, minAngle, acceptableWidth, width, height);
+				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 3.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
 				
 				rrt.buildRRT (10000);
 				//rrt.tree.draw ();
@@ -542,7 +542,7 @@ class PathPlanner
 				
 				result[a].Add (path);
 				
-				distance += distance_astar_discrete(path);
+				distance += distance_astar(path);
 				
 				if (totalCustomers >= customers.Count)
 					break;
