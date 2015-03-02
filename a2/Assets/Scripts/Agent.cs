@@ -109,8 +109,12 @@ public class Agent : MonoBehaviour
 								}
 						}
 						paused = false;
-						models [type].stepPath (this, goal);	
-						executeStep ();
+						if (models [type].stepPath (this, goal))	
+							executeStep ();
+						else {
+							Debug.Log ("BERÄKNA NY PATH HÄR");
+						}
+							
 
 				}
 

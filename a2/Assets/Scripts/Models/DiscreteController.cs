@@ -13,7 +13,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 	}
 
 	// Implements interface member
-	public void stepPath(Agent agent, Vector3 goal) {
+	public bool stepPath(Agent agent, Vector3 goal) {
 		counter++;
 		if (counter % 50 == 0) {
 
@@ -23,7 +23,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 				Debug.LogError("Illegal move, abort");
 				agent.tick++;
 				counter = 0;
-				return;
+				return false;
 			}
 			GameManager.agentPos.Remove(rigidbody.transform.position);
 			rigidbody.transform.position = goal;
@@ -33,6 +33,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 			agent.tick++;
 
 		}
+		return true;
 	}
 
 	// Implements interface member

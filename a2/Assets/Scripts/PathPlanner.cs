@@ -162,7 +162,7 @@ class PathPlanner
 			a.init();
 			a.setStart(start.getPos ());
 			a.setGoal(start.getPos());
-			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
+			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
 			
 			GNode previousGoal = start;
 			
@@ -366,18 +366,83 @@ class PathPlanner
 			
 
 		return path;
-	} 
+	}
 
+//	public static List<GNode> recalculateContinousPath(Agent _agent, Vector3 _goal, List<Vector3> obstacles) {
+//		PathPlanner pp = new PathPlanner ();
+//		List<GameObject> agents = new List<GameObject>();
+//		List<GameObject> waypoints = new List<GameObject>();
+//		agents.Add (_agent.gameObject);
+//		waypoints.Add (GameManager.customerPos[_goal]);
+//		
+//		GNode[,] graph = buildGraph (lastWidth, lastHeight, lastNeighbors, obstacles);
+//		
+//		
+//		int x = (int) _goal.x;
+//		int z = (int) _goal.z;
+//		
+//		GNode goal = graph [x, z];
+//		
+//		// Find the closest agent
+//		
+//		GameObject agent = _agent.gameObject;
+//		x = (int) agent.transform.position.x;
+//		z = (int) agent.transform.position.z;
+//		
+//		GNode start = graph [x, z];
+//		
+//		
+//		List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
+//		
+//		if (path == null) {
+//			Debug.Log ("Didn't find path!");
+//			return null;
+//		}
+//		
+//		PathFinding.draw (path);
+//		
+//		
+//		Agent a = _agent;
+//		a.init();
+//		a.setStart(path[path.Count-1].getPos());
+//		a.setGoal(path[path.Count-1].getPos ());
+//		a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
+//		a.setPath(path);
+//		
+//		
+//		
+//		return path;
+//	} 
+	
 
+	
+	public void planContinuousVRP (float width, float height, List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons) {
 
-
-	public List<List<GNode>> planContinuousPaths (float width, float height, List<GameObject> agents, List<GameObject> customers) {
-		// Uses RRT
-
-		//GNode = buildGraph ()
-		List<List<GNode>> paths = new List<List<GNode>> ();
+		Vector3 start = Vector3.zero; // TODO fix access to start and goal
+		Vector3 goal = Vector3.zero;
 		
-		return paths;
+		Vector3[] bounds = new Vector3[4];
+		// PARAMETERS:
+		// start, goal, RRT bounds, polygons, close to goal, step size, node min distance to object, 
+		// max acceptable angle between nodes, min path distance to object corner
+		
+		float acceptableWidth;
+		float minAngle;
+	
+		acceptableWidth = System.Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
+		minAngle = 40f;
+
+		RRT rrt = new RRT (start, goal, bounds, polygons, 10.0f, 0.1f, acceptableWidth, minAngle, acceptableWidth, 100f, 100f);
+		
+		rrt.buildRRT (1000);
+		rrt.tree.draw ();
+		
+		Tuple<GNode, GNode> startGoal = rrt.generateGraph();
+		Debug.Log (startGoal.second.getPos ().z);
+		List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);		
+		//currentPath = path;
+		
+		//draw (path);
 		
 	}
 

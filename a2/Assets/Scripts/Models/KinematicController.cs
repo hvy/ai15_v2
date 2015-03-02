@@ -12,13 +12,27 @@ public class KinematicController : MonoBehaviour, MovementModel
 	}
 	
 	// Implements interface member
-	virtual public void stepPath(Agent agent, Vector3 goal) {
-		move (goal);
+	virtual public bool stepPath(Agent agent, Vector3 goal) {
+		if (clearToMove(goal)) {
+			move (goal);
+			return true;
+		}
+
+		return false;
 	}
 	
 	// Implements interface member
 	public void reset(Vector3 position) {
 		rigidbody.transform.position = position;
+	}
+
+	private bool clearToMove(Vector3 goal) {
+		Vector3 fwd = transform.TransformDirection(goal-transform.position);
+		if (Physics.Raycast(transform.position, fwd, transform.localScale.x*2)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	protected void move (Vector3 goal)
