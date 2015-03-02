@@ -117,7 +117,8 @@ class PathPlanner
 		for (int iter = 0; iter < iterations; iter++) {
 			Shuffle(chromosome);
 
-			//float max_astar_distance = 0f;
+			max_astar_distance = 0f;
+
 
 			result = chromosomeToResult(chromosome, customers, graph);
 
@@ -461,7 +462,7 @@ class PathPlanner
 		for (int iter = 0; iter < iterations; iter++) {
 			Shuffle(chromosome);
 			
-			//float max_astar_distance = 0f;
+			max_astar_distance = 0f;
 			
 			result = chromosomeToResultContinous(chromosome, customers, polygons, width, height);
 			

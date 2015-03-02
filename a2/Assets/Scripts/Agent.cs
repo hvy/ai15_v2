@@ -78,7 +78,7 @@ public class Agent : MonoBehaviour
 						isRunning = false;
 						isFinished = true;
 						GameManager.obstacles.Add (transform.position);
-						tick = 10000;
+						//tick = 10000;
 						return;
 				}
 		
@@ -141,6 +141,7 @@ public class Agent : MonoBehaviour
 						Debug.Log ("Total time: " + (Time.time - startTime));
 						Debug.Log ("Total ticks: " + tick);
 						hasPrintedTime = true;
+						tick = 1000;
 						//isFinished = false;
             
 				}
