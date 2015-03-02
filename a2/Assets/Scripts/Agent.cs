@@ -10,11 +10,13 @@ public class Agent : MonoBehaviour
 		private List<List<GNode>> paths = new List<List<GNode>>();
 		private List<GNode> currentPath;
 		private List<Vector3> obstacles;
+		private List<Agent> collisionAgents = new List<Agent>();
 		
 		public int type = 1;
 		public bool isRunning = false;
 		public bool isFinished = false;
 		public bool paused = false;
+		public bool overridePause = false;
 
 
 		private float startTime;
@@ -109,10 +111,17 @@ public class Agent : MonoBehaviour
 								}
 						}
 						paused = false;
-						if (models [type].stepPath (this, goal))	
+						if (models [type].stepPath (this, goal)) {
 							executeStep ();
+							overridePause = false;
+						}
 						else {
-							Debug.Log ("BERÄKNA NY PATH HÄR");
+							if (!overridePause) {
+//								Debug.Log ("reverse!");
+//								collisionAgents[0].overridePause = true;
+//								models [type].reverse(goal);
+							}
+							
 						}
 							
 
@@ -199,5 +208,9 @@ public class Agent : MonoBehaviour
 		{
 				goal = g;
 		}
+
+	public void setCollisionAgents(List<Agent> col) {
+		collisionAgents = col;
+	}
 
 }

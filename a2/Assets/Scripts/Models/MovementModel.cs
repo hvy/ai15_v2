@@ -6,4 +6,5 @@ public interface MovementModel {
 	void findPath();
 	bool stepPath(Agent agent, Vector3 goal);
 	void reset(Vector3 position);
+	void reverse(Vector3 goal);
 }

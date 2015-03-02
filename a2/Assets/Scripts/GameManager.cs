@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 			waypoint.transform.position = new Vector3 (x, y, z);
 
 			while (customerPos.ContainsKey(waypoint.transform.position) || obstacles.Contains(waypoint.transform.position))
-				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
+				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), y, Random.Range(0, (int)height));
 
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;

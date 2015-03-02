@@ -6,6 +6,8 @@ public class KinematicController : MonoBehaviour, MovementModel
 {
 	public float velocity;
 
+	private List<Agent> collisionAgents = new List<Agent>();
+
 	// Implements interface member
 	public void findPath() {
 
@@ -13,7 +15,9 @@ public class KinematicController : MonoBehaviour, MovementModel
 	
 	// Implements interface member
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
-		if (clearToMove(goal)) {
+
+
+		if (clearToMove(agent, goal)) {
 			move (goal);
 			return true;
 		}
@@ -26,22 +30,36 @@ public class KinematicController : MonoBehaviour, MovementModel
 		rigidbody.transform.position = position;
 	}
 
-	private bool clearToMove(Vector3 goal) {
+	private bool clearToMove(Agent agent, Vector3 goal) {
 		Vector3 fwd = transform.TransformDirection(goal-transform.position);
 
 		Collider[] hitColliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2);
 		int i = 0;
+		bool ret = true;
+		collisionAgents.Clear();
 		while (i < hitColliders.Length) {
-			if (hitColliders[i].transform.gameObject.GetComponent("Agent") != null && hitColliders[i].transform != transform)
-				return false;
+			if (hitColliders[i].transform.gameObject.GetComponent("Agent") != null && hitColliders[i].transform != transform) {
+				collisionAgents.Add ((Agent)hitColliders[i].transform.gameObject.GetComponent("Agent"));
+				ret = true;
+			}
 			i++;
 		}
+		agent.setCollisionAgents(collisionAgents);
 		
-		return true;
+		return ret;
+	}
+
+	public void reverse(Vector3 goal) {
+
+		Vector3 fwd = transform.TransformDirection(Vector3.zero-transform.position);
+		float step = velocity * Time.deltaTime;
+		transform.position = Vector3.MoveTowards(transform.position, goal, step);
+
 	}
 	
 	protected void move (Vector3 goal)
 	{
+
 		float distance = Vector3.Distance (rigidbody.position, goal);
 
 		// interpolate between car and goal, third argument is [0, 1], describing how close to the target we should move.

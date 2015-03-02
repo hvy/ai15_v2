@@ -523,10 +523,10 @@ class PathPlanner
 				minAngle = 90f;
 				Vector3[] bounds = new Vector3[4];
 				
-				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 2.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
+				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 2.0f, 0.5f, acceptableWidth, minAngle, acceptableWidth, width, height);
 				
 				rrt.buildRRT (10000);
-				rrt.tree.draw ();
+				//rrt.tree.draw ();
 
 
 				Tuple<GNode, GNode> startGoal = rrt.generateGraph();
