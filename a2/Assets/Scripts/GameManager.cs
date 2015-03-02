@@ -59,11 +59,13 @@ public class GameManager : MonoBehaviour
 //		obstacles.Add (new Vector3(9,0,9));
 		//obstacles.Add (new Vector3(10,0,10));
 
-
+		List<Vector2[]> polygons = new List<Vector2[]>();
 		if (task == 1)
 			 pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
 		else if (task == 2)
 			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, VRPIterations);
+		else if (task == 3)
+			pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, VRPIterations);
 
 	
 	}

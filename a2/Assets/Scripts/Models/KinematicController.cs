@@ -28,13 +28,18 @@ public class KinematicController : MonoBehaviour, MovementModel
 
 	private bool clearToMove(Vector3 goal) {
 		Vector3 fwd = transform.TransformDirection(goal-transform.position);
-		if (Physics.Raycast(transform.position, fwd, transform.localScale.x*2)) {
-			return false;
-		}
 
+		Collider[] hitColliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2);
+		int i = 0;
+		while (i < hitColliders.Length) {
+			if (hitColliders[i].transform.gameObject.GetComponent("Agent") != null && hitColliders[i].transform != transform)
+				return false;
+			i++;
+		}
+		
 		return true;
 	}
-
+	
 	protected void move (Vector3 goal)
 	{
 		float distance = Vector3.Distance (rigidbody.position, goal);

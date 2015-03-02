@@ -162,6 +162,19 @@ public class PathFinding
 
 	}
 
+	public static void optimizePath(List<Vector2[]> polygons, List<GNode> path) {
+		
+		for (int i = 0; i < path.Count ; i++) {
+			for (int j = i+2; j < path.Count ; j++) {
+				if (hasPathBetween(path[i], path[j], polygons)) {
+					path.RemoveAt(j-1);
+				}
+				
+			}
+		}
+		
+	}
+
 	// take two lines (end points) and determine if they intersect
 	public static bool intersection (Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
 	{
