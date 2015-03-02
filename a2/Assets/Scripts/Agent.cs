@@ -82,6 +82,7 @@ public class Agent : MonoBehaviour
 
 		if (GameManager.agentPos[goal].paused) {
 			obstacles.Add (goal);
+			obstacles.AddRange(GameManager.obstacles);
 			Debug.Log("Recalculate path because of agent paused");
 			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
 		}

@@ -53,6 +53,9 @@ class PathPlanner
 
 			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
 
+			if (path == null)
+				continue;
+
 			PathFinding.draw (path);
 
 
@@ -105,6 +108,7 @@ class PathPlanner
 		}
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
+
 		
 
 		// PERFORM A-STAR MAXIMUM PATH LENGTH FITNESS (TIME FITNESS)
@@ -113,63 +117,9 @@ class PathPlanner
 			Shuffle(chromosome);
 
 			float max_astar_distance = 0f;
-			List<List<GNode>> paths = new List<List<GNode>> ();
-			int totalCustomers = 0;
-			for (int i = 0; i < chromosome.Length; ) {
-				GameObject agent = chromosomeIDs[chromosome[i]];
 
-				int x = (int) agent.transform.position.x;
-				int z = (int) agent.transform.position.z;
-				GNode start = graph [x, z];
+			result = chromosomeToResult(chromosome, customers, graph, max_astar_distance);
 
-				int number_of_customers = 0;
-				if (totalCustomers >= customers.Count)
-					break;
-
-				Agent a = (Agent) agent.GetComponent(typeof(Agent));
-				a.init();
-				a.setStart(start.getPos ());
-				a.setGoal(start.getPos());
-				a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
-
-				GNode previousGoal = start;
-
-				float distance = 0f;
-				Color color = randomizeColor();
-
-				result[a] = new List<List<GNode>>();
-
-				while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
-
-					GameObject customer = customers[totalCustomers];
-					int c_x = (int) customer.transform.position.x;
-					int c_z = (int) customer.transform.position.z;
-					GNode goal = graph [c_x, c_z];
-					number_of_customers++;
-					totalCustomers++;
-
-					//Debug.Log ("start: " + previousGoal.getPos ().x + " " + previousGoal.getPos ().z + " goal: " + c_x + " " + c_z);
-
-					List<GNode> path = PathFinding.aStarPath(previousGoal, goal, GraphBuilder.distance);
-
-					previousGoal = path[0];
-
-					result[a].Add (path);
-
-					distance += distance_astar_discrete(path);
-
-					if (totalCustomers >= customers.Count)
-						break;
-					
-				}
-
-
-				if (distance > max_astar_distance)
-					max_astar_distance = distance;
-
-				i = i + number_of_customers + 1;
-
-			}
 
 			if (current_best > max_astar_distance) {
 				current_best = max_astar_distance;
@@ -187,9 +137,73 @@ class PathPlanner
 			}
 		}
 
+		robin_hood(chromosome);
 		Debug.Log ("Best distance: " + current_best);
 		return bestResult;
 		
+	}
+
+	private Dictionary<Agent, List<List<GNode>>> chromosomeToResult(int[] chromosome, List<GameObject> customers, GNode[,] graph, float max_astar_distance) {
+		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
+
+		int totalCustomers = 0;
+		for (int i = 0; i < chromosome.Length; ) {
+			GameObject agent = chromosomeIDs[chromosome[i]];
+			
+			int x = (int) agent.transform.position.x;
+			int z = (int) agent.transform.position.z;
+			GNode start = graph [x, z];
+			
+			int number_of_customers = 0;
+			if (totalCustomers >= customers.Count)
+				break;
+			
+			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+			a.init();
+			a.setStart(start.getPos ());
+			a.setGoal(start.getPos());
+			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
+			
+			GNode previousGoal = start;
+			
+			float distance = 0f;
+			//Color color = randomizeColor();
+			
+			result[a] = new List<List<GNode>>();
+			
+			while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
+				
+				GameObject customer = customers[totalCustomers];
+				int c_x = (int) customer.transform.position.x;
+				int c_z = (int) customer.transform.position.z;
+				GNode goal = graph [c_x, c_z];
+				number_of_customers++;
+				totalCustomers++;
+				
+				//Debug.Log ("start: " + previousGoal.getPos ().x + " " + previousGoal.getPos ().z + " goal: " + c_x + " " + c_z);
+				
+				List<GNode> path = PathFinding.aStarPath(previousGoal, goal, GraphBuilder.distance);
+				
+				previousGoal = path[0];
+				
+				result[a].Add (path);
+				
+				distance += distance_astar_discrete(path);
+				
+				if (totalCustomers >= customers.Count)
+					break;
+				
+			}
+			
+			
+			if (distance > max_astar_distance)
+				max_astar_distance = distance;
+			
+			i = i + number_of_customers + 1;
+			
+		}
+
+		return result;
 	}
 
 	private void drawPaths(Dictionary<Agent, List<List<GNode>>> res) {
@@ -249,6 +263,39 @@ class PathPlanner
 		float b = UnityEngine.Random.Range(0.0f, 1f);
 		float g = UnityEngine.Random.Range(0.0f, 1f);
 		return new Color (r, g, b, 1.0f);
+	}
+
+	void robin_hood(int[] chromo) {
+		int index_of_path_most_waypoints = 0;
+		int index_of_path_fewest_waypoints = 0;
+
+		int n = chromo.Length;
+		int counter = 0;
+		int biggest = 0;
+		int smallest = 10000;
+		for (int i = 0; i < n; i++)
+		{
+			if (chromosomeIDs[chromo[i]].GetComponent("Agent") != null) {
+				if (counter > biggest) {
+					biggest = counter;
+					index_of_path_most_waypoints = i;
+				}
+
+				if (counter < smallest) {
+					smallest = counter;
+					index_of_path_fewest_waypoints = i;
+				}
+				counter = 0;
+				continue;
+			}
+			counter++;
+		}
+
+
+		Debug.Log ("most waypoints: " + chromosomeIDs[chromo[index_of_path_most_waypoints]].GetComponent("Agent").transform.position.x +  " " + chromosomeIDs[chromo[index_of_path_most_waypoints]].GetComponent("Agent").transform.position.z);
+		Debug.Log ("fewest waypoints: " + chromosomeIDs[chromo[index_of_path_fewest_waypoints]].GetComponent("Agent").transform.position.x +  " " + chromosomeIDs[chromo[index_of_path_fewest_waypoints]].GetComponent("Agent").transform.position.z);
+
+
 	}
 
 	void Shuffle(int[] array)

@@ -47,11 +47,21 @@ public class GameManager : MonoBehaviour
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
-		List<Vector3> obstacles = new List<Vector3>();
+		obstacles = new List<Vector3>();
+//		obstacles.Add (new Vector3(1,0,1));
+//		obstacles.Add (new Vector3(2,0,2));
+//		obstacles.Add (new Vector3(3,0,3));
+//		obstacles.Add (new Vector3(4,0,4));
+//		obstacles.Add (new Vector3(5,0,5));
+//		obstacles.Add (new Vector3(6,0,6));
+//		obstacles.Add (new Vector3(7,0,7));
+//		obstacles.Add (new Vector3(8,0,8));
+//		obstacles.Add (new Vector3(9,0,9));
+		//obstacles.Add (new Vector3(10,0,10));
 
-		List<List<GNode>> paths;
+
 		if (task == 1)
-			 paths = pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
+			 pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
 		else if (task == 2)
 			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, VRPIterations);
 
@@ -86,7 +96,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < numberOfAgents; i++) {
 			GameObject agent = AgentFactory.createAgent();
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
-			while (agentPos.ContainsKey(agent.transform.position))
+			while (agentPos.ContainsKey(agent.transform.position) || obstacles.Contains(agent.transform.position))
 				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 
 			agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
@@ -111,7 +121,7 @@ public class GameManager : MonoBehaviour
 			float z = Random.Range(0, (int)height);
 			waypoint.transform.position = new Vector3 (x, y, z);
 
-			while (customerPos.ContainsKey(waypoint.transform.position))
+			while (customerPos.ContainsKey(waypoint.transform.position) || obstacles.Contains(waypoint.transform.position))
 				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 
 			waypoint.transform.parent = parent.transform;

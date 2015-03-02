@@ -19,6 +19,12 @@ public class DiscreteController : MonoBehaviour, MovementModel
 
 			//Agent a = GameManager.agentPos[rigidbody.transform.position];
 			Agent a = agent;
+			if (GameManager.agentPos.ContainsKey(goal) && GameManager.agentPos[goal].tick > agent.tick) {
+				Debug.LogError("Illegal move, abort");
+				agent.tick++;
+				counter = 0;
+				return;
+			}
 			GameManager.agentPos.Remove(rigidbody.transform.position);
 			rigidbody.transform.position = goal;
 			GameManager.agentPos[rigidbody.transform.position] = a;
