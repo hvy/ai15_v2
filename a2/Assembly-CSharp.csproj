@@ -75,7 +75,7 @@
      <Compile Include="Assets\Scripts\SecondCamera.cs" />
      <Compile Include="Assets\Scripts\StageManager.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
-     <Compile Include="Assets\Scripts\T1T2T3\Genetics.cs" />
+     <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
      <Compile Include="Assets\Scripts\T6\Formation.cs" />
      <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
      <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
