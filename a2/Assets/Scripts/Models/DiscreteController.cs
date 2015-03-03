@@ -6,10 +6,29 @@ public class DiscreteController : MonoBehaviour, MovementModel
 {
 	private int steps;
 	int counter = 0;
+	private List<Vector3> obstacles = new List<Vector3>();
 
 	// Implements interface member
 	public void findPath() {
 		//Debug.Log ("Path distance: " + PathFinding.calculateDistance(path));
+	}
+
+	// MOVE TO DISCRETE
+	private bool recalculatePath(Vector3 goal, Agent agent) {
+		
+		List<GNode> newPath = null;
+		
+		if (GameManager.agentPos[goal].paused || GameManager.agentPos[goal].isFinished) {
+			obstacles.Add (goal);
+			obstacles.AddRange(GameManager.obstacles);
+			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
+			newPath = PathPlanner.recalculatePath(agent, agent.currentPath[0].getPos (), obstacles);	// recalculate path
+		}
+		
+		if (newPath != null) {
+			return true;
+		}
+		return false;
 	}
 
 	// Implements interface member
@@ -17,6 +36,20 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		counter++;
 		if (counter % 50 == 0) {
 
+			if (agent.currentPath == null) {
+				GameManager.agentPos[transform.position].isFinished = true;
+				GameManager.obstacles.Add (transform.position);
+				agent.tick = 1000;
+				return false;
+			}
+
+			if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
+				if (!recalculatePath(goal, agent) && agent.tick < GameManager.agentPos [goal].tick) {
+					Debug.LogError("Pause");
+					return false; // Pause
+				}
+			}
+			
 			//Agent a = GameManager.agentPos[rigidbody.transform.position];
 			Agent a = agent;
 			if (GameManager.agentPos.ContainsKey(goal) && GameManager.agentPos[goal].tick > agent.tick) {
@@ -32,6 +65,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 			counter = 0;
 			agent.tick++;
 
+			
 		}
 		return true;
 	}

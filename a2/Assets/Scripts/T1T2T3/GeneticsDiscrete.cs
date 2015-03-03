@@ -32,8 +32,6 @@ public class GeneticsDiscrete {
 
 		createPopulation(individuals, solution);
 
-
-
 		search (current_best, mutationRate, tournamentRounds, iterations);
 
 	}
