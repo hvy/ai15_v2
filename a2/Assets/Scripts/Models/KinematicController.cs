@@ -44,7 +44,7 @@ public class KinematicController : MonoBehaviour, MovementModel
 			}
 			i++;
 		}
-		agent.setCollisionAgents(collisionAgents);
+		//agent.setCollisionAgents(collisionAgents);
 		
 		return ret;
 	}

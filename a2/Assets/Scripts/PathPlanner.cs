@@ -12,7 +12,8 @@ class PathPlanner
 	static System.Random _random = new System.Random();
 
 	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
-	
+
+	// TODO ta hänsyn till tid också
 	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
 
 		lastWidth = width;

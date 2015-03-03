@@ -343,8 +343,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numAgents: 10
   formationId: 0
-  width: 100
-  height: 100
+  width: 50
+  height: 50
   moveSpeed: 50
 --- !u!4 &1941983996
 Transform:

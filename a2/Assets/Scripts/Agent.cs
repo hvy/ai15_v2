@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 public class Agent : MonoBehaviour
 {
-		public Vector3 start, goal; // TODO Make sure start and goal is assignmed by the game manager
+		public Vector3 start, goal;
 	
 		private List<MovementModel> models;
 		private List<List<GNode>> paths = new List<List<GNode>>();
-		private List<GNode> currentPath;
-		private List<Vector3> obstacles;
-		private List<Agent> collisionAgents = new List<Agent>();
+		public List<GNode> currentPath;
 		
 		public int type = 1;
 		public bool isRunning = false;
@@ -32,7 +30,6 @@ public class Agent : MonoBehaviour
 				models.Add (GetComponent<DiscreteController> ());
 //				models.Add (GetComponent<DynamicController> ());
 				models.Add (GetComponent<KinematicController> ());
-				obstacles = new List<Vector3>();
 //				models.Add (GetComponent<DifferentialController> ());
 //				models.Add (GetComponent<CarDynamicController> ());
 //				models.Add (GetComponent<CarKinematicController> ());
@@ -44,22 +41,18 @@ public class Agent : MonoBehaviour
 			models = new List<MovementModel> ();
 			models.Add (GetComponent<DiscreteController> ());
 			models.Add (GetComponent<KinematicController> ());
-			obstacles = new List<Vector3>();
-		
+
 		}
 
 		private void executeStep ()
 		{
-				float distance = Vector3.Distance (goal, transform.position);
+			float distance = Vector3.Distance (goal, transform.position);
 		
-				if (distance < 0.1f) {
-						steps++;
-				}
+			if (distance < 0.1f) {
+					steps++;
+			}
 			
 			if (currentPath == null) {
-				GameManager.agentPos[transform.position].isFinished = true;
-				GameManager.obstacles.Add (transform.position);
-				tick = 1000;
 				return;
 			}
 			
@@ -71,79 +64,43 @@ public class Agent : MonoBehaviour
 
 			goal = recalculateGoal (steps);
 		
-				if (!isRunning)
-						return;
+			if (!isRunning)
+					return;
+	
+			if (goal.x == -1f) {
+					isRunning = false;
+					isFinished = true;
+					GameManager.obstacles.Add (transform.position);
+					//tick = 10000;
+					return;
+			}
 		
-				if (goal.x == -1f) {
-						isRunning = false;
-						isFinished = true;
-						GameManager.obstacles.Add (transform.position);
-						//tick = 10000;
-						return;
-				}
-		
 		}
 
-	private bool recalculatePath() {
 
-		List<GNode> newPath = null;
-
-		if (GameManager.agentPos[goal].paused || GameManager.agentPos[goal].isFinished) {
-			obstacles.Add (goal);
-			obstacles.AddRange(GameManager.obstacles);
-			Debug.Log("Recalculate path: " + GameManager.obstacles.Count);
-			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
-		}
-
-//		if () {
-//			obstacles.Add (goal);
-//			Debug.Log("Recalculate path because of agent paused");
-//			obstacles.AddRange(GameManager.obstacles);
-//			newPath = PathPlanner.recalculatePath(this, currentPath[0].getPos (), obstacles);	// recalculate path
-//
-//		}
-
-		if (newPath != null) {
-			return true;
-		}
-		return false;
-	}
 	
 	void FixedUpdate ()
 	{
-		if (isValidType (type) && goal.x != -1f && !isFinished) {
-					
-			if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
-								if (!recalculatePath() && this.tick < GameManager.agentPos [goal].tick) {
-									paused = true;
-									return; // Pause
-								}
-						}
-						paused = false;
-						if (models [type].stepPath (this, goal)) {
-							executeStep ();
-							overridePause = false;
-						}
-						else {
-							if (!overridePause) {
-//								Debug.Log ("reverse!");
-//								collisionAgents[0].overridePause = true;
-//								models [type].reverse(goal);
-							}
-							
-						}
-							
+			if (isValidType (type) && goal.x != -1f && !isFinished) {
 
-				}
+					if (models [type].stepPath (this, goal)) {
+						paused = false;
+						executeStep ();
+						overridePause = false;
+					} else {
+						paused = true;
+					}
+								
+
+			}
 
 	
-				if (isFinished && !hasPrintedTime) {
-						Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
-						hasPrintedTime = true;
-						tick = 1000;
-						//isFinished = false;
-            
-				}
+			if (isFinished && !hasPrintedTime) {
+					Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
+					hasPrintedTime = true;
+					tick = 1000;
+    
+			}
 		}
     
 		// Initiated from the GUI using the buttons
@@ -161,9 +118,7 @@ public class Agent : MonoBehaviour
 						models [newType].findPath ();
 
 						type = newType;		
-
-						//Debug.Log ("Using model: " + type);
-				}
+							}
 		}
 
 		public void setPath (List<GNode> path)
@@ -217,9 +172,6 @@ public class Agent : MonoBehaviour
 		{
 				goal = g;
 		}
-
-	public void setCollisionAgents(List<Agent> col) {
-		collisionAgents = col;
-	}
+	
 
 }

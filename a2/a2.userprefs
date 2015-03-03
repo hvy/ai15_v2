@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PathPlanner.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/T6/LeaderFollowerFormation.cs">
     <Files>
-      <File FileName="Assets/Scripts/T1T2T3/GeneticsDiscrete.cs" Line="125" Column="5" />
+      <File FileName="Assets/Scripts/T1T2T3/GeneticsDiscrete.cs" Line="255" Column="22" />
       <File FileName="Assets/Scripts/Factories/AgentFactory.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ObstacleMesh.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/StageManager.cs" Line="1" Column="1" />
@@ -20,7 +20,7 @@
       <File FileName="Assets/Scripts/GNode.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Renderer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Models/KinematicController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PathPlanner.cs" Line="557" Column="24" />
+      <File FileName="Assets/Scripts/PathPlanner.cs" Line="556" Column="26" />
       <File FileName="Assets/Scripts/Models/CarKinematicController.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Tuple.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Models/MovementModel.cs" Line="1" Column="1" />
@@ -31,8 +31,8 @@
       <File FileName="Assets/Scripts/TNode.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/DiscreteLevelParser.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/LevelParser.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/T6/Formation.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/T6/LeaderFollowerFormation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T6/Formation.cs" Line="9" Column="1" />
+      <File FileName="Assets/Scripts/T6/LeaderFollowerFormation.cs" Line="29" Column="37" />
       <File FileName="Assets/Scripts/T6/T6GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/T1T2T3/GameManager.cs" Line="1" Column="1" />
     </Files>

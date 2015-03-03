@@ -13,6 +13,7 @@ public class T6GameManager : MonoBehaviour {
 	
 	void Start () {
 		createStage (width, height);
+		CameraModel.updateOrthoPosition(width, Camera.main.transform.position.y, height);
 
 		// Instantiate the agents and let the player controll the first one
 		GameObject[] agents = createAgents (numAgents);
