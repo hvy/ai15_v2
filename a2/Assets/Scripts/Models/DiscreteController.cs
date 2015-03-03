@@ -36,37 +36,38 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		counter++;
 		if (counter % 50 == 0) {
 
-			if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
-				GameState.Instance.addObstacle (transform.position);
-				agent.tick = 1000;
-				return false;
-			}
+//			if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
+//				GameState.Instance.addObstacle (transform.position);
+//				agent.tick = 1000;
+//				return false;
+//			}
+//
+//			if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
+//				if (!recalculatePath(goal, agent) && agent.tick < GameManager.agentPos [goal].tick) {
+//					Debug.LogError("Pause");
+//					return false; // Pause
+//				}
+//			}
 
-			if (GameManager.agentPos.ContainsKey (goal) && GameManager.agentPos [goal] != this) {
-				if (!recalculatePath(goal, agent) && agent.tick < GameManager.agentPos [goal].tick) {
-					Debug.LogError("Pause");
-					return false; // Pause
-				}
-			}
-			
-			//Agent a = GameManager.agentPos[rigidbody.transform.position];
 			Agent a = agent;
-			if (GameManager.agentPos.ContainsKey(goal) && GameManager.agentPos[goal].tick > agent.tick) {
-				Debug.LogError("Illegal move, abort");
-				agent.tick++;
-				counter = 0;
-				return false;
-			}
+//			if (GameManager.agentPos.ContainsKey(goal) && GameManager.agentPos[goal].tick > agent.tick) {
+//				Debug.LogError("Illegal move, abort");
+//				agent.tick++;
+//				counter = 0;
+//				return false;
+//			}
 			GameManager.agentPos.Remove(rigidbody.transform.position);
+			Debug.Log (goal);
 			rigidbody.transform.position = goal;
 			GameManager.agentPos[rigidbody.transform.position] = a;
 
 			counter = 0;
 			agent.tick++;
 
+			return true;
 			
 		}
-		return true;
+		return false;
 	}
 
 	// Implements interface member

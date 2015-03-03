@@ -79,7 +79,10 @@ class PathPlanner
 		foreach(KeyValuePair<Agent, List<GNode>> entry in newPaths)
 		{
 			Agent a = entry.Key;
+			Debug.Log ("path: " + entry.Value[0].getPos() + " " + entry.Value[1].getPos () + " " + entry.Value[2].getPos () + " " + entry.Value[3].getPos());
 			a.setPath(entry.Value);
+			a.setStart(entry.Value[entry.Value.Count-1].getPos());
+			a.setGoal(entry.Value[entry.Value.Count-1].getPos());
 		}
 
 	
@@ -89,12 +92,12 @@ class PathPlanner
 
 	// Avoid collision by planning with time (considering pauses)
 	Dictionary<Agent, List<GNode>> avoidCollision(Dictionary<Agent, List<List<GNode>>> paths) {
-		int totalTime = 100; // TODO, how is this determined? Loop until every agent is finished maybe
+		int totalTime = 10;// TODO, how is this determined? Loop until every agent is finished maybe
 
 
 		int[,] binGraph = new int[(int)lastWidth,(int)lastHeight];
 		Dictionary<Agent, List<GNode>> new_paths = new Dictionary<Agent, List<GNode>>();
-		//Dictionary<Agent, List<GNode>> old_paths = new Dictionary<Agent, List<GNode>>();
+//		Dictionary<Agent, List<GNode>> old_paths = new Dictionary<Agent, List<GNode>>();
 
 		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 		{
@@ -123,6 +126,7 @@ class PathPlanner
 						oldPos = agent.transform.position;
 					else
 						oldPos = agent.recalculateGoal(i-1);
+						//oldPos = agent.currentPath [agent.currentPath.Count - i].getPos ();
 
 					Vector3 newPos = agent.recalculateGoal(i);
 					
@@ -133,7 +137,9 @@ class PathPlanner
 					if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos && newPos != agent.transform.position) {
 						Debug.Log ("PAUSA " + agent.GetInstanceID());
 						// pause
-						new_paths[agent].Insert(0, new GNode(0, oldPos, new List<GNode>()));
+						new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
+						new_paths[agent].Insert(0, new GNode(0,newPos, new List<GNode>()));
+						Debug.Log ("paus pos: " + oldPos.x + " " + oldPos.z);
 						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
 					} else {
 						binGraph[(int)newPos.x, (int)newPos.z] = 1;
@@ -430,7 +436,8 @@ class PathPlanner
 		List<GameObject> agents = new List<GameObject>();
 		List<GameObject> waypoints = new List<GameObject>();
 		agents.Add (_agent.gameObject);
-		waypoints.Add (GameManager.customerPos[_goal]);
+
+		waypoints.Add (GameState.Instance.customers[_goal]);
 
 		GNode[,] graph = buildGraph ((int)lastWidth, (int)lastHeight, lastNeighbors, obstacles);
 							
