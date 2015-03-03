@@ -138,8 +138,7 @@ public class Agent : MonoBehaviour
 
 	
 				if (isFinished && !hasPrintedTime) {
-						Debug.Log ("Total time: " + (Time.time - startTime));
-						Debug.Log ("Total ticks: " + tick);
+						Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
 						hasPrintedTime = true;
 						tick = 1000;
 						//isFinished = false;

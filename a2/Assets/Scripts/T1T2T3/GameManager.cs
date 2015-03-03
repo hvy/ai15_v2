@@ -19,7 +19,10 @@ public class GameManager : MonoBehaviour
 	public int nr_agents, numWaypoints;
 	public int neighbors;
 	public int task;
-	public int VRPIterations;
+	public int RandomIterations;
+	public int GeneticIterations;
+	public int GeneticPopulation;
+	public int GeneticTournaments;
 
 	void Start () 
 	{
@@ -63,9 +66,9 @@ public class GameManager : MonoBehaviour
 		if (task == 1)
 			 pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
 		else if (task == 2)
-			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, VRPIterations);
+			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)
-			pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, VRPIterations);
+			pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
 
 	
 	}

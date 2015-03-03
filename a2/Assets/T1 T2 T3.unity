@@ -347,7 +347,10 @@ MonoBehaviour:
   numWaypoints: 10
   neighbors: 8
   task: 3
-  VRPIterations: 2000
+  RandomIterations: 100
+  GeneticIterations: 100
+  GeneticPopulation: 6
+  GeneticTournaments: 1
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Diagnostics;
 
-public class Genetics {
+
+public class GeneticsDiscrete {
 
 	HashSet<int[]> hash;
 	int[] current_best;
@@ -16,24 +19,25 @@ public class Genetics {
 	GNode[,] graph;
 
 
-	public Genetics (int[] solution, int iterations, int individuals, int tournamentRounds, float mutationRate, List<GameObject> agents, List<GameObject> customers, GNode[,] graph) {
+	public GeneticsDiscrete (int[] solution, int iterations, int individuals, int tournamentRounds, float mutationRate, List<GameObject> agents, List<GameObject> customers, GNode[,] graph, Dictionary<int, GameObject> chromosomeIDs) {
 		this.customers = customers;
 		this.agents = agents;
 		this.graph = graph;
+		this.chromosomeIDs = chromosomeIDs;
 		hash = new HashSet<int[]>();
-		chromosomeIDs = new Dictionary<int, GameObject>();
 
-		createPopulation(individuals, solution);
 		current_best = solution;
 		current_best_cost = cost (current_best).first;
+		UnityEngine.Debug.Log("VAFAN: " + solution[0]);
+
+		createPopulation(individuals, solution);
+
+
 
 		search (current_best, mutationRate, tournamentRounds, iterations);
 
 	}
 
-	int[] getBestSolution() {
-		return new int[1];
-	}
 
 	void createPopulation(int N, int[] solution) {
 		population = new List<int[]>();
@@ -45,8 +49,8 @@ public class Genetics {
 
 	}
 
-	int[] get_result() {
-		return current_best;
+	public Tuple<float, Dictionary<Agent, List<List<GNode>>>> get_result() {
+		return cost (current_best);
 	}
 
 
@@ -54,15 +58,30 @@ public class Genetics {
 
 		List<int[]> parents;
 		List<int[]> children;
+		//Debug.Log ("Starting search");
 
 		int i = 0;
 		while (i < iterations) {
+			Stopwatch sw = new Stopwatch();
+			
+			// your code here
+			UnityEngine.Debug.Log ("current best: " + current_best_cost);
+			
+			sw.Start();
 			parents = tournamentSelection(K);
+			sw.Stop();
+			System.TimeSpan elapsedTime = sw.Elapsed;
+			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
+
+			sw.Start();
 			children = crossover(parents);
+			sw.Stop();
+			elapsedTime = sw.Elapsed;
+			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
 
 			if (_random.NextDouble() <= mr)
 				mutate(children);
-
+			sw.Start();
 			foreach (int[] child in children) {
 				if (hash.Contains(child))
 					continue;
@@ -72,14 +91,18 @@ public class Genetics {
 				hash.Add(child);
 
 				float child_cost = cost (child).first;
-				if (child_cost <= current_best_cost) {
+				if (child_cost < current_best_cost) {
 					current_best = child;
 					current_best_cost = child_cost;
 				}
 
 
 			} 
-
+			sw.Stop();
+			elapsedTime = sw.Elapsed;
+			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
+//			Debug.Log ("ierations: " + i);
+			i++;
 		}
 
 	}
@@ -99,7 +122,7 @@ public class Genetics {
 					winners.Add(first);
 				else
 					winners.Add(second);
-
+				i++;
 
 			}
 			participants = winners;
@@ -112,8 +135,24 @@ public class Genetics {
 		List<int[]> children = new List<int[]>();
 
 		// TODO do a cool crossover
-		children = parents;
+		for (int i = 0; i < parents.Count-1; i++) {
+			int index  = _random.Next (0, customers.Count + agents.Count-2);
+			int id_first = parents[i][index];
+			int id_second = parents[i][index+1];
 
+			List<int> list = parents[i+1].ToList();
+
+			int value = list[1];
+			list.Remove(id_second);
+			int idx = list.IndexOf(id_first);
+			list.Insert(idx, id_second);
+			int[] res = list.ToArray();
+			normalize_chromosome(res);
+			children.Add (res);
+			i++;
+			
+
+		}
 		return children;
 
 	}
@@ -125,6 +164,7 @@ public class Genetics {
 	List<int[]> copy(List<int[]> a) {
 		List<int[]> newList = new List<int[]>();
 		for (int i = 0; i < a.Count; i++) {
+			newList.Add (new int[a[i].Length]);
 			newList[i] = a[i];
 		}
 		return newList;
@@ -154,8 +194,13 @@ public class Genetics {
 		
 	}
 
-	private float distance_astar_discrete(List<GNode> path) {
+	private float distance_astar(List<GNode> path) {
 		return path.Count;
+//		float distance = 0f;
+//		for (int i = 0; i < path.Count-1; i++) {
+//			distance += Vector3.Distance(path[i].getPos(), path[i+1].getPos ());
+//		}
+//		return distance;
 	}
 
 	void normalize_chromosome(int[] chromo) {
@@ -214,7 +259,7 @@ public class Genetics {
 				
 				result[a].Add (path);
 				
-				distance += distance_astar_discrete(path);
+				distance += distance_astar(path);
 				
 				if (totalCustomers >= customers.Count)
 					break;

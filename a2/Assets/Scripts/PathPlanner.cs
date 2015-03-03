@@ -74,7 +74,7 @@ class PathPlanner
 
 	}
 
-	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots, int iterations) {
+	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots, int rand_iterations, int GA_iterations, int population, int tournaments) {
 		
 		lastWidth = width;
 		lastHeight = height;
@@ -100,21 +100,22 @@ class PathPlanner
 
 
 		// PERFORM EUCLIDEAN FITNESS
-		float bestFitness = 1000000000f;
-		for (int i = 0; i < iterations*5; i++) {
-			Shuffle (chromosome);
-			float newFitness = euclidean_fitness(chromosome);
-			if (newFitness < bestFitness)
-				bestFitness = newFitness;
-		}
+//		float bestFitness = 1000000000f;
+//		for (int i = 0; i < iterations*5; i++) {
+//			Shuffle (chromosome);
+//			float newFitness = euclidean_fitness(chromosome);
+//			if (newFitness < bestFitness)
+//				bestFitness = newFitness;
+//		}
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
 
-		
+//		Debug.Log ("Best distance (from euclidean version): " + bestFitness);
 
 		// PERFORM A-STAR MAXIMUM PATH LENGTH FITNESS (TIME FITNESS)
 		float current_best = 100000000f;
-		for (int iter = 0; iter < iterations; iter++) {
+		int[] bestChromosome = new int[chromosome.Length];
+		for (int iter = 0; iter < rand_iterations; iter++) {
 			Shuffle(chromosome);
 
 			max_astar_distance = 0f;
@@ -125,22 +126,47 @@ class PathPlanner
 
 			if (current_best > max_astar_distance) {
 				current_best = max_astar_distance;
-				Debug.Log ("current best: " + current_best);
+				bestChromosome = chromosome;
+				//Debug.Log ("current best: " + current_best);
 				bestResult = result;
-				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
-				{
-					entry.Key.removePaths();
-					if (entry.Value.Count != 0)
-						addPaths(entry.Key, entry.Value);
-					PathFinding.clearDrawnPaths();
-					drawPaths (bestResult);
-				}
+//				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
+//				{
+//					entry.Key.removePaths();
+//					if (entry.Value.Count != 0)
+//						addPaths(entry.Key, entry.Value);
+//					PathFinding.clearDrawnPaths();
+//					drawPaths (bestResult);
+//				}
 
 			}
 		}
 
+
+		// NEW
+		GeneticsDiscrete genDisc = new GeneticsDiscrete(bestChromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
+		Debug.Log ("Best distance (from randomized version): " + current_best);
+		Debug.Log ("Best distance (from GA): " + genDisc.get_result().first);
+
+		if (current_best > genDisc.get_result().first) {
+			bestResult = genDisc.get_result().second;
+			current_best = genDisc.get_result().first;
+			Debug.Log ("Choosing GA result.");
+		} else
+			Debug.Log ("Choosing Randomized result.");
+
+
+		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
+		{
+			entry.Key.removePaths();
+			if (entry.Value.Count != 0)
+				addPaths(entry.Key, entry.Value);
+			PathFinding.clearDrawnPaths();
+			drawPaths (bestResult);
+		}
+
+		// END NEW
+
 		//robin_hood(chromosome);
-		Debug.Log ("Best distance: " + current_best);
 		return bestResult;
 		
 	}
@@ -190,7 +216,7 @@ class PathPlanner
 				
 				result[a].Add (path);
 				
-				distance += distance_astar_discrete(path);
+				distance += distance_astar_discrete(path); // TODO denna ska väl vara distance_astar_discrete
 				
 				if (totalCustomers >= customers.Count)
 					break;
@@ -525,7 +551,7 @@ class PathPlanner
 				minAngle = 180f;
 				Vector3[] bounds = new Vector3[4];
 				
-				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 3.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
+				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 5.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
 				
 				rrt.buildRRT (10000);
 				//rrt.tree.draw ();
