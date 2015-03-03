@@ -135,6 +135,7 @@ public class GeneticsDiscrete {
 		List<int[]> children = new List<int[]>();
 
 		// TODO do a cool crossover
+
 		for (int i = 0; i < parents.Count-1; i++) {
 			int index  = _random.Next (0, customers.Count + agents.Count-2);
 			int id_first = parents[i][index];
