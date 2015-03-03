@@ -28,7 +28,7 @@ public class GeneticsDiscrete {
 
 		current_best = solution;
 		current_best_cost = cost (current_best).first;
-		UnityEngine.Debug.Log("VAFAN: " + solution[0]);
+//		UnityEngine.Debug.Log("VAFAN: " + solution[0]);
 
 		createPopulation(individuals, solution);
 
@@ -63,19 +63,19 @@ public class GeneticsDiscrete {
 			Stopwatch sw = new Stopwatch();
 			
 			// your code here
-			UnityEngine.Debug.Log ("current best: " + current_best_cost);
+//			UnityEngine.Debug.Log ("current best: " + current_best_cost);
 			
 			sw.Start();
 			parents = tournamentSelection(K);
 			sw.Stop();
 			System.TimeSpan elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
+//			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
 
 			sw.Start();
 			children = crossover(parents);
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
+//			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
 
 			if (_random.NextDouble() <= mr)
 				mutate(children);
@@ -98,7 +98,7 @@ public class GeneticsDiscrete {
 			} 
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
+//			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
 //			Debug.Log ("ierations: " + i);
 			i++;
 		}

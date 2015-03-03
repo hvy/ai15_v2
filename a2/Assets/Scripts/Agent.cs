@@ -12,8 +12,8 @@ public class Agent : MonoBehaviour
 		public bool paused = false;
 		public bool overridePause = false;
 		public int type = 1;
+		public List<MovementModel> models;
 
-		private List<MovementModel> models;
 		private List<List<GNode>> paths = new List<List<GNode>> ();
 		private float startTime;
 		private int currentPathIndex = 0;

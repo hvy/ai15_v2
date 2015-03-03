@@ -654,12 +654,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {x: 0, y: 0, z: 0}
   goal: {x: 0, y: 0, z: 0}
-  type: -1
+  tick: 0
   isRunning: 0
   isFinished: 0
   paused: 0
   overridePause: 0
-  tick: 0
+  type: -1
 --- !u!136 &13635920
 CapsuleCollider:
   m_ObjectHideFlags: 1

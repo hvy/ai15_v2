@@ -45,14 +45,14 @@ public class DiscreteController : MonoBehaviour, MovementModel
 					return false;
 				}
 
-				if (GameState.Instance.agents.ContainsKey (goal) && GameState.Instance.agents [goal] != this) {
+				if (GameState.Instance.agents.ContainsKey (goal) && GameState.Instance.agents [goal] != this && goal != agent.transform.position) {
 					if (!recalculatePath(goal, agent) && agent.tick < GameState.Instance.agents [goal].tick) {
 						Debug.LogError("Pause");
 						return false; // Pause
 					}
 				}
 
-				if (GameState.Instance.agents.ContainsKey(goal) && GameState.Instance.agents[goal].tick > agent.tick) {
+				if (GameState.Instance.agents.ContainsKey(goal) && GameState.Instance.agents[goal].tick > agent.tick && goal != agent.transform.position) {
 					Debug.LogError("Illegal move, abort");
 					agent.tick++;
 					counter = 0;
@@ -61,7 +61,6 @@ public class DiscreteController : MonoBehaviour, MovementModel
 			}
 
 			GameState.Instance.agents.Remove(rigidbody.transform.position);
-			Debug.Log (goal);
 			rigidbody.transform.position = goal;
 			GameState.Instance.agents[rigidbody.transform.position] = a;
 
