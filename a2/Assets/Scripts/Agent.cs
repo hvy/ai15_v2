@@ -36,14 +36,6 @@ public class Agent : MonoBehaviour
 
 		}
 
-		public void init ()
-		{
-			models = new List<MovementModel> ();
-			models.Add (GetComponent<DiscreteController> ());
-			models.Add (GetComponent<DynamicController> ());
-			models.Add (GetComponent<KinematicController> ());
-
-		}
 
 		private void executeStep ()
 		{
@@ -80,29 +72,23 @@ public class Agent : MonoBehaviour
 
 
 	
-	void FixedUpdate ()
-	{
-			if (isValidType (type) && goal.x != -1f && !isFinished) {
-
-					if (models [type].stepPath (this, goal)) {
-						paused = false;
-						executeStep ();
-						overridePause = false;
-					} else {
-						paused = true;
-					}
-								
-
-			}
-
-	
-			if (isFinished && !hasPrintedTime) {
-					Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
-					hasPrintedTime = true;
-					tick = 1000;
-    
+	void FixedUpdate () {
+		if (isValidType (type) && goal.x != -1f && !isFinished) {
+			if (models [type].stepPath (this, goal)) {
+				paused = false;
+				executeStep ();
+				overridePause = false;
+			} else {
+				paused = true;
 			}
 		}
+
+		if (isFinished && !hasPrintedTime) {
+			Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
+			hasPrintedTime = true;
+			tick = 1000;
+		}
+	}
     
 		// Initiated from the GUI using the buttons
 		public void setModel (int newType)

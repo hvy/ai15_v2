@@ -59,6 +59,7 @@ public class T6GameManager : MonoBehaviour {
 
 		playerAgent.transform.Translate (agentTranslation * Time.deltaTime * moveSpeed);
 
+		// On mouse click
 		if (Input.GetButtonDown ("Fire1")) {
 			Plane plane = new Plane (Vector3.up, 0);
 			float dist;
@@ -70,7 +71,6 @@ public class T6GameManager : MonoBehaviour {
 
 				// Move the player controlled agent to the clicked position
 				Agent agent = (Agent) playerAgent.GetComponent(typeof(Agent));
-				agent.init ();
 				agent.setStart (currentPos);
 				agent.setGoal (destinationPos);
 				agent.setModel (motionModelId);
@@ -98,11 +98,21 @@ public class T6GameManager : MonoBehaviour {
 		Formation formation = null;
 
 		switch (formationId) {
-		case 0:
+		case 0: // Leader following
 			formation = new LeaderFollowerFormation (agents, playerControlledAgentId, motionModelId);
 			break;
-		case 1:
-			//formation = new VirtualStructureFormation (...);
+		case 1: // Virtual structure
+			float distance = 3.0f;
+			Vector3[] formationPositions = new Vector3[agents.Length - 1];
+			formationPositions[0] = new Vector3 (- distance, 0, distance);
+			formationPositions[1] = new Vector3 (0, 0, distance);
+			formationPositions[2] = new Vector3 (distance, 0, distance);
+			formationPositions[3] = new Vector3 (- distance, 0, 0);
+			formationPositions[4] = new Vector3 (distance, 0, 0);
+			formationPositions[5] = new Vector3 (- distance, 0, - distance);
+			formationPositions[6] = new Vector3 (0, 0, - distance);
+			formationPositions[7] = new Vector3 (distance, 0, - distance);
+			formation = new VirtualStructureFormation (agents, motionModelId, formationPositions);
 			break;
 		case 2:
 			//formation = new DecentralizedLocalInteractionFormation (...);

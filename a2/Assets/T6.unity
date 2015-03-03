@@ -342,7 +342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numAgents: 10
-  formationId: 0
+  formationId: 1
+  motionModelId: 1
   width: 50
   height: 50
   moveSpeed: 50

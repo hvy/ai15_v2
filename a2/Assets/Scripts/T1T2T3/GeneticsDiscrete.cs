@@ -232,7 +232,7 @@ public class GeneticsDiscrete {
 				break;
 			
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			a.init();
+			//a.init();
 			a.setStart(start.getPos ());
 			a.setGoal(start.getPos());
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model

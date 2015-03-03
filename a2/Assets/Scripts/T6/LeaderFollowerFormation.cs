@@ -38,21 +38,10 @@ public class LeaderFollowerFormation : Formation {
 
 			// Find the destination position for this follower
 			Agent agent = (Agent) follower.GetComponent(typeof(Agent));
-			agent.init ();
 			agent.setStart (follower.transform.position);
 			agent.setGoal (follower.transform.position + (directionOfLeader * moveDistance));
 			agent.setModel (motionModelId); // 1 = Kinematic poit model
 		}
-	}
-
-	// Implements the interface
-	public GameObject getAgent(int agentId) {
-		return agents [agentId];
-	}
-
-	// Implements the interface
-	public GameObject[] getAgents() {
-		return agents;
 	}
 
 	private void initialRepositioning () {
@@ -87,5 +76,9 @@ public class LeaderFollowerFormation : Formation {
 		}
 		
 		return leaderIds;
+	}
+
+	public GameObject getAgent(int agentId) {
+		return agents [agentId];
 	}
 }

@@ -570,12 +570,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 10
-  goal: {x: 0, y: 0, z: 0}
-  velocity: 0
-  lastGoal: 0
-  destination_: {x: 0, y: 0, z: 0}
-  initialDistance: 0
-  steps: 0
 --- !u!114 &11435918
 MonoBehaviour:
   m_ObjectHideFlags: 1

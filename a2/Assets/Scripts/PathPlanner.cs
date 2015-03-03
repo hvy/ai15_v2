@@ -63,7 +63,7 @@ class PathPlanner
 
 
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			a.init();
+			//a.init();
 			a.setStart(path[path.Count-1].getPos());
 			a.setGoal(path[0].getPos ());
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
@@ -268,7 +268,7 @@ class PathPlanner
 				break;
 			
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			a.init();
+			//a.init();
 			a.setStart(start.getPos ());
 			a.setGoal(start.getPos());
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
@@ -467,7 +467,7 @@ class PathPlanner
 			
 			
 			Agent a = _agent;
-			a.init();
+			//a.init();
 			a.setStart(path[path.Count-1].getPos());
 			a.setGoal(path[path.Count-1].getPos ());
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
@@ -607,7 +607,7 @@ class PathPlanner
 				break;
 			
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			a.init();
+			//a.init();
 			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
 			
 			Vector3 previousStart = a.start;

@@ -9,18 +9,15 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	protected List<GNode> path;
 	protected Vector3 goal;
-	protected const float max_acceleration = 0.1f;
+	//protected const float max_acceleration = 0.1f;
 	protected float velocity = 0;
-	private bool lastGoal = false;
-	private Vector3 destination_;
+	//private bool lastGoal = false;
+	//private Vector3 destination_;
 
 	protected float initialDistance = 0f;
 	private int steps;
 
-	void Start ()
-	{
-		//goal = Agent.goal;
-		//acceleration = 0.1f;
+	void Start () {
 		steps = 0;
 	}
 
@@ -32,20 +29,13 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	// Implements interface member
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
-		//Debug.Log ("Moving: " + rigidbody.transform.position);	
+
 		float distance = Vector3.Distance (goal, transform.position);
 		
 		if (distance < 4.0f) {
 			steps++;
-			if (path.Count == steps+1) {
-				Debug.Log ("LAST GOAL");
-				lastGoal = true;
-			}
-			initialDistance = Vector3.Distance (goal, transform.position);
-			//acceleration = 0.1f;
 		}
-		goal = agent.recalculateGoal(steps);
-		destination_ = path [0].getPos ();
+		this.goal = goal;
 
         if (!agent.isRunning)
             return false;
@@ -56,6 +46,8 @@ public class DynamicController : MonoBehaviour, MovementModel
 			return false;		
 		}
 
+
+		Debug.Log ("Moving: " + rigidbody.transform.position);	
 		move ();
 		return true;
 	}
@@ -92,11 +84,10 @@ public class DynamicController : MonoBehaviour, MovementModel
 		}
 
 		velocity = (velocity == 0) ? 0.1f : velocity;
-		//rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
+		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
        
         //rigidbody.velocity = 
-        Vector3 force = goal - rigidbody.position;
-        //Debug.Log (force.x);
-        rigidbody.AddRelativeForce(force * 1f);
+        //Vector3 force = goal - rigidbody.position;
+        //rigidbody.AddRelativeForce(force * 1f);
 	}
 }
