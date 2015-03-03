@@ -7,6 +7,7 @@ public class GameState : MonoBehaviour {
 	public Dictionary<Vector3, Agent> agents;
 	public Dictionary<Vector3, GameObject> customers;
 	public List<Vector3> obstacles;
+	public int width, height, neighbors;
 
 	private static GameState instance;
 

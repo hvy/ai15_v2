@@ -11,10 +11,10 @@ public class VRPDiscrete  {
 	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
 
 
-	public VRPDiscrete(int width, int height, int neighbors) {
-		this.width = width;
-		this.height = height;
-		this.neighbors = neighbors;
+	public VRPDiscrete() {
+		this.width = GameState.Instance.width;
+		this.height = GameState.Instance.height;
+		this.neighbors = GameState.Instance.neighbors;
 	}
 
 	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (List<GameObject> agents, List<GameObject> customers, List<Vector3> occupiedSlots, int rand_iterations, int GA_iterations, int population, int tournaments) {

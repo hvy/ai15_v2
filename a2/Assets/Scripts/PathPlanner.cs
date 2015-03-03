@@ -5,20 +5,14 @@ using System.Collections.Generic;
 class PathPlanner
 {
 
-	private static float lastWidth;
-	private static float lastHeight;
-	private static int lastNeighbors;
 	private float max_astar_distance = 0f;
 	static System.Random _random = new System.Random();
 
 	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
+	
 
 	// TODO ta hänsyn till tid också
 	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
-
-		lastWidth = width;
-		lastHeight = height;
-		lastNeighbors = neighbors;
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
@@ -154,7 +148,7 @@ class PathPlanner
 						obstacles.Add (newPos);
 						obstacles.AddRange(GameState.Instance.obstacles);
 							
-						List<GNode> recalPath = recalculatePath(oldPos, agent.recalculateGoal(i+1), obstacles, width, height);
+						List<GNode> recalPath = recalculatePath(oldPos, agent.recalculateGoal(i+1), obstacles);
 
 
 						recalPath.RemoveAt(recalPath.Count-1);
@@ -184,9 +178,9 @@ class PathPlanner
 
 	}
 
-	static List<GNode> recalculatePath(Vector3 _start, Vector3 _goal, List<Vector3> obstacles, int width, int height) {
+	static List<GNode> recalculatePath(Vector3 _start, Vector3 _goal, List<Vector3> obstacles) {
 
-		GNode[,] graph = buildGraph ((int)width, (int)height, lastNeighbors, obstacles);
+		GNode[,] graph = buildGraph ((int)GameState.Instance.width, (int)GameState.Instance.height, GameState.Instance.neighbors, obstacles);
 		
 		int x = (int) _goal.x;
 		int z = (int) _goal.z;
@@ -297,19 +291,18 @@ class PathPlanner
 	}
 
 	public static List<GNode> recalculatePath(Agent _agent, Vector3 _goal, List<Vector3> obstacles) {
-		PathPlanner pp = new PathPlanner ();
+//		PathPlanner pp = new PathPlanner ();
 		List<GameObject> agents = new List<GameObject>();
 		List<GameObject> waypoints = new List<GameObject>();
 		agents.Add (_agent.gameObject);
 
 		waypoints.Add (GameState.Instance.customers[_goal]);
 
-		GNode[,] graph = buildGraph ((int)lastWidth, (int)lastHeight, lastNeighbors, obstacles);
+		GNode[,] graph = buildGraph ((int)GameState.Instance.width, (int)GameState.Instance.height, GameState.Instance.neighbors, obstacles);
 							
 			
 			int x = (int) _goal.x;
 			int z = (int) _goal.z;
-			
 			GNode goal = graph [x, z];
 			
 			// Find the closest agent
@@ -347,9 +340,6 @@ class PathPlanner
 
 	
 	public void planContinuousVRP (float width, float height, List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int iterations) {
-
-		lastWidth = width;
-		lastHeight = height;
 
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 		Dictionary<Agent, List<List<GNode>>> bestResult = new Dictionary<Agent, List<List<GNode>>>();

@@ -38,6 +38,10 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		if (counter % 50 == 0) {
 
 			Agent a = agent;
+
+			if (goal.x == -1)
+				return false;
+
 			if (reactive) {
 				if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
 					GameState.Instance.addObstacle (transform.position);

@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
 		StageFactory stageFactory = new StageFactory ();
 		stageFactory.createStage(_width, _height);
 
+		GameState.Instance.height = (int)_height;
+		GameState.Instance.width = (int)_width;
+		GameState.Instance.neighbors = (int)neighbors;
+
 		// Create waypoints
 		List<GameObject> waypoints = createRandomWaypoints (_width, _height, numWaypoints);
 
@@ -38,7 +42,7 @@ public class GameManager : MonoBehaviour
 
 
 		PathPlanner pp = new PathPlanner ();
-		VRPDiscrete vrpDiscrete = new VRPDiscrete((int)_width, (int)_height, neighbors);
+		VRPDiscrete vrpDiscrete = new VRPDiscrete();
 
 		List<Vector2[]> polygons = new List<Vector2[]>();
 		Debug.Log ("KLAR");
