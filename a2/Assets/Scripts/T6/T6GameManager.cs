@@ -15,13 +15,30 @@ public class T6GameManager : MonoBehaviour {
 
 	void Start () {
 
+		// Create the stage
 		stage = createStage (width, height);
 		createStage (width, height);
+
+		// Adjust the camera according to the stage size
 		CameraModel.updateOrthoPosition(width, Camera.main.transform.position.y, height);
 
 		// Instantiate the agents and let the player controll the first one
 		GameObject[] agents = createAgents (numAgents);
 		formation = setFormation (formationId, playerControlledAgentId, agents);
+
+		// Position the agents
+		Vector3 pos = new Vector3 (width / 2.0f, 0, height / 2.0f);
+		for (int i = 0; i < agents.Length; i++) {
+			GameObject agent = agents[i];
+			agent.transform.Translate (new Vector3 (i, 0, 0));
+		}
+
+		// Register the agents in the game state
+		for (int i = 0; i < agents.Length; i++) {
+			GameState.Instance.addAgent (agents[i].transform.position + new Vector3(0,0,i), (Agent) agents[i].GetComponent (typeof(Agent)));		
+		}
+
+		Debug.Log ("Registered agents: " + GameState.Instance.getAgents ().Count);
 	}
 
 	void Update () {	
@@ -67,8 +84,8 @@ public class T6GameManager : MonoBehaviour {
 				agent.init ();
 				agent.setStart (currentPos);
 				agent.setGoal (destinationPos);
-				agent.setModel (0);
-			}
+				agent.setModel (1); // 1 = Kinematic poit model
+ 			}
 		}
 
 	}

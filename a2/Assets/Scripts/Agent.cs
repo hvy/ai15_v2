@@ -106,8 +106,8 @@ public class Agent : MonoBehaviour
 		// Initiated from the GUI using the buttons
 		public void setModel (int newType)
 		{
-            
 				if (isValidType (newType)) {
+				
 						if (!isRunning && !isFinished) {
 								startTime = Time.time;
 								isRunning = true;

@@ -36,9 +36,8 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		counter++;
 		if (counter % 50 == 0) {
 
-			if (agent.currentPath == null) {
-				GameState.agentPos[transform.position].isFinished = true;
-				GameState.obstacles.Add (transform.position);
+			if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
+				GameState.Instance.addObstacle (transform.position);
 				agent.tick = 1000;
 				return false;
 			}
