@@ -10,9 +10,11 @@ public class T6GameManager : MonoBehaviour {
 	
 	private int playerControlledAgentId = 0;
 	private Formation formation;
-	
+
+	GameObject stage;
+
 	void Start () {
-		createStage (width, height);
+		stage = createStage (width, height);
 
 		// Instantiate the agents and let the player controll the first one
 		GameObject[] agents = createAgents (numAgents);
@@ -44,11 +46,33 @@ public class T6GameManager : MonoBehaviour {
 		}
 
 		playerAgent.transform.Translate (agentTranslation * Time.deltaTime * moveSpeed);
+
+		if (Input.GetButtonDown ("Fire1")) {
+			Plane plane = new Plane (Vector3.up, 0);
+			float dist;
+			Ray ray = Camera.mainCamera.ScreenPointToRay (Input.mousePosition);
+			if (plane.Raycast (ray, out dist)) {
+				Vector3 destinationPos = ray.GetPoint (dist);
+				Vector3 currentPos = playerAgent.transform.position;
+				Vector3 velocity = Vector3.Normalize (destinationPos - currentPos);
+
+				Debug.Log ("Mouse clicked: " + destinationPos);
+
+				// Move the player controlled agent to the clicked position
+				//playerAgent.transform.Translate (velocity * Time.deltaTime * moveSpeed);
+				Agent agent = (Agent) playerAgent.GetComponent(typeof(Agent));
+				agent.init ();
+				agent.setStart (currentPos);
+				agent.setGoal (destinationPos);
+				agent.setModel (0);
+			}
+		}
+
 	}
 
-	private void createStage (float width, float height) {
+	private GameObject createStage (float width, float height) {
 		StageFactory sf = new StageFactory ();
-		sf.createStage (width, height);
+		return sf.createStage (width, height);
 	}
 
 	private GameObject[] createAgents (int numAgents) {

@@ -29,11 +29,10 @@ public class LeaderFollowerFormation : Formation {
 			GameObject follower = agents [i];
 			GameObject leader = agents [leaderIds[i]];
 		
-			// TODO Update the positions of the followers here
-			Vector3 diff = leader.transform.position - follower.transform.position;
-			float posDistance = diff.magnitude;
-			float movementDistance = posDistance - distanceToLeader;  
-			follower.transform.Translate (diff.normalized * movementDistance);
+			// Update the positions of the followers
+			Vector3 directionOfLeader = Vector3.Normalize (leader.transform.position - follower.transform.position);
+			float moveDistance = Vector3.Distance (leader.transform.position, follower.transform.position) - distanceToLeader;  
+			follower.transform.Translate (directionOfLeader * moveDistance);
 		}
 	}
 

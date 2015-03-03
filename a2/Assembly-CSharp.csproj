@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
      <Compile Include="Assets\Scripts\GNode.cs" />
+     <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\GraphBuilder.cs" />
      <Compile Include="Assets\Scripts\LevelParser.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />
