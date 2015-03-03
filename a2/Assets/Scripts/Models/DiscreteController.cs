@@ -75,8 +75,5 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		steps = 0;
 		rigidbody.transform.position = position;
 	}
-
-	public void reverse(Vector3 goal) {
-		
-	}
+	
 }
