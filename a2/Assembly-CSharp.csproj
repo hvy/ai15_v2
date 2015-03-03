@@ -1,94 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{79F6C7B7-8542-7DB9-24E8-E1BE63F5987B}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{79F6C7B7-8542-7DB9-24E8-E1BE63F5987B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Agent.cs" />
-     <Compile Include="Assets\Scripts\CameraModel.cs" />
-     <Compile Include="Assets\Scripts\CarPhysics.cs" />
-     <Compile Include="Assets\Scripts\DiscreteLevelParser.cs" />
-     <Compile Include="Assets\Scripts\Factories\AgentFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\ObstacleFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
-     <Compile Include="Assets\Scripts\GNode.cs" />
-     <Compile Include="Assets\Scripts\GraphBuilder.cs" />
-     <Compile Include="Assets\Scripts\LevelParser.cs" />
-     <Compile Include="Assets\Scripts\Menu.cs" />
-     <Compile Include="Assets\Scripts\Models\CarDynamicController.cs" />
-     <Compile Include="Assets\Scripts\Models\CarKinematicController.cs" />
-     <Compile Include="Assets\Scripts\Models\DifferentialController.cs" />
-     <Compile Include="Assets\Scripts\Models\DiscreteController.cs" />
-     <Compile Include="Assets\Scripts\Models\DynamicController.cs" />
-     <Compile Include="Assets\Scripts\Models\KinematicController.cs" />
-     <Compile Include="Assets\Scripts\Models\MovementModel.cs" />
-     <Compile Include="Assets\Scripts\ObstacleMesh.cs" />
-     <Compile Include="Assets\Scripts\PathFinding.cs" />
-     <Compile Include="Assets\Scripts\PathManager.cs" />
-     <Compile Include="Assets\Scripts\PathPlanner.cs" />
-     <Compile Include="Assets\Scripts\PolygonalLevelParser.cs" />
-     <Compile Include="Assets\Scripts\RRT.cs" />
-     <Compile Include="Assets\Scripts\Renderer.cs" />
-     <Compile Include="Assets\Scripts\SecondCamera.cs" />
-     <Compile Include="Assets\Scripts\StageManager.cs" />
-     <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
-     <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
-     <Compile Include="Assets\Scripts\T6\Formation.cs" />
-     <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
-     <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
-     <Compile Include="Assets\Scripts\TNode.cs" />
-     <Compile Include="Assets\Scripts\Tree.cs" />
-     <Compile Include="Assets\Scripts\Tuple.cs" />
-     <Compile Include="Assets\Scripts\VectorUtility.cs" />
-     <Compile Include="Assets\Scripts\WaypointRotation.cs" />
-     <None Include="Assets\Levels\outputPoly1.txt" />
-     <None Include="Assets\Levels\outputPoly2.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Scripts\Agent.cs" />
+    <Compile Include="Assets\Scripts\CameraModel.cs" />
+    <Compile Include="Assets\Scripts\CarPhysics.cs" />
+    <Compile Include="Assets\Scripts\DiscreteLevelParser.cs" />
+    <Compile Include="Assets\Scripts\Factories\AgentFactory.cs" />
+    <Compile Include="Assets\Scripts\Factories\ObstacleFactory.cs" />
+    <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
+    <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
+    <Compile Include="Assets\Scripts\GNode.cs" />
+    <Compile Include="Assets\Scripts\GraphBuilder.cs" />
+    <Compile Include="Assets\Scripts\LevelParser.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
+    <Compile Include="Assets\Scripts\Models\CarDynamicController.cs" />
+    <Compile Include="Assets\Scripts\Models\CarKinematicController.cs" />
+    <Compile Include="Assets\Scripts\Models\DifferentialController.cs" />
+    <Compile Include="Assets\Scripts\Models\DiscreteController.cs" />
+    <Compile Include="Assets\Scripts\Models\DynamicController.cs" />
+    <Compile Include="Assets\Scripts\Models\KinematicController.cs" />
+    <Compile Include="Assets\Scripts\Models\MovementModel.cs" />
+    <Compile Include="Assets\Scripts\ObstacleMesh.cs" />
+    <Compile Include="Assets\Scripts\PathFinding.cs" />
+    <Compile Include="Assets\Scripts\PathManager.cs" />
+    <Compile Include="Assets\Scripts\PathPlanner.cs" />
+    <Compile Include="Assets\Scripts\PolygonalLevelParser.cs" />
+    <Compile Include="Assets\Scripts\RRT.cs" />
+    <Compile Include="Assets\Scripts\Renderer.cs" />
+    <Compile Include="Assets\Scripts\SecondCamera.cs" />
+    <Compile Include="Assets\Scripts\StageManager.cs" />
+    <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
+    <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
+    <Compile Include="Assets\Scripts\T6\Formation.cs" />
+    <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
+    <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
+    <Compile Include="Assets\Scripts\TNode.cs" />
+    <Compile Include="Assets\Scripts\Tree.cs" />
+    <Compile Include="Assets\Scripts\Tuple.cs" />
+    <Compile Include="Assets\Scripts\VectorUtility.cs" />
+    <Compile Include="Assets\Scripts\WaypointRotation.cs" />
+    <None Include="Assets\Levels\outputPoly1.txt" />
+    <None Include="Assets\Levels\outputPoly2.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -98,5 +97,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

@@ -21,6 +21,7 @@ class PathPlanner
 		lastNeighbors = neighbors;
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
+		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
 
@@ -69,9 +70,27 @@ class PathPlanner
 			a.setPath(path);
 
 			paths.Add (path);
+			result[a] = new List<List<GNode>>();
+			result[a].Add (path);
 		}
 
+		avoidCollision(result);
+
 		return paths;
+
+	}
+
+	// Avoid collision by planning with time (considering pauses)
+	void avoidCollision(Dictionary<Agent, List<List<GNode>>> paths) {
+		int totalTime = 100; // TODO, how is this determined? Loop until every agent is finished maybe
+
+		for (int i = 0; i < totalTime; i++) {
+			foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
+			{
+				//Agent agent = entry.first;
+				//List<List<GNode>> p = entry
+			}
+		}
 
 	}
 
