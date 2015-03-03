@@ -341,12 +341,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c43508bb0cd42d69cad333f7634f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 20
-  _height: 20
+  _width: 10
+  _height: 10
   nr_agents: 10
   numWaypoints: 10
-  neighbors: 4
-  task: 1
+  neighbors: 8
+  task: 3
   RandomIterations: 100
   GeneticIterations: 100
   GeneticPopulation: 6

@@ -31,7 +31,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 	}
 
 	// Implements interface member
-	virtual public void stepPath() {
+	virtual public bool stepPath(Agent agent, Vector3 goal) {
 		//Debug.Log ("Moving: " + rigidbody.transform.position);	
 		float distance = Vector3.Distance (goal, transform.position);
 		
@@ -44,19 +44,20 @@ public class DynamicController : MonoBehaviour, MovementModel
 			initialDistance = Vector3.Distance (goal, transform.position);
 			//acceleration = 0.1f;
 		}
-		goal = Agent.recalculateGoal(steps);
+		goal = agent.recalculateGoal(steps);
 		destination_ = path [0].getPos ();
 
-        if (!Agent.isRunning)
-            return;
+        if (!agent.isRunning)
+            return false;
 
 		if (goal.x == -1f) {
-            Agent.isRunning = false;
-            Agent.isFinished = true;
-			return;		
+            agent.isRunning = false;
+            agent.isFinished = true;
+			return false;		
 		}
 
 		move ();
+		return true;
 	}
 
 	// Implements interface member
@@ -95,7 +96,7 @@ public class DynamicController : MonoBehaviour, MovementModel
        
         //rigidbody.velocity = 
         Vector3 force = goal - rigidbody.position;
-        Debug.Log (force.x);
+        //Debug.Log (force.x);
         rigidbody.AddRelativeForce(force * 1f);
 	}
 }

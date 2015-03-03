@@ -48,15 +48,8 @@ public class KinematicController : MonoBehaviour, MovementModel
 		
 		return ret;
 	}
-
-	public void reverse(Vector3 goal) {
-
-		Vector3 fwd = transform.TransformDirection(Vector3.zero-transform.position);
-		float step = velocity * Time.deltaTime;
-		transform.position = Vector3.MoveTowards(transform.position, goal, step);
-
-	}
 	
+
 	protected void move (Vector3 goal)
 	{
 
