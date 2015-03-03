@@ -6,15 +6,15 @@ public class LeaderFollowerFormation : Formation {
 	private GameObject[] agents;
 	private int leaderId;
 	private int[] leaderIds;
-	private float distanceToLeader = 30.0f;
+	private float distanceToLeader = 10.0f;
 	private float maxAngularThreshold = Mathf.PI; // TODO Take an angual threshold into account when moving the follower
 
 	public LeaderFollowerFormation (GameObject[] agents, int leaderId) {
 		this.agents = agents;
 		this.leaderId = leaderId;
 
-		leaderIds = assignSingleLeader (agents, leaderId);
-		//leaderIds = assignRandomLeaders (agents, leaderId);
+		//leaderIds = assignSingleLeader (agents, leaderId);
+		leaderIds = assignRandomLeaders (agents, leaderId);
 	}
 
 	// Implements the interface
@@ -54,7 +54,9 @@ public class LeaderFollowerFormation : Formation {
 			if (i == leaderId) {
 				randomLeaderIds[i] = -1;
 			} else {
-				randomLeaderIds[i] = Random.Range (0, agents.Length - 1);
+				int randomLeaderId = Random.Range (0, agents.Length - 1);
+				randomLeaderIds[i] = randomLeaderId;
+				Debug.Log ("Leader: " + randomLeaderId + " Follower: " + i);
 			}
 		}
 		
