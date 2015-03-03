@@ -11,26 +11,16 @@ public class T6GameManager : MonoBehaviour {
 	private int playerControlledAgentId = 0;
 	private Formation formation;
 
-	GameObject stage;
-
 	void Start () {
 
-		// Create the stage
-		stage = createStage (width, height);
 		createStage (width, height);
-
-		// Adjust the camera according to the stage size
 		CameraModel.updateOrthoPosition(width, Camera.main.transform.position.y, height);
 
-		// Instantiate the agents and let the player controll the first one
 		GameObject[] agents = createAgents (numAgents);
-		formation = setFormation (formationId, playerControlledAgentId, agents);
 
-		// Position the agents
-		Vector3 pos = new Vector3 (width / 2.0f, 0, height / 2.0f);
+		// Reposition the agents with an offset so that they don't collide
 		for (int i = 0; i < agents.Length; i++) {
-			GameObject agent = agents[i];
-			agent.transform.Translate (new Vector3 (i, 0, 0));
+			agents[i].transform.Translate (new Vector3 (i, 0, width / 2.0f));
 		}
 
 		// Register the agents in the game state
@@ -38,12 +28,13 @@ public class T6GameManager : MonoBehaviour {
 			GameState.Instance.addAgent (agents[i].transform.position + new Vector3(0,0,i), (Agent) agents[i].GetComponent (typeof(Agent)));		
 		}
 
-		Debug.Log ("Registered agents: " + GameState.Instance.getAgents ().Count);
+		// Set the formation according to the specified type in the inspector
+		formation = setFormation (formationId, playerControlledAgentId, agents);
 	}
 
 	void Update () {	
-		updatePlayerAgent (); // Listen for keyboard input and move the player controlled agent accordingly
-		formation.updateAgents (); // Update the positions of the follower agents accordingly
+		updatePlayerAgent (); 		// Listen for keyboard input and move the player controlled agent accordingly
+		formation.updateAgents (); 	// Update the positions of the follower agents accordingly
 	}
 
 	private void updatePlayerAgent () {
@@ -76,10 +67,7 @@ public class T6GameManager : MonoBehaviour {
 				Vector3 currentPos = playerAgent.transform.position;
 				Vector3 velocity = Vector3.Normalize (destinationPos - currentPos);
 
-				Debug.Log ("Mouse clicked: " + destinationPos);
-
 				// Move the player controlled agent to the clicked position
-				//playerAgent.transform.Translate (velocity * Time.deltaTime * moveSpeed);
 				Agent agent = (Agent) playerAgent.GetComponent(typeof(Agent));
 				agent.init ();
 				agent.setStart (currentPos);

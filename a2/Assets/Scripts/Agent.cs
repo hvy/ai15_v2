@@ -28,7 +28,7 @@ public class Agent : MonoBehaviour
 		{
 				models = new List<MovementModel> ();
 				models.Add (GetComponent<DiscreteController> ());
-//				models.Add (GetComponent<DynamicController> ());
+				models.Add (GetComponent<DynamicController> ());
 				models.Add (GetComponent<KinematicController> ());
 //				models.Add (GetComponent<DifferentialController> ());
 //				models.Add (GetComponent<CarDynamicController> ());
@@ -40,6 +40,7 @@ public class Agent : MonoBehaviour
 		{
 			models = new List<MovementModel> ();
 			models.Add (GetComponent<DiscreteController> ());
+			models.Add (GetComponent<DynamicController> ());
 			models.Add (GetComponent<KinematicController> ());
 
 		}

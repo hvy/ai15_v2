@@ -32,7 +32,18 @@ public class LeaderFollowerFormation : Formation {
 			// Update the positions of the followers
 			Vector3 directionOfLeader = Vector3.Normalize (leader.transform.position - follower.transform.position);
 			float moveDistance = Vector3.Distance (leader.transform.position, follower.transform.position) - distanceToLeader;  
-			follower.transform.Translate (directionOfLeader * moveDistance);
+
+			// Find the destination position for this follower
+
+			// Naive approach
+			//follower.transform.Translate (directionOfLeader * moveDistance);
+
+			// Motion model approach
+			Agent agent = (Agent) follower.GetComponent(typeof(Agent));
+			agent.init ();
+			agent.setStart (follower.transform.position);
+			agent.setGoal (follower.transform.position + (directionOfLeader * moveDistance));
+			agent.setModel (1); // 1 = Kinematic poit model
 		}
 	}
 
