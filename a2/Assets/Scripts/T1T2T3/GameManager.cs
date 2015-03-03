@@ -36,17 +36,19 @@ public class GameManager : MonoBehaviour
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
 
 
+
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
 
+
 		List<Vector2[]> polygons = new List<Vector2[]>();
+		Debug.Log ("KLAR");
 		if (task == 1)
 			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles);
 		else if (task == 2)
 			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)
 			pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
-
 	
 	}
 

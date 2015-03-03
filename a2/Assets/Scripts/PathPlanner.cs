@@ -275,7 +275,7 @@ class PathPlanner
 
 			}
 		}
-
+	
 
 		// NEW
 		GeneticsDiscrete genDisc = new GeneticsDiscrete(bestChromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
@@ -325,7 +325,13 @@ class PathPlanner
 			//a.init();
 			a.setStart(start.getPos ());
 			a.setGoal(start.getPos());
+			Debug.Log ("BAJS");
+
+			for (int hej = 0; hej < 10000000; hej++) {
+
+			}
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
+			Debug.Log ("BAJS");
 			
 			GNode previousGoal = start;
 			
@@ -532,52 +538,7 @@ class PathPlanner
 		return path;
 	}
 
-//	public static List<GNode> recalculateContinousPath(Agent _agent, Vector3 _goal, List<Vector3> obstacles) {
-//		PathPlanner pp = new PathPlanner ();
-//		List<GameObject> agents = new List<GameObject>();
-//		List<GameObject> waypoints = new List<GameObject>();
-//		agents.Add (_agent.gameObject);
-//		waypoints.Add (GameManager.customerPos[_goal]);
-//		
-//		GNode[,] graph = buildGraph (lastWidth, lastHeight, lastNeighbors, obstacles);
-//		
-//		
-//		int x = (int) _goal.x;
-//		int z = (int) _goal.z;
-//		
-//		GNode goal = graph [x, z];
-//		
-//		// Find the closest agent
-//		
-//		GameObject agent = _agent.gameObject;
-//		x = (int) agent.transform.position.x;
-//		z = (int) agent.transform.position.z;
-//		
-//		GNode start = graph [x, z];
-//		
-//		
-//		List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
-//		
-//		if (path == null) {
-//			Debug.Log ("Didn't find path!");
-//			return null;
-//		}
-//		
-//		PathFinding.draw (path);
-//		
-//		
-//		Agent a = _agent;
-//		a.init();
-//		a.setStart(path[path.Count-1].getPos());
-//		a.setGoal(path[path.Count-1].getPos ());
-//		a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
-//		a.setPath(path);
-//		
-//		
-//		
-//		return path;
-//	} 
-	
+
 
 	
 	public void planContinuousVRP (float width, float height, List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int iterations) {

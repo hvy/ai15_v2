@@ -5,26 +5,32 @@ using System.Collections.Generic;
 public class Agent : MonoBehaviour
 {
 		public Vector3 start, goal;
-		private List<MovementModel> models;
-		private List<List<GNode>> paths = new List<List<GNode>> ();
+		public int tick = -1;
 		public List<GNode> currentPath;
-		public int type = 1;
 		public bool isRunning = false;
 		public bool isFinished = false;
 		public bool paused = false;
 		public bool overridePause = false;
+		public int type = 1;
+
+		private List<MovementModel> models;
+		private List<List<GNode>> paths = new List<List<GNode>> ();
 		private float startTime;
 		private int currentPathIndex = 0;
 		private int steps;
 		private bool hasPrintedTime = false;
-		public int tick = -1;
+
+
+		void Awake() {
+			models = new List<MovementModel> ();
+			models.Add (GetComponent<DiscreteController> ());
+			models.Add (GetComponent<KinematicController> ());
+			models.Add (GetComponent<DynamicController> ());
+
+		}
 
 		void Start ()
 		{
-				models = new List<MovementModel> ();
-				models.Add (GetComponent<DiscreteController> ());
-				models.Add (GetComponent<KinematicController> ());
-				models.Add (GetComponent<DynamicController> ());
 //				models.Add (GetComponent<DifferentialController> ());
 //				models.Add (GetComponent<CarDynamicController> ());
 //				models.Add (GetComponent<CarKinematicController> ());
