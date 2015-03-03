@@ -84,7 +84,7 @@ public class GeneticsDiscrete {
 				if (hash.Contains(child))
 					continue;
 
-				population.RemoveAt(0);
+				population.RemoveAt(0); // TODO change type of selection?
 				population.Add (child);
 				hash.Add(child);
 
@@ -193,6 +193,7 @@ public class GeneticsDiscrete {
 		
 	}
 
+	// TODO new fitness = w1*max_distance + w2*maxTimeCost
 	private float distance_astar(List<GNode> path) {
 		return path.Count;
 //		float distance = 0f;

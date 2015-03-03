@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
 	//public static float width, height;
 
 
-	public static Dictionary<Vector3, Agent> agentPos;
-	public static Dictionary<Vector3, GameObject> customerPos;
-	public static List<Vector3> obstacles;
+	//public static Dictionary<Vector3, Agent> agentPos;
+	//public static Dictionary<Vector3, GameObject> customerPos;
+//	public static List<Vector3> obstacles;
 	public static int gameTick = 0;
 
 	public float _width, _height;
@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
 	void Start () 
 	{
 		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
-		agentPos = new Dictionary<Vector3, Agent>();
-		customerPos = new Dictionary<Vector3, GameObject>();
-		obstacles = new List<Vector3>();
+//		agentPos = new Dictionary<Vector3, Agent>();
+//		customerPos = new Dictionary<Vector3, GameObject>();
+//		obstacles = new List<Vector3>();
 		init();
 	}
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
-		obstacles = new List<Vector3>();
+//		obstacles = new List<Vector3>();
 //		obstacles.Add (new Vector3(1,0,1));
 //		obstacles.Add (new Vector3(2,0,2));
 //		obstacles.Add (new Vector3(3,0,3));
@@ -64,9 +64,9 @@ public class GameManager : MonoBehaviour
 
 		List<Vector2[]> polygons = new List<Vector2[]>();
 		if (task == 1)
-			 pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles);
+			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles);
 		else if (task == 2)
-			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
+			pp.planVRPPaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)
 			pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
 
@@ -77,11 +77,11 @@ public class GameManager : MonoBehaviour
 		//agents.RemoveRange(1, agents.Count-1);
 		//waypoints.RemoveRange(9, waypoints.Count-10);
 
-		agents[0].transform.position = new Vector3(0,0,0);
-		agents[1].transform.position = new Vector3(0,0,1);
-
-		waypoints[0].transform.position = new Vector3(3,0,1);
-		waypoints[1].transform.position = new Vector3(3,0,3);
+//		agents[0].transform.position = new Vector3(0,0,0);
+//		agents[1].transform.position = new Vector3(1,0,1);
+////
+//		waypoints[0].transform.position = new Vector3(2,0,2);
+//		waypoints[1].transform.position = new Vector3(5,0,5);
 //		waypoints[7].transform.position = new Vector3(1,0,9);
 //		waypoints[2].transform.position = new Vector3(3,0,1);
 //		waypoints[3].transform.position = new Vector3(5,0,2);
@@ -101,10 +101,10 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < numberOfAgents; i++) {
 			GameObject agent = AgentFactory.createAgent();
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
-			while (agentPos.ContainsKey(agent.transform.position) || obstacles.Contains(agent.transform.position))
+			while (GameState.Instance.agents.ContainsKey(agent.transform.position) || GameState.Instance.obstacles.Contains(agent.transform.position))
 				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 
-			agentPos[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
+			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
 			agents.Add (agent);
 		}
 
@@ -126,13 +126,13 @@ public class GameManager : MonoBehaviour
 			float z = Random.Range(0, (int)height);
 			waypoint.transform.position = new Vector3 (x, y, z);
 
-			while (customerPos.ContainsKey(waypoint.transform.position) || obstacles.Contains(waypoint.transform.position))
+			while (GameState.Instance.customers.ContainsKey(waypoint.transform.position) || GameState.Instance.obstacles.Contains(waypoint.transform.position))
 				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), y, Random.Range(0, (int)height));
 
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;
 			waypoints.Add (waypoint);
-			customerPos[waypoint.transform.position] = waypoint;
+			GameState.Instance.customers[waypoint.transform.position] = waypoint;
 		}
 
 		return waypoints;

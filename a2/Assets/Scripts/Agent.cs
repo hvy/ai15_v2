@@ -22,7 +22,7 @@ public class Agent : MonoBehaviour
 		private int steps;
 		private bool hasPrintedTime = false;
 		
-		public int tick = 0;
+		public int tick = -1;
 
 		void Start ()
 		{
@@ -63,7 +63,7 @@ public class Agent : MonoBehaviour
 			if (goal.x == -1f) {
 					isRunning = false;
 					isFinished = true;
-					GameManager.obstacles.Add (transform.position);
+					GameState.Instance.obstacles.Add (transform.position);
 					//tick = 10000;
 					return;
 			}
@@ -135,13 +135,20 @@ public class Agent : MonoBehaviour
 				if (path == null)
 					return transform.position;
 				if (path.Count - counter - 1 < 0) {
-						GameManager.obstacles.Add (path[0].getPos());
+						GameState.Instance.obstacles.Add (path[0].getPos());
 						return new Vector3 (-1f, -1f, -1f);
 				}
 				
 				pos = path [path.Count - counter - 1].getPos ();
 				
 				return pos;
+		}
+
+		public void updatePath(List<GNode> pathSegment, int step) {
+			step = currentPath.Count - step - 1;
+			currentPath.RemoveAt(step);
+			foreach (GNode node in pathSegment)
+				currentPath.Insert(step-1,node);
 		}
 	
 
