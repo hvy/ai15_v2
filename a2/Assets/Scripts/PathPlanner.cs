@@ -74,23 +74,78 @@ class PathPlanner
 			result[a].Add (path);
 		}
 
-		avoidCollision(result);
+		Dictionary<Agent, List<GNode>> newPaths = avoidCollision(result);
 
+		foreach(KeyValuePair<Agent, List<GNode>> entry in newPaths)
+		{
+			Agent a = entry.Key;
+			a.setPath(entry.Value);
+		}
+
+	
 		return paths;
 
 	}
 
 	// Avoid collision by planning with time (considering pauses)
-	void avoidCollision(Dictionary<Agent, List<List<GNode>>> paths) {
+	Dictionary<Agent, List<GNode>> avoidCollision(Dictionary<Agent, List<List<GNode>>> paths) {
 		int totalTime = 100; // TODO, how is this determined? Loop until every agent is finished maybe
 
+
+		int[,] binGraph = new int[(int)lastWidth,(int)lastHeight];
+		Dictionary<Agent, List<GNode>> new_paths = new Dictionary<Agent, List<GNode>>();
+		//Dictionary<Agent, List<GNode>> old_paths = new Dictionary<Agent, List<GNode>>();
+
+		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
+		{
+			Agent agent = entry.Key;
+			new_paths[agent] = new List<GNode>();
+//			old_paths[agent] = new List<GNode>();
+			binGraph[(int)agent.transform.position.x, (int)agent.transform.position.z] = 1;
+		}
+
+//		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
+//		{
+//			foreach (List<GNode> path in entry.Value) {
+//				old_paths[entry.Key].AddRange(path);
+//			}
+//			
+//		}
+		
 		for (int i = 0; i < totalTime; i++) {
 			foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 			{
-				//Agent agent = entry.first;
-				//List<List<GNode>> p = entry
+					Agent agent = entry.Key;
+					//List<List<GNode>> p = entry.Value;
+					
+					Vector3 oldPos;
+					if (i == 0)
+						oldPos = agent.transform.position;
+					else
+						oldPos = agent.recalculateGoal(i-1);
+
+					Vector3 newPos = agent.recalculateGoal(i);
+					
+					if ((int) newPos.x == -1) {
+						continue;
+					}
+					
+					if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos && newPos != agent.transform.position) {
+						Debug.Log ("PAUSA " + agent.GetInstanceID());
+						// pause
+						new_paths[agent].Insert(0, new GNode(0, oldPos, new List<GNode>()));
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
+					} else {
+						binGraph[(int)newPos.x, (int)newPos.z] = 1;
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
+						new_paths[agent].Insert(0, new GNode(0, newPos, new List<GNode>()));
+					}
+
+
 			}
 		}
+
+		return new_paths;
 
 	}
 

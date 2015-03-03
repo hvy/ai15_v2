@@ -142,7 +142,7 @@ public class Agent : MonoBehaviour
 		public Vector3 recalculateGoal (int counter)
 		{
 
-				Vector3 goal;
+				Vector3 pos;
 				List<GNode> path = currentPath;
 
 				if (path == null)
@@ -152,12 +152,13 @@ public class Agent : MonoBehaviour
 						return new Vector3 (-1f, -1f, -1f);
 				}
 				
-				goal = path [path.Count - counter - 1].getPos ();
+				pos = path [path.Count - counter - 1].getPos ();
 				
-				return goal;
+				return pos;
 		}
+	
 
-		private bool isValidType (int type)
+	private bool isValidType (int type)
 		{
 				return type > -1 && type < models.Count;
 		}
