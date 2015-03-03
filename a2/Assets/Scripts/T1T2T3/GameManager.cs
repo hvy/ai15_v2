@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
 
-		//test (agents, waypoints);
+		test (agents, waypoints);
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
@@ -78,18 +78,18 @@ public class GameManager : MonoBehaviour
 		//waypoints.RemoveRange(9, waypoints.Count-10);
 
 		agents[0].transform.position = new Vector3(0,0,0);
-		agents[1].transform.position = new Vector3(3,0,0);
+		agents[1].transform.position = new Vector3(0,0,1);
 
-		waypoints[7].transform.position = new Vector3(1,0,9);
-		waypoints[1].transform.position = new Vector3(2,0,2);
-		waypoints[2].transform.position = new Vector3(3,0,1);
-		waypoints[0].transform.position = new Vector3(1,0,1);
-		waypoints[3].transform.position = new Vector3(5,0,2);
-		waypoints[4].transform.position = new Vector3(6,0,2);
-		waypoints[5].transform.position = new Vector3(9,0,8);
-		waypoints[6].transform.position = new Vector3(7,0,3);
-		waypoints[8].transform.position = new Vector3(3,0,9);
-		waypoints[9].transform.position = new Vector3(2,0,4);
+		waypoints[0].transform.position = new Vector3(3,0,1);
+		waypoints[1].transform.position = new Vector3(3,0,3);
+//		waypoints[7].transform.position = new Vector3(1,0,9);
+//		waypoints[2].transform.position = new Vector3(3,0,1);
+//		waypoints[3].transform.position = new Vector3(5,0,2);
+//		waypoints[4].transform.position = new Vector3(6,0,2);
+//		waypoints[5].transform.position = new Vector3(9,0,8);
+//		waypoints[6].transform.position = new Vector3(7,0,3);
+//		waypoints[8].transform.position = new Vector3(3,0,9);
+//		waypoints[9].transform.position = new Vector3(2,0,4);
 
 
 	}
