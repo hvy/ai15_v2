@@ -6,6 +6,7 @@ public class T6GameManager : MonoBehaviour {
 
 	public int numAgents; // numAgents > 0
 	public int formationId; // 0 = Leader following, 1 = Virtual structure, 2 = Decentralized local interaction
+	public int motionModelId;
 	public float width, height, moveSpeed;
 	
 	private int playerControlledAgentId = 0;
@@ -72,7 +73,7 @@ public class T6GameManager : MonoBehaviour {
 				agent.init ();
 				agent.setStart (currentPos);
 				agent.setGoal (destinationPos);
-				agent.setModel (1); // 1 = Kinematic poit model
+				agent.setModel (motionModelId);
  			}
 		}
 
@@ -98,7 +99,7 @@ public class T6GameManager : MonoBehaviour {
 
 		switch (formationId) {
 		case 0:
-			formation = new LeaderFollowerFormation (agents, playerControlledAgentId);
+			formation = new LeaderFollowerFormation (agents, playerControlledAgentId, motionModelId);
 			break;
 		case 1:
 			//formation = new VirtualStructureFormation (...);

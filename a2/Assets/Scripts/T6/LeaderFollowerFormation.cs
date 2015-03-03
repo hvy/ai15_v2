@@ -4,17 +4,20 @@ using System.Collections;
 public class LeaderFollowerFormation : Formation {
 
 	private GameObject[] agents;
-	private int leaderId;
+	private int leaderId, motionModelId;
 	private int[] leaderIds;
 	private float distanceToLeader = 10.0f;
 	private float maxAngularThreshold = Mathf.PI; // TODO Take an angual threshold into account when moving the follower
 
-	public LeaderFollowerFormation (GameObject[] agents, int leaderId) {
+	public LeaderFollowerFormation (GameObject[] agents, int leaderId, int motionModelId) {
 		this.agents = agents;
 		this.leaderId = leaderId;
+		this.motionModelId = motionModelId;
 
 		//leaderIds = assignSingleLeader (agents, leaderId);
 		leaderIds = assignRandomLeaders (agents, leaderId);
+
+		initialRepositioning ();
 	}
 
 	// Implements the interface
@@ -34,16 +37,11 @@ public class LeaderFollowerFormation : Formation {
 			float moveDistance = Vector3.Distance (leader.transform.position, follower.transform.position) - distanceToLeader;  
 
 			// Find the destination position for this follower
-
-			// Naive approach
-			//follower.transform.Translate (directionOfLeader * moveDistance);
-
-			// Motion model approach
 			Agent agent = (Agent) follower.GetComponent(typeof(Agent));
 			agent.init ();
 			agent.setStart (follower.transform.position);
 			agent.setGoal (follower.transform.position + (directionOfLeader * moveDistance));
-			agent.setModel (1); // 1 = Kinematic poit model
+			agent.setModel (motionModelId); // 1 = Kinematic poit model
 		}
 	}
 
@@ -55,6 +53,10 @@ public class LeaderFollowerFormation : Formation {
 	// Implements the interface
 	public GameObject[] getAgents() {
 		return agents;
+	}
+
+	private void initialRepositioning () {
+
 	}
 
 	private int[] assignRandomLeaders (GameObject[] agents, int leaderId) {
