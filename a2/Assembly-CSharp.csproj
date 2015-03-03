@@ -45,52 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-     <Compile Include="Assets\Scripts\Agent.cs" />
-     <Compile Include="Assets\Scripts\CameraModel.cs" />
-     <Compile Include="Assets\Scripts\CarPhysics.cs" />
-     <Compile Include="Assets\Scripts\DiscreteLevelParser.cs" />
-     <Compile Include="Assets\Scripts\Factories\AgentFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\ObstacleFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
-     <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
-     <Compile Include="Assets\Scripts\GNode.cs" />
-     <Compile Include="Assets\Scripts\GameState.cs" />
-     <Compile Include="Assets\Scripts\GraphBuilder.cs" />
-     <Compile Include="Assets\Scripts\LevelParser.cs" />
-     <Compile Include="Assets\Scripts\Menu.cs" />
-     <Compile Include="Assets\Scripts\Models\CarDynamicController.cs" />
-     <Compile Include="Assets\Scripts\Models\CarKinematicController.cs" />
-     <Compile Include="Assets\Scripts\Models\DifferentialController.cs" />
-     <Compile Include="Assets\Scripts\Models\DiscreteController.cs" />
-     <Compile Include="Assets\Scripts\Models\DynamicController.cs" />
-     <Compile Include="Assets\Scripts\Models\KinematicController.cs" />
-     <Compile Include="Assets\Scripts\Models\MovementModel.cs" />
-     <Compile Include="Assets\Scripts\ObstacleMesh.cs" />
-     <Compile Include="Assets\Scripts\PathFinding.cs" />
-     <Compile Include="Assets\Scripts\PathManager.cs" />
-     <Compile Include="Assets\Scripts\PathPlanner.cs" />
-     <Compile Include="Assets\Scripts\PolygonalLevelParser.cs" />
-     <Compile Include="Assets\Scripts\RRT.cs" />
-     <Compile Include="Assets\Scripts\Renderer.cs" />
-     <Compile Include="Assets\Scripts\SecondCamera.cs" />
-     <Compile Include="Assets\Scripts\StageManager.cs" />
-     <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
-     <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
-     <Compile Include="Assets\Scripts\T6\Formation.cs" />
-     <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
-     <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
-     <Compile Include="Assets\Scripts\TNode.cs" />
-     <Compile Include="Assets\Scripts\Tree.cs" />
-     <Compile Include="Assets\Scripts\Tuple.cs" />
-     <Compile Include="Assets\Scripts\VectorUtility.cs" />
-     <Compile Include="Assets\Scripts\WaypointRotation.cs" />
-     <None Include="Assets\Levels\outputPoly1.txt" />
-     <None Include="Assets\Levels\outputPoly2.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
- </Reference>
-=======
     <Compile Include="Assets\Scripts\Agent.cs" />
     <Compile Include="Assets\Scripts\CameraModel.cs" />
     <Compile Include="Assets\Scripts\CarPhysics.cs" />
@@ -134,10 +88,9 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
     </Reference>
->>>>>>> 2056bf247e43bb3a2a74155f0d647011f3f9d5e0
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
 	   Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

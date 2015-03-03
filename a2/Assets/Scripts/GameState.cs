@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class GameState : MonoBehaviour {
 
-	public static Dictionary<Vector3, Agent> agentPosistions;
-	public static Dictionary<Vector3, GameObject> customerPosistions;
+	public static Dictionary<Vector3, Agent> agentPos;
+	public static Dictionary<Vector3, GameObject> customerPos;
 
 	void Start () {
-		agentPosistions = new Dictionary<Vector3, Agent> ();
-		customerPosistions = new Dictionary<Vector3, GameObject> ();
+		agentPos = new Dictionary<Vector3, Agent> ();
+		customerPos = new Dictionary<Vector3, GameObject> ();
 	}
 	
 	// Update is called once per frame
