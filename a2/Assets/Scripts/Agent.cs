@@ -5,23 +5,18 @@ using System.Collections.Generic;
 public class Agent : MonoBehaviour
 {
 		public Vector3 start, goal;
-	
 		private List<MovementModel> models;
-		private List<List<GNode>> paths = new List<List<GNode>>();
+		private List<List<GNode>> paths = new List<List<GNode>> ();
 		public List<GNode> currentPath;
-		
 		public int type = 1;
 		public bool isRunning = false;
 		public bool isFinished = false;
 		public bool paused = false;
 		public bool overridePause = false;
-
-
 		private float startTime;
 		private int currentPathIndex = 0;
 		private int steps;
 		private bool hasPrintedTime = false;
-		
 		public int tick = -1;
 
 		void Start ()
@@ -36,59 +31,57 @@ public class Agent : MonoBehaviour
 
 		}
 
-
 		private void executeStep ()
 		{
-			float distance = Vector3.Distance (goal, transform.position);
+				float distance = Vector3.Distance (goal, transform.position);
 		
-			if (distance < 0.1f) {
-					steps++;
-			}
+				if (distance < 0.1f) {
+						steps++;
+				}
 			
-			if (currentPath == null) {
-				return;
-			}
+				if (currentPath == null) {
+						return;
+				}
 			
-			if (currentPath.Count - steps - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
-				currentPathIndex++;
-				currentPath = paths[currentPathIndex];
-				steps = 0;
-			}
+				if (currentPath.Count - steps - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
+						currentPathIndex++;
+						currentPath = paths [currentPathIndex];
+						steps = 0;
+				}
 
-			goal = recalculateGoal (steps);
+				goal = recalculateGoal (steps);
 		
-			if (!isRunning)
-					return;
+				if (!isRunning)
+						return;
 	
-			if (goal.x == -1f) {
-					isRunning = false;
-					isFinished = true;
-					GameState.Instance.obstacles.Add (transform.position);
-					//tick = 10000;
-					return;
-			}
+				if (goal.x == -1f) {
+						isRunning = false;
+						isFinished = true;
+						GameState.Instance.obstacles.Add (transform.position);
+						//tick = 10000;
+						return;
+				}
 		
 		}
-
-
 	
-	void FixedUpdate () {
-		if (isValidType (type) && goal.x != -1f && !isFinished) {
-			if (models [type].stepPath (this, goal)) {
-				paused = false;
-				executeStep ();
-				overridePause = false;
-			} else {
-				paused = true;
-			}
-		}
+		void FixedUpdate ()
+		{
+				if (isValidType (type) && goal.x != -1f && !isFinished) {
+						if (models [type].stepPath (this, goal)) {
+								paused = false;
+								executeStep ();
+								overridePause = false;
+						} else {
+								paused = true;
+						}
+				}
 
-		if (isFinished && !hasPrintedTime) {
-			Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
-			hasPrintedTime = true;
-			tick = 1000;
+				if (isFinished && !hasPrintedTime) {
+						Debug.Log ("Total time: " + (Time.time - startTime) + "  Total ticks: " + tick);
+						hasPrintedTime = true;
+						tick = 1000;
+				}
 		}
-	}
     
 		// Initiated from the GUI using the buttons
 		public void setModel (int newType)
@@ -105,25 +98,26 @@ public class Agent : MonoBehaviour
 						models [newType].findPath ();
 
 						type = newType;		
-							}
+				}
 		}
 
 		public void setPath (List<GNode> path)
 		{
 				currentPath = path;
-				//paths[0] = path;
 				steps = 0;
 		}
 
-		public void addPath(List<GNode> path) {				
-			paths.Add (path);
-			currentPath = paths[0];
-			steps = 0;
+		public void addPath (List<GNode> path)
+		{				
+				paths.Add (path);
+				currentPath = paths [0];
+				steps = 0;
 		}
 
-		public void removePaths() {
-			paths  = new List<List<GNode>>();
-			currentPath = null;
+		public void removePaths ()
+		{
+				paths = new List<List<GNode>> ();
+				currentPath = null;
 		}
 
 		public Vector3 recalculateGoal (int counter)
@@ -133,9 +127,9 @@ public class Agent : MonoBehaviour
 				List<GNode> path = currentPath;
 
 				if (path == null)
-					return transform.position;
+						return transform.position;
 				if (path.Count - counter - 1 < 0) {
-						GameState.Instance.obstacles.Add (path[0].getPos());
+						GameState.Instance.obstacles.Add (path [0].getPos ());
 						return new Vector3 (-1f, -1f, -1f);
 				}
 				
@@ -144,15 +138,15 @@ public class Agent : MonoBehaviour
 				return pos;
 		}
 
-		public void updatePath(List<GNode> pathSegment, int step) {
-			step = currentPath.Count - step - 1;
-			currentPath.RemoveAt(step);
-			foreach (GNode node in pathSegment)
-				currentPath.Insert(step-1,node);
+		public void updatePath (List<GNode> pathSegment, int step)
+		{
+				step = currentPath.Count - step - 1;
+				currentPath.RemoveAt (step);
+				foreach (GNode node in pathSegment)
+						currentPath.Insert (step - 1, node);
 		}
-	
 
-	private bool isValidType (int type)
+		private bool isValidType (int type)
 		{
 				return type > -1 && type < models.Count;
 		}

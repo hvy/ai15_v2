@@ -4,16 +4,8 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {	
-	// TODO FIX
-	//public static Vector3 start, goal;
+
 	public static int discreteNeighbors;
-	//public static float width, height;
-
-
-	//public static Dictionary<Vector3, Agent> agentPos;
-	//public static Dictionary<Vector3, GameObject> customerPos;
-//	public static List<Vector3> obstacles;
-	public static int gameTick = 0;
 
 	public float _width, _height;
 	public int nr_agents, numWaypoints;
@@ -27,9 +19,6 @@ public class GameManager : MonoBehaviour
 	void Start () 
 	{
 		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
-//		agentPos = new Dictionary<Vector3, Agent>();
-//		customerPos = new Dictionary<Vector3, GameObject>();
-//		obstacles = new List<Vector3>();
 		init();
 	}
 
@@ -46,21 +35,9 @@ public class GameManager : MonoBehaviour
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents);
 
-		test (agents, waypoints);
 
 		// Run Collision avoidance algo
 		PathPlanner pp = new PathPlanner ();
-//		obstacles = new List<Vector3>();
-//		obstacles.Add (new Vector3(1,0,1));
-//		obstacles.Add (new Vector3(2,0,2));
-//		obstacles.Add (new Vector3(3,0,3));
-//		obstacles.Add (new Vector3(4,0,4));
-//		obstacles.Add (new Vector3(5,0,5));
-//		obstacles.Add (new Vector3(6,0,6));
-//		obstacles.Add (new Vector3(7,0,7));
-//		obstacles.Add (new Vector3(8,0,8));
-//		obstacles.Add (new Vector3(9,0,9));
-		//obstacles.Add (new Vector3(10,0,10));
 
 		List<Vector2[]> polygons = new List<Vector2[]>();
 		if (task == 1)
@@ -73,27 +50,6 @@ public class GameManager : MonoBehaviour
 	
 	}
 
-	private void test(List<GameObject> agents, List<GameObject> waypoints) {
-		//agents.RemoveRange(1, agents.Count-1);
-		//waypoints.RemoveRange(9, waypoints.Count-10);
-
-//		agents[0].transform.position = new Vector3(0,0,0);
-//		agents[1].transform.position = new Vector3(1,0,1);
-////
-//		waypoints[0].transform.position = new Vector3(2,0,2);
-//		waypoints[1].transform.position = new Vector3(5,0,5);
-//		waypoints[7].transform.position = new Vector3(1,0,9);
-//		waypoints[2].transform.position = new Vector3(3,0,1);
-//		waypoints[3].transform.position = new Vector3(5,0,2);
-//		waypoints[4].transform.position = new Vector3(6,0,2);
-//		waypoints[5].transform.position = new Vector3(9,0,8);
-//		waypoints[6].transform.position = new Vector3(7,0,3);
-//		waypoints[8].transform.position = new Vector3(3,0,9);
-//		waypoints[9].transform.position = new Vector3(2,0,4);
-
-
-	}
-	
 	List<GameObject> createRandomAgents(float width, float height, int numberOfAgents) {
 
 		List<GameObject> agents = new List<GameObject> ();
