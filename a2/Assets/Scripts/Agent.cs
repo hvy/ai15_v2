@@ -144,7 +144,34 @@ public class Agent : MonoBehaviour
 				return pos;
 		}
 
-		public void updatePath (List<GNode> pathSegment, int step)
+		public List<GNode> pathsToPath() {
+			List<GNode> list = new List<GNode>();
+
+			for (int i = 0; i < paths.Count; i++) {
+					for (int j = 0; j < paths[i].Count; j++) {
+						list.Add (paths[i][paths[i].Count-1-j]);
+						
+				}
+				if (i != paths.Count -1)
+					list.RemoveAt(list.Count-1);
+			}
+
+		 // TODO returnera en lista med pathen som skapas av alla paths.
+		return list;
+		}
+
+
+		public int simulateStep(int step) {
+			if (currentPath.Count - step - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
+				currentPathIndex++;
+				currentPath = paths [currentPathIndex];
+				return 0;
+			}
+			return step;
+		}
+	
+	
+	public void updatePath (List<GNode> pathSegment, int step)
 		{
 				step = currentPath.Count - step - 1;
 				currentPath.RemoveAt (step);

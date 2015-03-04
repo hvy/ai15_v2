@@ -63,7 +63,7 @@ public class GeneticsDiscrete {
 			Stopwatch sw = new Stopwatch();
 			
 			// your code here
-//			UnityEngine.Debug.Log ("current best: " + current_best_cost);
+			UnityEngine.Debug.Log ("current best: " + current_best_cost);
 			
 			sw.Start();
 			parents = tournamentSelection(K);
@@ -192,15 +192,9 @@ public class GeneticsDiscrete {
 		
 		
 	}
-
-	// TODO new fitness = w1*max_distance + w2*maxTimeCost
+	
 	private float distance_astar(List<GNode> path) {
 		return path.Count;
-//		float distance = 0f;
-//		for (int i = 0; i < path.Count-1; i++) {
-//			distance += Vector3.Distance(path[i].getPos(), path[i+1].getPos ());
-//		}
-//		return distance;
 	}
 
 	void normalize_chromosome(int[] chromo) {
@@ -218,7 +212,8 @@ public class GeneticsDiscrete {
 	Tuple<float, Dictionary<Agent, List<List<GNode>>>>  cost(int[] chromosome) {
 
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
-		float cost = 0f;
+		float maxDistance = 0f;
+		float totalDistance = 0f;
 		
 		int totalCustomers = 0;
 		for (int i = 0; i < chromosome.Length; ) {
@@ -260,6 +255,7 @@ public class GeneticsDiscrete {
 				result[a].Add (path);
 				
 				distance += distance_astar(path);
+				totalDistance += distance;
 				
 				if (totalCustomers >= customers.Count)
 					break;
@@ -267,107 +263,137 @@ public class GeneticsDiscrete {
 			}
 			
 			
-			if (distance > cost)
-				cost = distance;
+			if (distance > maxDistance)
+				maxDistance = distance;
 			
 			i = i + number_of_customers + 1;
 			
 		}
 
+		// Calculate the fitness of the result
+		float cost = fitness (result, maxDistance, totalDistance);
 
-		// cost check
-
-		//cost = timeCost(result, GameState.Instance.width, GameState.Instance.height);
-		//UnityEngine.Debug.Log ("LONGEST PATH: " + cost);
-		
 		return new Tuple<float, Dictionary<Agent, List<List<GNode>>>>(cost, result);
 
 	}
 
+	private float fitness(Dictionary<Agent, List<List<GNode>>> res, float maxDistance, float totalDistance) {
+		float w1 = 2.0f;
+		float w2 = 0.8f;
+		float w3 = 0.5f;
+		return w1*timeCost(res, GameState.Instance.width, GameState.Instance.height) + w2*maxDistance + w3*totalDistance;
+	}
+
 	// Avoid collision by planning with time (considering pauses)
 	private int timeCost(Dictionary<Agent, List<List<GNode>>> paths, int width, int height) {
+		int totalTime = 100;// TODO, how is this determined? Loop until every agent is finished maybe
 
-		int totalTime = 50;// TODO, how is this determined? Loop until every agent is finished maybe
-		
+		int longestTime = 0;
 		
 		int[,] binGraph = new int[(int)width,(int)height];
 		Dictionary<Agent, List<GNode>> new_paths = new Dictionary<Agent, List<GNode>>();
+		Dictionary<Agent, List<GNode>> old_paths = new Dictionary<Agent, List<GNode>>();
 		Dictionary<Agent, int> recalculatedPathCounter = new Dictionary<Agent, int>();
-		Dictionary<Agent, bool> isDone = new Dictionary<Agent, bool>();
+		Dictionary<Agent, int> steps = new Dictionary<Agent, int>();
 		
 		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 		{
 			Agent agent = entry.Key;
-
+			
 			agent.removePaths();
+			
 			if (entry.Value.Count != 0)
-				addPaths(entry.Key, entry.Value);
-
+				addPaths(agent, entry.Value);
+			
 			new_paths[agent] = new List<GNode>();
-			isDone[agent] = false;
+			old_paths[agent] = agent.pathsToPath();
 			recalculatedPathCounter[agent] = 0;
+			steps[agent] = 0;
 			binGraph[(int)agent.transform.position.x, (int)agent.transform.position.z] = 1;
 		}
-
-		int longest_path = 0;
-
+		
 		for (int i = 0; i < totalTime; i++) {
 			foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 			{
 				Agent agent = entry.Key;
-
-				if (isDone[agent])
+				
+				List<GNode> oldPath = old_paths[agent];
+				
+				if (oldPath.Count-1 < i) {
+					if (oldPath.Count-1 == i-1 && i != 0) {
+						binGraph[(int)oldPath[i-1].getPos ().x, (int)oldPath[i-1].getPos ().z] = 2;
+					}
 					continue;
+				}
+				
+				//printPath (oldPath, "old path");
 				
 				Vector3 oldPos;
 				if (i == 0)
 					oldPos = agent.transform.position;
-				else
-					oldPos = agent.recalculateGoal(i-1);
+				else 
+					oldPos = oldPath[i-1].getPos ();
 				
-				Vector3 newPos = agent.recalculateGoal(i);
+				
+				Vector3 newPos = oldPath[i].getPos ();
+				
+				if (new_paths[agent].Count > longestTime) {
+					longestTime = new_paths[agent].Count;
+				}
+
 				
 				if ((int) newPos.x == -1) { // path complete
-					if ((int)oldPos.x != -1)
-						binGraph[(int)oldPos.x, (int)oldPos.z] = 2;
-					isDone[agent] = true;
-					if (new_paths[agent].Count > longest_path)
-						longest_path = new_paths[agent].Count;
 					continue;
 				}
 				
-				
 				// Pause, recalculate path or simply add to path
-				if (binGraph[(int)newPos.x, (int)newPos.z] == 3 && newPos != oldPos ) { // reserved
+				if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos) { // pause
 					new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
-					new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
+					oldPath.Insert(i+1, new GNode(0,newPos, new List<GNode>()));
 					binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
-				} else if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos) { // pause
-					new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
-					new_paths[agent].Insert(0, new GNode(0,newPos, new List<GNode>()));
-					binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
-					binGraph[(int)newPos.x, (int)newPos.z] = 3;
-				} else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path
+					binGraph[(int)newPos.x, (int)newPos.z] = 1;
+					
+				} 
+				else if (binGraph[(int)newPos.x, (int)newPos.z] == 2 && oldPath.Count-1 >= i+1) { // recalculate path
+					List<Vector3> obstacles = new List<Vector3>();
+					obstacles.Add (newPos);
+					obstacles.AddRange(GameState.Instance.obstacles);
+					
+					List<GNode> recalPath = PathPlanner.recalculatePath_noAgentMod(oldPos, oldPath[i+1].getPos (), obstacles);
+					
+					recalPath.RemoveAt(recalPath.Count-1);
+					oldPath.RemoveAt(i+1);
+					
+					for (int p = 0; p < recalPath.Count; p++) {
+						new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
+					}
+					recalculatedPathCounter[agent]+= recalPath.Count;
+					
+				} 
+				else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path
 					recalculatedPathCounter[agent]--;
 					binGraph[(int)newPos.x, (int)newPos.z] = 1;
 					binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
+					new_paths[agent].Insert(0, new GNode(0, newPos, new List<GNode>()));
 					continue;
-				} else { // free to move
+				} 
+				else {// free to move
 					binGraph[(int)newPos.x, (int)newPos.z] = 1;
 					binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
 					new_paths[agent].Insert(0, new GNode(0, newPos, new List<GNode>()));
 				}
 				
+				
 			}
 		}
 		
-		return longest_path;
+		return longestTime;
 		
 	}
 
 	private void addPaths(Agent a, List<List<GNode>> paths) {
 		for (int i = 0; i < paths.Count;i++) {
-			paths[i].RemoveAt(paths[i].Count-1); // remove to avoid duplicates
+			//paths[i].RemoveAt(paths[i].Count-1); // remove to avoid duplicates
 			a.addPath(paths[i]);
 			
 		}
