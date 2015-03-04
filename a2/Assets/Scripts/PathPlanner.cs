@@ -96,6 +96,7 @@ class PathPlanner
 	}
 
 	// Avoid collision by planning with time (considering pauses)
+	// TODO fixa så att det inte blir dubletter vid varje waypoint!!!!!!!!
 	public static Dictionary<Agent, List<GNode>> avoidCollision(Dictionary<Agent, List<List<GNode>>> paths, int width, int height) {
 		int totalTime = 100;// TODO, how is this determined? Loop until every agent is finished maybe
 
@@ -116,40 +117,44 @@ class PathPlanner
 			foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 			{
 					Agent agent = entry.Key;
-					//List<List<GNode>> p = entry.Value;
 					
 					Vector3 oldPos;
 					if (i == 0)
 						oldPos = agent.transform.position;
 					else
 						oldPos = agent.recalculateGoal(i-1);
-						//oldPos = agent.currentPath [agent.currentPath.Count - i].getPos ();
 
 					Vector3 newPos = agent.recalculateGoal(i);
+
 					
-					if ((int) newPos.x == -1) {
+					
+					if ((int) newPos.x == -1) { // path complete
 						if ((int)oldPos.x != -1)
 							binGraph[(int)oldPos.x, (int)oldPos.z] = 2;
 						continue;
 					}
 					
 					
-					
 					// Pause, recalculate path or simply add to path
-					if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos && newPos != agent.transform.position) {
+					if (binGraph[(int)newPos.x, (int)newPos.z] == 3 && newPos != oldPos ) { // reserved
+						Debug.Log ("Pausa dubbelt");
+						new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
+						new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
+					} else if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos) { // pause
 						Debug.Log ("PAUSA " + agent.GetInstanceID());
 						new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
 						new_paths[agent].Insert(0, new GNode(0,newPos, new List<GNode>()));
 						Debug.Log ("paus pos: " + oldPos.x + " " + oldPos.z + " tid: " + i);
-						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 2;
+						binGraph[(int)newPos.x, (int)newPos.z] = 3;
 					} else if (binGraph[(int)newPos.x, (int)newPos.z] == 2) { // recalculate path
 						Debug.Log ("RECALCULATE ASTAR PATH");
 						List<Vector3> obstacles = new List<Vector3>();
 						obstacles.Add (newPos);
 						obstacles.AddRange(GameState.Instance.obstacles);
 							
-						List<GNode> recalPath = recalculatePath(oldPos, agent.recalculateGoal(i+1), obstacles);
-
+						List<GNode> recalPath = recalculatePath_noAgentMod(oldPos, agent.recalculateGoal(i+1), obstacles);
 
 						recalPath.RemoveAt(recalPath.Count-1);
 						agent.updatePath(recalPath, i);
@@ -159,12 +164,12 @@ class PathPlanner
 						}
 						recalculatedPathCounter[agent]+= recalPath.Count;
 
-					}  else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path
+					} else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path
 						recalculatedPathCounter[agent]--;
 						binGraph[(int)newPos.x, (int)newPos.z] = 1;
 						binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
 						continue;
-					}else {
+					} else { // free to move
 						binGraph[(int)newPos.x, (int)newPos.z] = 1;
 						binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
 						new_paths[agent].Insert(0, new GNode(0, newPos, new List<GNode>()));
@@ -178,15 +183,13 @@ class PathPlanner
 
 	}
 
-	static List<GNode> recalculatePath(Vector3 _start, Vector3 _goal, List<Vector3> obstacles) {
+	public static List<GNode> recalculatePath_noAgentMod(Vector3 _start, Vector3 _goal, List<Vector3> obstacles) {
 
 		GNode[,] graph = buildGraph ((int)GameState.Instance.width, (int)GameState.Instance.height, GameState.Instance.neighbors, obstacles);
 		
 		int x = (int) _goal.x;
 		int z = (int) _goal.z;
 
-//		Debug.Log ("goal: " + _goal);
-//		Debug.Log ("graph: " + graph.Length);
 		GNode goal = graph [x, z];
 		
 		GNode start = graph [(int)_start.x, (int)_start.z];

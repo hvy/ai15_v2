@@ -56,13 +56,14 @@ public class DiscreteController : MonoBehaviour, MovementModel
 					}
 				}
 
-				if (GameState.Instance.agents.ContainsKey(goal) && GameState.Instance.agents[goal].tick > agent.tick && goal != agent.transform.position) {
-					Debug.LogError("Illegal move, abort");
-					agent.tick++;
-					counter = 0;
-					return false;
-				}
 			}
+
+//			if (GameState.Instance.agents.ContainsKey(goal) && goal != agent.transform.position && goal.x != -1 && agent.tick < GameState.Instance.agents [goal].tick) {
+//				Debug.Log("Illegal move, abort " + agent.transform.position + " to  " + goal);
+//				agent.tick++;
+//				counter = 0;
+//				return false;
+//			}
 
 			GameState.Instance.agents.Remove(rigidbody.transform.position);
 			rigidbody.transform.position = goal;

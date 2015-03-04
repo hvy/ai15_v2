@@ -343,7 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
-  nr_agents: 5
+  nr_agents: 1
   numWaypoints: 10
   neighbors: 8
   task: 2

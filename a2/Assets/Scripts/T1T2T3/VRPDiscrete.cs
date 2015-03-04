@@ -61,8 +61,7 @@ public class VRPDiscrete  {
 			}
 		}
 		
-		
-		// NEW
+		// Run GA Algorithm
 		GeneticsDiscrete genDisc = new GeneticsDiscrete(bestChromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
 		Debug.Log ("Best distance (from randomized version): " + current_best);
 		Debug.Log ("Best distance (from GA): " + genDisc.get_result().first);
@@ -77,11 +76,13 @@ public class VRPDiscrete  {
 		
 		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
 		{
-			entry.Key.removePaths();
-			if (entry.Value.Count != 0)
-				addPaths(entry.Key, entry.Value);
 			PathFinding.clearDrawnPaths();
 			drawPaths (bestResult);
+
+			entry.Key.removePaths();
+
+			if (entry.Value.Count != 0)
+				addPaths(entry.Key, entry.Value);
 		}
 		
 		Dictionary<Agent, List<GNode>> newPaths = PathPlanner.avoidCollision(bestResult, width, height);
@@ -89,10 +90,17 @@ public class VRPDiscrete  {
 		foreach(KeyValuePair<Agent, List<GNode>> entry in newPaths)
 		{
 			Agent a = entry.Key;
-			a.setStart(entry.Value[entry.Value.Count-1].getPos());
-			a.setGoal(entry.Value[entry.Value.Count-1].getPos());
+			if (entry.Value.Count == 0) {
+				a.setStart (a.transform.position);
+				a.setGoal (a.transform.position);
+			} else {
+				a.setStart(entry.Value[entry.Value.Count-1].getPos());
+				a.setGoal(entry.Value[entry.Value.Count-1].getPos());
+			}
+
 			a.setModel(0);
 			a.setPath(entry.Value);
+			//PathFinding.draw(entry.Value);
 		}
 
 		return bestResult;
@@ -169,6 +177,8 @@ public class VRPDiscrete  {
 	
 	private void addPaths(Agent a, List<List<GNode>> paths) {
 		for (int i = 0; i < paths.Count;i++) {
+
+			paths[i].RemoveAt(paths[i].Count-1); // remove to avoid duplicates
 			a.addPath(paths[i]);
 			
 		}
