@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class VRPDiscrete  {
 
@@ -39,60 +40,31 @@ public class VRPDiscrete  {
 		}
 
 		GNode[,] graph = PathPlanner.buildGraph (width, height, neighbors, occupiedSlots);
-		
 
-		// PERFORM A-STAR MAXIMUM PATH LENGTH FITNESS (TIME FITNESS)
-		float current_best = 100000000f;
-		int[] bestChromosome = new int[chromosome.Length];
-		for (int iter = 0; iter < rand_iterations; iter++) {
-			Shuffle(chromosome);
-			
-			max_astar_distance = 0f;
-			
-			
-			result = chromosomeToResult(chromosome, customers, graph);
-			
-			
-			if (current_best > max_astar_distance) {
-				current_best = max_astar_distance;
-				bestChromosome = chromosome;
-				bestResult = result;
-				
-			}
-		}
 		
-		
-		// NEW
-		GeneticsDiscrete genDisc = new GeneticsDiscrete(bestChromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
-		Debug.Log ("Best distance (from randomized version): " + current_best);
-		Debug.Log ("Best distance (from GA): " + genDisc.get_result().first);
-		
-		if (current_best > genDisc.get_result().first) {
-			bestResult = genDisc.get_result().second;
-			current_best = genDisc.get_result().first;
-			Debug.Log ("Choosing GA result.");
-		} else
-			Debug.Log ("Choosing Randomized result.");
-		
-		
-		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
-		{
-			entry.Key.removePaths();
-			if (entry.Value.Count != 0)
-				addPaths(entry.Key, entry.Value);
-			PathFinding.clearDrawnPaths();
-			drawPaths (bestResult);
-		}
+		// Run GA Algorithm
+		GeneticsDiscrete genDisc = new GeneticsDiscrete(chromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
+		Debug.Log ("Best result (from GA): " + genDisc.get_result().first);
+
+		bestResult = genDisc.get_result().second;
+
 		
 		Dictionary<Agent, List<GNode>> newPaths = PathPlanner.avoidCollision(bestResult, width, height);
 		
 		foreach(KeyValuePair<Agent, List<GNode>> entry in newPaths)
 		{
 			Agent a = entry.Key;
-			a.setStart(entry.Value[entry.Value.Count-1].getPos());
-			a.setGoal(entry.Value[entry.Value.Count-1].getPos());
+			if (entry.Value.Count == 0) {
+				a.setStart (a.transform.position);
+				a.setGoal (a.transform.position);
+			} else {
+				a.setStart(entry.Value[entry.Value.Count-1].getPos());
+				a.setGoal(entry.Value[entry.Value.Count-1].getPos());
+			}
+			a.removePaths();
 			a.setModel(0);
 			a.setPath(entry.Value);
+			PathFinding.draw(entry.Value);
 		}
 
 		return bestResult;
@@ -168,8 +140,14 @@ public class VRPDiscrete  {
 	}
 	
 	private void addPaths(Agent a, List<List<GNode>> paths) {
-		for (int i = 0; i < paths.Count;i++) {
-			a.addPath(paths[i]);
+		List<List<GNode>> copy = new List<List<GNode>>();
+
+		copy = paths.ToList<List<GNode>>();
+		a.currentPath = new List<GNode>();
+		for (int i = 0; i < copy.Count;i++) {
+
+			//copy[i].RemoveAt(copy[i].Count-1); // remove to avoid duplicates
+			a.addPath(copy[i]);
 			
 		}
 	}

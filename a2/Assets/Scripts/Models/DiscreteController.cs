@@ -43,25 +43,17 @@ public class DiscreteController : MonoBehaviour, MovementModel
 				return false;
 
 			if (reactive) {
-				if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
-					GameState.Instance.addObstacle (transform.position);
-					agent.tick = 1000;
+				if (reactiveCollision(agent, goal))
 					return false;
-				}
 
-				if (GameState.Instance.agents.ContainsKey (goal) && GameState.Instance.agents [goal] != this && goal != agent.transform.position) {
-					if (!recalculatePath(goal, agent) && agent.tick < GameState.Instance.agents [goal].tick) {
-						Debug.LogError("Pause");
-						return false; // Pause
-					}
-				}
+			}
 
-				if (GameState.Instance.agents.ContainsKey(goal) && GameState.Instance.agents[goal].tick > agent.tick && goal != agent.transform.position) {
-					Debug.LogError("Illegal move, abort");
-					agent.tick++;
-					counter = 0;
-					return false;
-				}
+			if (GameState.Instance.agents.ContainsKey(goal) && goal != agent.transform.position && goal.x != -1 && agent.tick < GameState.Instance.agents [goal].tick) {
+				Debug.Log("Illegal move, abort " + agent.transform.position + " to  " + goal);
+				reactiveCollision(agent, goal);
+				agent.tick++;
+				counter = 0;
+				return false;
 			}
 
 			GameState.Instance.agents.Remove(rigidbody.transform.position);
@@ -76,8 +68,24 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		}
 		return false;
 	}
-	
 
+	bool reactiveCollision(Agent agent, Vector3 goal) {
+		if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
+			GameState.Instance.addObstacle (transform.position);
+			agent.tick = 1000;
+			return true;
+		}
+		
+		if (GameState.Instance.agents.ContainsKey (goal) && GameState.Instance.agents [goal] != this && goal != agent.transform.position) {
+			if (!recalculatePath(goal, agent) && agent.tick < GameState.Instance.agents [goal].tick) {
+				Debug.LogError("Pause");
+				return true; // Pause
+			}
+		}
+		return false;
+	}
+	
+	
 	// Implements interface member
 	public void reset(Vector3 position) {
 		steps = 0;
