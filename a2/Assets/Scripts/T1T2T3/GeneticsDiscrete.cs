@@ -135,16 +135,19 @@ public class GeneticsDiscrete {
 		// TODO do a cool crossover
 
 		for (int i = 0; i < parents.Count-1; i++) {
-			int index  = _random.Next (0, customers.Count + agents.Count-2);
-			int id_first = parents[i][index];
-			int id_second = parents[i][index+1];
-
 			List<int> list = parents[i+1].ToList();
 
-			int value = list[1];
-			list.Remove(id_second);
-			int idx = list.IndexOf(id_first);
-			list.Insert(idx, id_second);
+			for (int j = 0; j < 3; j++) {
+				int index  = _random.Next (0, customers.Count + agents.Count-2);
+				int id_first = parents[i][index];
+				int id_second = parents[i][index+1];
+				
+				
+				int value = list[1];
+				list.Remove(id_second);
+				int idx = list.IndexOf(id_first);
+				list.Insert(idx, id_second);
+			}
 			int[] res = list.ToArray();
 			normalize_chromosome(res);
 			children.Add (res);
@@ -278,9 +281,9 @@ public class GeneticsDiscrete {
 	}
 
 	private float fitness(Dictionary<Agent, List<List<GNode>>> res, float maxDistance, float totalDistance) {
-		float w1 = 2.0f;
-		float w2 = 0.8f;
-		float w3 = 0.5f;
+		float w1 = 20.0f;
+		float w2 = 2.8f;
+		float w3 = 5.5f;
 		return w1*timeCost(res, GameState.Instance.width, GameState.Instance.height) + w2*maxDistance + w3*totalDistance;
 	}
 

@@ -40,39 +40,13 @@ public class VRPDiscrete  {
 		}
 
 		GNode[,] graph = PathPlanner.buildGraph (width, height, neighbors, occupiedSlots);
-		
 
-		// PERFORM A-STAR MAXIMUM PATH LENGTH FITNESS (TIME FITNESS)
-//		float current_best = 100000000f;
-//		int[] bestChromosome = new int[chromosome.Length];
-//		for (int iter = 0; iter < rand_iterations; iter++) {
-//			Shuffle(chromosome);
-//			
-//			max_astar_distance = 0f;
-//			
-//			
-//			result = chromosomeToResult(chromosome, customers, graph);
-//			
-//			
-//			if (current_best > max_astar_distance) {
-//				current_best = max_astar_distance;
-//				bestChromosome = chromosome;
-//				bestResult = result;
-//				
-//			}
-//		}
 		
 		// Run GA Algorithm
 		GeneticsDiscrete genDisc = new GeneticsDiscrete(chromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, graph, chromosomeIDs);
-//		Debug.Log ("Best distance (from randomized version): " + current_best);
-		Debug.Log ("Best distance (from GA): " + genDisc.get_result().first);
-		
-//		if (current_best > genDisc.get_result().first) {
-			bestResult = genDisc.get_result().second;
-//			current_best = genDisc.get_result().first;
-//			Debug.Log ("Choosing GA result.");
-//		} else
-//			Debug.Log ("Choosing Randomized result.");
+		Debug.Log ("Best result (from GA): " + genDisc.get_result().first);
+
+		bestResult = genDisc.get_result().second;
 
 		
 		Dictionary<Agent, List<GNode>> newPaths = PathPlanner.avoidCollision(bestResult, width, height);

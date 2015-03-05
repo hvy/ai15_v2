@@ -463,12 +463,13 @@ class PathPlanner
 				float minAngle;
 				
 				acceptableWidth = System.Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
-				minAngle = 180f;
+				acceptableWidth = 0f;
+				minAngle = 360f;
 				Vector3[] bounds = new Vector3[4];
 				
 				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 5.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
 				
-				rrt.buildRRT (10000);
+				rrt.buildRRT (1000);
 				//rrt.tree.draw ();
 
 
