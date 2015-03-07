@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	public int GeneticIterations;
 	public int GeneticPopulation;
 	public int GeneticTournaments;
+	public bool DrawRRT;
 
 	void Start () 
 	{
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour
 		else if (task == 2)
 			vrpDiscrete.planVRPPaths(agents, waypoints, GameState.Instance.obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)
-			vrpContinous.planContinuousVRP(agents, waypoints, polygons, RandomIterations);
+			vrpContinous.planContinuousVRP(agents, waypoints, polygons, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments, DrawRRT);
 			//pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
 	
 	}

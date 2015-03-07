@@ -47,7 +47,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		}
 
 
-		Debug.Log ("Moving: " + rigidbody.transform.position);	
+		//Debug.Log ("Moving: " + rigidbody.transform.position);	
 		move ();
 		return true;
 	}

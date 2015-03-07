@@ -77,9 +77,11 @@
      <Compile Include="Assets\Scripts\SecondCamera.cs" />
      <Compile Include="Assets\Scripts\StageManager.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
+     <Compile Include="Assets\Scripts\T1T2T3\GeneticsContinous.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\VRPContinous.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\VRPDiscrete.cs" />
+     <Compile Include="Assets\Scripts\T6\DecentralizedLocalInteractionFormation.cs" />
      <Compile Include="Assets\Scripts\T6\Formation.cs" />
      <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
      <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />

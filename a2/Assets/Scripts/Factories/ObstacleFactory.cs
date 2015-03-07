@@ -21,24 +21,13 @@ public class ObstacleFactory : MonoBehaviour {
 	{
 		GameObject prefab = Resources.Load ("Prefabs/Box", typeof(GameObject)) as GameObject;
 		GameObject obstacle = Instantiate (prefab, new Vector3(1f, 0f, 1f), Quaternion.identity) as GameObject;
-
-		//obstacle.AddComponent<MeshFilter> ();
-		//obstacle.AddComponent<MeshRenderer> ();
 	
 		obstacle.transform.localScale = new Vector3(1f, 0.1f, 1f);
-		
-		//Mesh mesh = obstacle.GetComponent<MeshFilter> ().mesh;
-//		mesh.vertices = meshVertices.ToArray();
-//		mesh.triangles = meshTriangles.ToArray();
-//		mesh.RecalculateNormals ();
+
 		
 		obstacle.AddComponent<BoxCollider> ();
 		obstacle.name = "DiscreteObstacle";
 		obstacle.transform.position = pos;
-		//Material obstacleMaterial = (Material)Resources.Load("Materials/ObstacleMaterial", typeof(Material));
-		
-		//obstacle.renderer.material.color = Color.red;
-		//obstacle.renderer.sharedMaterial = obstacleMaterial;
 		
 		return obstacle;
 	}
@@ -69,10 +58,8 @@ public class ObstacleFactory : MonoBehaviour {
 		obstacle.AddComponent<MeshCollider> (); // Make sure collision is enabled
 		obstacle.name = "PolygonalObstacle";
 
-		Material obstacleMaterial = (Material)Resources.Load("Materials/ObstacleMaterial", typeof(Material));
+		//Material obstacleMaterial = (Material)Resources.Load("Materials/White", typeof(Material));
 
-		//obstacle.renderer.material.color = Color.red;
-		obstacle.renderer.sharedMaterial = obstacleMaterial;
 		obstacle.renderer.receiveShadows = false;
 		obstacle.renderer.castShadows = false;
 

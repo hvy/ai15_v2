@@ -8,6 +8,7 @@ public class VRPContinous {
 	private float max_astar_distance = 0f;
 	static System.Random _random = new System.Random();
 	float width, height;
+	bool drawRRT = false;
 	
 	private Dictionary<int, GameObject> chromosomeIDs = new Dictionary<int, GameObject>();
 
@@ -17,8 +18,8 @@ public class VRPContinous {
 	}
 
 
-	public void planContinuousVRP (List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int iterations) {
-		
+	public void planContinuousVRP (List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int rand_iterations, int GA_iterations, int population, int tournaments, bool drawRRT) {
+		this.drawRRT = drawRRT;
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 		Dictionary<Agent, List<List<GNode>>> bestResult = new Dictionary<Agent, List<List<GNode>>>();
 		
@@ -30,8 +31,8 @@ public class VRPContinous {
 			chromosomeIDs[a.GetInstanceID()] = a;
 			//Debug.Log ("id: " + a.GetInstanceID());
 			//Debug.Log ("start: " + chromosomeIDs[a.GetInstanceID()].transform.position.x + " " + chromosomeIDs[a.GetInstanceID()].transform.position.z);
-			Agent hej = (Agent) chromosomeIDs[a.GetInstanceID()].GetComponent(typeof(Agent));
-			hej.start = a.transform.position;
+			Agent agent = (Agent) chromosomeIDs[a.GetInstanceID()].GetComponent(typeof(Agent));
+			agent.start = a.transform.position;
 			c++;
 		}
 		
@@ -40,33 +41,25 @@ public class VRPContinous {
 			chromosomeIDs[a.GetInstanceID()] = a;
 			c++;
 		}
+
+
+		// Run GA Algorithm
+		GeneticsContinous genDisc = new GeneticsContinous(chromosome, GA_iterations, population, tournaments, 0.1f, agents, customers, polygons, chromosomeIDs);
+		Debug.Log ("Best result (from GA): " + genDisc.get_result().first);
 		
-		
-		float current_best = 100000000f;
-		for (int iter = 0; iter < iterations; iter++) {
-			Shuffle(chromosome);
-			
-			max_astar_distance = 0f;
-			
-			result = chromosomeToResultContinous(chromosome, customers, polygons, width, height);
-			
-			
-			if (current_best > max_astar_distance) {
-				current_best = max_astar_distance;
-				Debug.Log ("current best: " + current_best);
-				bestResult = result;
-				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
-				{
-					entry.Key.removePaths();
-					//entry.Key.setModel(2);
-					if (entry.Value.Count != 0)
-						addPaths(entry.Key, entry.Value);
-					PathFinding.clearDrawnPaths();
-					drawPaths (bestResult);
-				}
-				
+		bestResult = genDisc.get_result().second;
+
+		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
+		{
+			Agent a = entry.Key;
+			a.removePaths();
+			a.setModel(3);
+			for (int i = 0; i < entry.Value.Count; i++) {
+				a.addPath(entry.Value[i]);
+
 			}
 		}
+		drawPaths(bestResult);
 		
 		
 	}
@@ -114,7 +107,8 @@ public class VRPContinous {
 				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 1.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
 				
 				rrt.buildRRT (10000);
-				rrt.tree.draw ();
+				if (drawRRT)
+					rrt.tree.draw ();
 				
 				
 				Tuple<GNode, GNode> startGoal = rrt.generateGraph();
