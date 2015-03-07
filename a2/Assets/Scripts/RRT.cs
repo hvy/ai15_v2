@@ -223,10 +223,10 @@ public class RRT
         TNode random;
             
         // TODO use bounds, and goal bias (RRT*) and such
-        //float x = UnityEngine.Random.Range (0f, 100f);
-        //float z = UnityEngine.Random.Range (0f, 100f);
-        float x = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, width - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
-        float z = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, height - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
+        float x = UnityEngine.Random.Range (0f, width);
+        float z = UnityEngine.Random.Range (0f, height);
+//        float x = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, width - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
+//        float z = UnityEngine.Random.Range (0f + GameObject.FindWithTag ("Agent").transform.localScale.x * 2, height - GameObject.FindWithTag ("Agent").transform.localScale.x * 2);
                         
         random = new TNode (randomCounter++, null, new Vector3 (x, 0.0f, z));
         return random;

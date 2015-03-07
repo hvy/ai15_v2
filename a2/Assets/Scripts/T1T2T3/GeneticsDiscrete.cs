@@ -18,6 +18,8 @@ public class GeneticsDiscrete {
 	List<GameObject> customers;
 	GNode[,] graph;
 
+	double totalSimulationTime = 0f;
+
 
 	public GeneticsDiscrete (int[] solution, int iterations, int individuals, int tournamentRounds, float mutationRate, List<GameObject> agents, List<GameObject> customers, GNode[,] graph, Dictionary<int, GameObject> chromosomeIDs) {
 		this.customers = customers;
@@ -53,6 +55,9 @@ public class GeneticsDiscrete {
 
 
 	void search(int[] chromosome, float mr, int K, int iterations) {
+		Stopwatch sw = new Stopwatch();
+		Stopwatch sw2 = new Stopwatch();
+		sw2.Start();
 
 		List<int[]> parents;
 		List<int[]> children;
@@ -60,7 +65,6 @@ public class GeneticsDiscrete {
 
 		int i = 0;
 		while (i < iterations) {
-			Stopwatch sw = new Stopwatch();
 			
 			// your code here
 			UnityEngine.Debug.Log ("current best: " + current_best_cost);
@@ -69,13 +73,13 @@ public class GeneticsDiscrete {
 			parents = tournamentSelection(K);
 			sw.Stop();
 			System.TimeSpan elapsedTime = sw.Elapsed;
-//			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
 
 			sw.Start();
 			children = crossover(parents);
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-//			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
 
 			if (_random.NextDouble() <= mr)
 				mutate(children);
@@ -98,11 +102,16 @@ public class GeneticsDiscrete {
 			} 
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-//			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
 //			Debug.Log ("ierations: " + i);
 			i++;
 		}
 
+		sw2.Stop();
+		System.TimeSpan et = sw2.Elapsed;
+		UnityEngine.Debug.Log ("Total GA time: " + et.TotalMilliseconds + " ms");
+		UnityEngine.Debug.Log ("Total Simulation time: " + totalSimulationTime + " ms");
+		
 	}
 
 	List<int[]> tournamentSelection(int rounds) {
@@ -289,6 +298,12 @@ public class GeneticsDiscrete {
 
 	// Avoid collision by planning with time (considering pauses)
 	private int timeCost(Dictionary<Agent, List<List<GNode>>> paths, int width, int height) {
+		Stopwatch sw = new Stopwatch();
+		
+		// your code here
+		UnityEngine.Debug.Log ("current best: " + current_best_cost);
+		
+		sw.Start();
 		int totalTime = 100;// TODO, how is this determined? Loop until every agent is finished maybe
 
 		int longestTime = 0;
@@ -390,6 +405,11 @@ public class GeneticsDiscrete {
 			}
 		}
 		
+		sw.Stop();
+		System.TimeSpan elapsedTime = sw.Elapsed;
+		UnityEngine.Debug.Log ("Simulation time: " + elapsedTime.TotalMilliseconds + " ms");
+		totalSimulationTime += elapsedTime.TotalMilliseconds;
+
 		return longestTime;
 		
 	}

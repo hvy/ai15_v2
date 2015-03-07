@@ -73,6 +73,8 @@ public class ObstacleFactory : MonoBehaviour {
 
 		//obstacle.renderer.material.color = Color.red;
 		obstacle.renderer.sharedMaterial = obstacleMaterial;
+		obstacle.renderer.receiveShadows = false;
+		obstacle.renderer.castShadows = false;
 
 		return obstacle;
 	}

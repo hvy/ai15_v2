@@ -343,11 +343,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 20
   _height: 20
-  nr_agents: 7
-  numWaypoints: 12
+  nr_agents: 5
+  numWaypoints: 20
   numObstacles: 20
   neighbors: 8
-  task: 2
+  task: 3
   RandomIterations: 100
   GeneticIterations: 100
   GeneticPopulation: 7

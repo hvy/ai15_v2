@@ -274,6 +274,52 @@ public class PathFinding
 
 	}
 
+	public static bool isInObstacle (Vector3 pos, List<Vector2[]> polygons)
+	{
+		Vector2 point = new Vector2 (pos.x, pos.z);
+		foreach (Vector2[] vertices in polygons) {
+			if (containsPoint (vertices, point))
+				return true;
+		}
+		
+		return false;
+		
+	}
+	
+	private static bool containsPoint (Vector2[] polyPoints, Vector2 p)
+	{ 
+		int j = polyPoints.Length - 1; 
+		bool inside = false; 
+		for (int i = 0; i < polyPoints.Length; j = i++) { 
+			if (((polyPoints [i].y <= p.y && p.y < polyPoints [j].y) || (polyPoints [j].y <= p.y && p.y < polyPoints [i].y)) && 
+			    (p.x < (polyPoints [j].x - polyPoints [i].x) * (p.y - polyPoints [i].y) / (polyPoints [j].y - polyPoints [i].y) + polyPoints [i].x)) 
+				inside = !inside; 
+			
+			if (DistancePointLine (p, polyPoints [i], polyPoints [(i + 1) % polyPoints.Length]) < 0f) {
+				return true;
+			}
+		} 
+		return inside; 
+	}
+
+	private static float DistancePointLine (Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+	{
+		return Vector3.Magnitude (ProjectPointLine (point, lineStart, lineEnd) - point);
+	}
+
+	private static Vector3 ProjectPointLine (Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+	{
+		Vector3 rhs = point - lineStart;
+		Vector3 vector2 = lineEnd - lineStart;
+		float magnitude = vector2.magnitude;
+		Vector3 lhs = vector2;
+		if (magnitude > 1E-06f) {
+			lhs = (Vector3)(lhs / magnitude);
+		}
+		float num2 = Mathf.Clamp (Vector3.Dot (lhs, rhs), 0f, magnitude);
+		return (lineStart + ((Vector3)(lhs * num2)));
+	}
+	
 	public static void draw (List<GNode> p, Color color)
 	{
 		GameObject camera = GameObject.FindGameObjectWithTag ("MainCamera");

@@ -159,17 +159,8 @@ public class Agent : MonoBehaviour
 		 // TODO returnera en lista med pathen som skapas av alla paths.
 		return list;
 		}
-
-
-		public int simulateStep(int step) {
-			if (currentPath.Count - step - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
-				currentPathIndex++;
-				currentPath = paths [currentPathIndex];
-				return 0;
-			}
-			return step;
-		}
 	
+
 	
 	public void updatePath (List<GNode> pathSegment, int step)
 		{

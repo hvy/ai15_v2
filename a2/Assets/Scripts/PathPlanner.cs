@@ -243,40 +243,7 @@ class PathPlanner
 
 		}
 	}
-
-	private float euclidean_fitness(int[] chromo) {
-		float max_distance = 0f;
-		float dist = 0;
-
-		for (int i = 0; i < chromo.Length - 1; i++) {
-
-			if (chromosomeIDs[chromo[i+1]].GetComponent("Agent") != null) {
-				GameObject obj = chromosomeIDs[chromo[i]];
-				GameObject nextobj = chromosomeIDs[chromo[i+1]];
-				dist += Vector3.Distance(obj.transform.position, nextobj.transform.position);
-			} else {
-				if (dist > max_distance)
-					max_distance = dist;
-				dist = 0;
-			}
-			
-		}
-		//Debug.Log ("max distance: " + max_distance);
-		return max_distance;
-
-	}
-
-	public static float distance_astar(List<GNode> path) {
-		float distance = 0f;
-		for (int i = 0; i < path.Count-1; i++) {
-			distance += Vector3.Distance(path[i].getPos(), path[i+1].getPos ());
-		}
-		return distance;
-	}
-
-	public static float distance_astar_discrete(List<GNode> path) {
-		return path.Count;
-	}
+	
 
 	public static Color randomizeColor() {
 		float r = UnityEngine.Random.Range(0.0f, 1f);
@@ -284,34 +251,9 @@ class PathPlanner
 		float g = UnityEngine.Random.Range(0.0f, 1f);
 		return new Color (r, g, b, 1.0f);
 	}
-	
-
-	void Shuffle(int[] array)
-	{
-		int n = array.Length;
-		for (int i = 0; i < n; i++)
-		{
-			int r = i + (int)(_random.NextDouble() * (n - i));
-			Random hej = new Random();
-			int t = array[r];
-			array[r] = array[i];
-			array[i] = t;
-		}
-
-		int index_first_agent = 0;
-		while (chromosomeIDs[array[index_first_agent]].GetComponent("Agent") == null) {
-			index_first_agent++;
-		}
-
-		int temp = array[index_first_agent];
-		array[index_first_agent] = array[0];
-		array[0] = temp;
-
-
-	}
 
 	public static List<GNode> recalculatePath(Agent _agent, Vector3 _goal, List<Vector3> obstacles) {
-//		PathPlanner pp = new PathPlanner ();
+
 		List<GameObject> agents = new List<GameObject>();
 		List<GameObject> waypoints = new List<GameObject>();
 		agents.Add (_agent.gameObject);
@@ -360,147 +302,6 @@ class PathPlanner
 	}
 
 
-
-	
-	public void planContinuousVRP (float width, float height, List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int iterations) {
-
-		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
-		Dictionary<Agent, List<List<GNode>>> bestResult = new Dictionary<Agent, List<List<GNode>>>();
-		
-		int[] chromosome = new int[customers.Count+agents.Count];
-		
-		int c = 0;
-		foreach (GameObject a in agents) {
-			chromosome[c] = a.GetInstanceID();
-			chromosomeIDs[a.GetInstanceID()] = a;
-			//Debug.Log ("id: " + a.GetInstanceID());
-			//Debug.Log ("start: " + chromosomeIDs[a.GetInstanceID()].transform.position.x + " " + chromosomeIDs[a.GetInstanceID()].transform.position.z);
-			Agent hej = (Agent) chromosomeIDs[a.GetInstanceID()].GetComponent(typeof(Agent));
-			hej.start = a.transform.position;
-			c++;
-		}
-		
-		foreach (GameObject a in customers) {
-			chromosome[c] = a.GetInstanceID();
-			chromosomeIDs[a.GetInstanceID()] = a;
-			c++;
-		}
-		
-		
-		// PERFORM EUCLIDEAN FITNESS
-		float bestFitness = 1000000000f;
-		for (int i = 0; i < iterations*5; i++) {
-			Shuffle (chromosome);
-			float newFitness = euclidean_fitness(chromosome);
-			if (newFitness < bestFitness)
-				bestFitness = newFitness;
-		}
-		
-		//GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
-	
-
-		float current_best = 100000000f;
-		for (int iter = 0; iter < iterations; iter++) {
-			Shuffle(chromosome);
-			
-			max_astar_distance = 0f;
-			
-			result = chromosomeToResultContinous(chromosome, customers, polygons, width, height);
-			
-			
-			if (current_best > max_astar_distance) {
-				current_best = max_astar_distance;
-				Debug.Log ("current best: " + current_best);
-				bestResult = result;
-				foreach(KeyValuePair<Agent, List<List<GNode>>> entry in bestResult)
-				{
-					entry.Key.removePaths();
-					if (entry.Value.Count != 0)
-						addPaths(entry.Key, entry.Value);
-					PathFinding.clearDrawnPaths();
-					drawPaths (bestResult);
-				}
-				
-			}
-		}
-
-		
-	}
-
-	private Dictionary<Agent, List<List<GNode>>> chromosomeToResultContinous(int[] chromosome, List<GameObject> customers, List<Vector2[]> polygons, float width, float height) {
-		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
-		
-		int totalCustomers = 0;
-		//Debug.Log ("______________________");
-		for (int i = 0; i < chromosome.Length; ) {
-			GameObject agent = chromosomeIDs[chromosome[i]];
-			
-			int number_of_customers = 0;
-			if (totalCustomers >= customers.Count)
-				break;
-			
-			Agent a = (Agent) agent.GetComponent(typeof(Agent));
-			//a.init();
-			a.setModel(1); // TOOD denna ska ju vara 0, för att köra discrete model
-			
-			Vector3 previousStart = a.start;
-			a.setStart(previousStart);
-			a.setGoal(previousStart);
-//			Debug.Log ("id: " + chromosome[i]);
-//			Debug.Log ("start: " + previousStart.x + " " + previousStart.z);
-			
-			float distance = 0f;
-			
-			result[a] = new List<List<GNode>>();
-			
-			while (chromosomeIDs[chromosome[i+number_of_customers+1]].GetComponent("Agent") == null) {
-				
-				GameObject customer = customers[totalCustomers];
-				number_of_customers++;
-				totalCustomers++;
-
-				float acceptableWidth;
-				float minAngle;
-				
-				acceptableWidth = System.Math.Max(GameObject.FindWithTag ("Agent").transform.localScale.x * 2, GameObject.FindWithTag ("Agent").transform.localScale.y * 2) + 0.5f;
-				acceptableWidth = 0f;
-				minAngle = 360f;
-				Vector3[] bounds = new Vector3[4];
-				
-				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 5.0f, 1f, acceptableWidth, minAngle, acceptableWidth, width, height);
-				
-				rrt.buildRRT (1000);
-				//rrt.tree.draw ();
-
-
-				Tuple<GNode, GNode> startGoal = rrt.generateGraph();
-				List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);		
-
-				PathFinding.optimizePath(polygons, path);
-				PathFinding.optimizePath(polygons, path);
-				PathFinding.optimizePath(polygons, path);
-
-				previousStart = path[0].getPos();
-				
-				result[a].Add (path);
-				
-				distance += distance_astar(path);
-				
-				if (totalCustomers >= customers.Count)
-					break;
-				
-			}
-			
-			
-			if (distance > max_astar_distance)
-				max_astar_distance = distance;
-			
-			i = i + number_of_customers + 1;
-			
-		}
-		
-		return result;
-	}
 
 	public static void printPath(List<GNode> p, string name) {
 		StringBuilder builder = new StringBuilder();
