@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Factories\ObstacleFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\StageFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\WaypointFactory.cs" />
+     <Compile Include="Assets\Scripts\FormationAgent.cs" />
      <Compile Include="Assets\Scripts\GNode.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\GraphBuilder.cs" />
@@ -77,9 +78,12 @@
      <Compile Include="Assets\Scripts\StageManager.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\GameManager.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
+     <Compile Include="Assets\Scripts\T1T2T3\VRPContinous.cs" />
+     <Compile Include="Assets\Scripts\T1T2T3\VRPDiscrete.cs" />
      <Compile Include="Assets\Scripts\T6\Formation.cs" />
      <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />
      <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
+     <Compile Include="Assets\Scripts\T6\VirtualStructureFormation.cs" />
      <Compile Include="Assets\Scripts\TNode.cs" />
      <Compile Include="Assets\Scripts\Tree.cs" />
      <Compile Include="Assets\Scripts\Tuple.cs" />
