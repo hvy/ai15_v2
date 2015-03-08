@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class CollisionAvoidance {
 
@@ -43,8 +44,9 @@ public class CollisionAvoidance {
 				Vector3 rotationVector = Vector3.Cross(directionToTarget, targetVelocityRelativeToAgent) / Vector3.Dot(directionToTarget, directionToTarget);
 				acceleration = Vector3.Cross(targetVelocityRelativeToAgent, rotationVector);
 
-				if (agentRangeToTarget > 4f) // radius of consideration to avoid other agents
+				if (agentRangeToTarget > 3f) // radius of consideration to avoid other agents
 					acceleration = new Vector3(0,0,0);
+				acceleration = acceleration * Math.Min(1/agentRangeToTarget, 1);
 
 				totalAcceleration += acceleration;
 
