@@ -80,11 +80,13 @@ public class RRT
             i++;
 
             // reached the goal
-            if (Vector3.Distance (rand.getPos (), destinationPos) < goalThreshold) {
+			TNode destination = new TNode (counter + 1, rand, destinationPos);
 
-                // add goal node
-                TNode last = new TNode (counter + 1, rand, destinationPos);
-                tree.goal = last;
+			if (Vector3.Distance (rand.getPos (), destinationPos) < goalThreshold && hasPathBetween (rand, destination)) {
+				
+				// add goal node
+				TNode last = destination;
+				tree.goal = last;
                 tree.addNode (last);
                 break;
             }

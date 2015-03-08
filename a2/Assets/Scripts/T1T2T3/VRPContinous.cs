@@ -18,7 +18,7 @@ public class VRPContinous {
 	}
 
 
-	public void planContinuousVRP (List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int rand_iterations, int GA_iterations, int population, int tournaments, bool drawRRT) {
+	public void planContinuousVRP (List<GameObject> agents, List<GameObject> customers, List<Vector2[]> polygons, int GA_iterations, int population, int tournaments, bool drawRRT) {
 		this.drawRRT = drawRRT;
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
 		Dictionary<Agent, List<List<GNode>>> bestResult = new Dictionary<Agent, List<List<GNode>>>();

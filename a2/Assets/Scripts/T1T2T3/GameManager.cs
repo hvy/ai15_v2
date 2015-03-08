@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 	public int nr_agents, numWaypoints, numObstacles;
 	public int neighbors;
 	public int task;
-	public int RandomIterations;
 	public int GeneticIterations;
 	public int GeneticPopulation;
 	public int GeneticTournaments;
@@ -36,8 +35,8 @@ public class GameManager : MonoBehaviour
 		GameState.Instance.neighbors = (int)neighbors;
 
 		// Create obstacles
-		List<GameObject> obstacles;
-		List<Vector2[]> polygons = new List<Vector2[]>();
+		List<GameObject> obstacles = new List<GameObject>();
+ 		List<Vector2[]> polygons = new List<Vector2[]>();
 
 		if (task < 3)
 			obstacles = createRandomObstacles(_width, _height, numObstacles);
@@ -50,6 +49,45 @@ public class GameManager : MonoBehaviour
 		// Create agents
 		List<GameObject> agents = createRandomAgents (_width, _height, nr_agents, polygons);
 
+		if (task == 2) {
+		obstacles[0].transform.position = new Vector3(5, 0, 2);
+		obstacles[1].transform.position = new Vector3(6, 0, 2);
+		obstacles[2].transform.position = new Vector3(7, 0, 2);
+		obstacles[3].transform.position = new Vector3(8, 0, 2);
+		obstacles[4].transform.position = new Vector3(9, 0, 2);
+		obstacles[5].transform.position = new Vector3(10, 0, 2);
+
+		GameState.Instance.obstacles.Clear();
+		for (int i = 0; i < obstacles.Count; i++) {
+			GameState.Instance.obstacles.Add (obstacles[i].transform.position);
+		}
+
+
+		agents[0].transform.position = new Vector3(0,0,1);
+		agents[1].transform.position = new Vector3(5,0,0);
+		agents[2].transform.position = new Vector3(6,0,0);
+		agents[3].transform.position = new Vector3(7,0,0);
+		agents[4].transform.position = new Vector3(10,0,8);
+
+		GameState.Instance.agents.Clear();
+		for (int i = 0; i < agents.Count; i++) {
+			GameState.Instance.agents[agents[i].transform.position] = (Agent) agents[i].GetComponent(typeof(Agent));
+		}
+
+		waypoints[0].transform.position = new Vector3(0,0,7);
+		waypoints[1].transform.position = new Vector3(5,0,7);
+		waypoints[2].transform.position = new Vector3(6,0,7);
+		waypoints[3].transform.position = new Vector3(7,0,7);
+		waypoints[4].transform.position = new Vector3(12,0,1);
+		waypoints[5].transform.position = new Vector3(12,0,12);
+		waypoints[6].transform.position = new Vector3(12,0,10);
+
+		GameState.Instance.customers.Clear();
+		for (int i = 0; i < waypoints.Count; i++) {
+			GameState.Instance.customers[waypoints[i].transform.position] = waypoints[i];
+		}
+		}
+
 
 		PathPlanner pp = new PathPlanner ();
 		VRPDiscrete vrpDiscrete = new VRPDiscrete();
@@ -60,9 +98,9 @@ public class GameManager : MonoBehaviour
 		if (task == 1)
 			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles);
 		else if (task == 2)
-			vrpDiscrete.planVRPPaths(agents, waypoints, GameState.Instance.obstacles, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments);
+			vrpDiscrete.planVRPPaths(agents, waypoints, GameState.Instance.obstacles, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)
-			vrpContinous.planContinuousVRP(agents, waypoints, polygons, RandomIterations, GeneticIterations, GeneticPopulation, GeneticTournaments, DrawRRT);
+			vrpContinous.planContinuousVRP(agents, waypoints, polygons, GeneticIterations, GeneticPopulation, GeneticTournaments, DrawRRT);
 			//pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
 	
 	}

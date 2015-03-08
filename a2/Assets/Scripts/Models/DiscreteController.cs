@@ -50,10 +50,11 @@ public class DiscreteController : MonoBehaviour, MovementModel
 
 			if (GameState.Instance.agents.ContainsKey(goal) && goal != agent.transform.position && goal.x != -1 && agent.tick < GameState.Instance.agents [goal].tick) {
 				Debug.Log("Illegal move, abort " + agent.transform.position + " to  " + goal);
-				reactiveCollision(agent, goal);
-				agent.tick++;
-				counter = 0;
-				return false;
+				if (reactiveCollision(agent, goal)) {
+					agent.tick++;
+					counter = 0;
+					return false;
+				}
 			}
 
 			GameState.Instance.agents.Remove(rigidbody.transform.position);

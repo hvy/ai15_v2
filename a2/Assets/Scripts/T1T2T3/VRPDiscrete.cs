@@ -18,7 +18,7 @@ public class VRPDiscrete  {
 		this.neighbors = GameState.Instance.neighbors;
 	}
 
-	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (List<GameObject> agents, List<GameObject> customers, List<Vector3> occupiedSlots, int rand_iterations, int GA_iterations, int population, int tournaments) {
+	public Dictionary<Agent, List<List<GNode>>> planVRPPaths (List<GameObject> agents, List<GameObject> customers, List<Vector3> occupiedSlots, int GA_iterations, int population, int tournaments) {
 	
 		
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();

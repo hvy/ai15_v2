@@ -10,7 +10,7 @@ public class GeneticsDiscrete {
 	HashSet<int[]> hash;
 	int[] current_best;
 	float current_best_cost;
-	List<int[]> population;
+	LinkedList<int[]> population;
 	Dictionary<int, GameObject> chromosomeIDs;
 	static System.Random _random = new System.Random();
 
@@ -40,11 +40,11 @@ public class GeneticsDiscrete {
 
 
 	void createPopulation(int N, int[] solution) {
-		population = new List<int[]>();
+		population = new LinkedList<int[]>();
 		int[] permutation = solution;
 		for (int i = 0; i < N; i++) {
 			shuffle (permutation);
-			population.Add (permutation);
+			population.AddLast (permutation);
 		}
 
 	}
@@ -68,41 +68,37 @@ public class GeneticsDiscrete {
 			
 			// your code here
 			UnityEngine.Debug.Log ("current best: " + current_best_cost);
-			
+
+			sw = new Stopwatch();
 			sw.Start();
 			parents = tournamentSelection(K);
 			sw.Stop();
 			System.TimeSpan elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.Milliseconds + " ms");
 
+			sw = new Stopwatch();
 			sw.Start();
 			children = crossover(parents);
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Crossover time: " + elapsedTime.Milliseconds + " ms");
 
 			if (_random.NextDouble() <= mr)
 				mutate(children);
+			sw = new Stopwatch();
 			sw.Start();
 			foreach (int[] child in children) {
-				if (hash.Contains(child))
-					continue;
+//				if (hash.Contains(child))
+//					continue;
 
-				population.RemoveAt(0); // TODO change type of selection?
-				population.Add (child);
-				hash.Add(child);
-
-				float child_cost = cost (child).first;
-				if (child_cost < current_best_cost) {
-					current_best = child;
-					current_best_cost = child_cost;
-				}
-
-
+				population.RemoveFirst(); // TODO change type of selection?
+				population.AddLast (child);
+//				hash.Add(child);
+			
 			} 
 			sw.Stop();
 			elapsedTime = sw.Elapsed;
-			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.TotalMilliseconds + " ms");
+			UnityEngine.Debug.Log ("Selection time: " + elapsedTime.Milliseconds + " ms");
 //			Debug.Log ("ierations: " + i);
 			i++;
 		}
@@ -116,7 +112,7 @@ public class GeneticsDiscrete {
 
 	List<int[]> tournamentSelection(int rounds) {
 		List<int[]> participants = new List<int[]>();
-		participants = copy(population);
+		participants = population.ToList();
 		List<int[]> winners;
 
 		for (int k = 0; k < rounds; k++) {
@@ -145,22 +141,25 @@ public class GeneticsDiscrete {
 
 		for (int i = 0; i < parents.Count-1; i++) {
 			List<int> list = parents[i+1].ToList();
+//			LinkedList<int> linkedList = new LinkedList<int>(parents[i+1]);
+			// TODO use LinkedList for easier modification.
 
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 2; j++) {
 				int index  = _random.Next (0, customers.Count + agents.Count-2);
 				int id_first = parents[i][index];
 				int id_second = parents[i][index+1];
 				
-				
 				int value = list[1];
 				list.Remove(id_second);
+//				linkedList.Remove(id_second);
 				int idx = list.IndexOf(id_first);
 				list.Insert(idx, id_second);
+//				linkedList.AddBefore(id_se)
 			}
 			int[] res = list.ToArray();
 			normalize_chromosome(res);
 			children.Add (res);
-			i++;
+			//i++;
 			
 
 		}
@@ -171,16 +170,7 @@ public class GeneticsDiscrete {
 	void mutate(List<int[]> children) {
 		// TODO
 	}
-
-	List<int[]> copy(List<int[]> a) {
-		List<int[]> newList = new List<int[]>();
-		for (int i = 0; i < a.Count; i++) {
-			newList.Add (new int[a[i].Length]);
-			newList[i] = a[i];
-		}
-		return newList;
-	}
-
+	
 	void shuffle(int[] array)
 	{
 		int n = array.Length;
@@ -285,14 +275,19 @@ public class GeneticsDiscrete {
 		// Calculate the fitness of the result
 		float cost = fitness (result, maxDistance, totalDistance);
 
+		if (cost < current_best_cost) {
+			current_best = chromosome;
+			current_best_cost = cost;
+		}
+		
 		return new Tuple<float, Dictionary<Agent, List<List<GNode>>>>(cost, result);
 
 	}
 
 	private float fitness(Dictionary<Agent, List<List<GNode>>> res, float maxDistance, float totalDistance) {
-		float w1 = 20.0f;
-		float w2 = 2.8f;
-		float w3 = 5.5f;
+		float w1 = 10.0f;
+		float w2 = 3.0f;
+		float w3 = 8.0f;
 		return w1*timeCost(res, GameState.Instance.width, GameState.Instance.height) + w2*maxDistance + w3*totalDistance;
 	}
 
@@ -301,7 +296,7 @@ public class GeneticsDiscrete {
 		Stopwatch sw = new Stopwatch();
 		
 		// your code here
-		UnityEngine.Debug.Log ("current best: " + current_best_cost);
+		//UnityEngine.Debug.Log ("current best: " + current_best_cost);
 		
 		sw.Start();
 		int totalTime = 100;// TODO, how is this determined? Loop until every agent is finished maybe
@@ -407,8 +402,8 @@ public class GeneticsDiscrete {
 		
 		sw.Stop();
 		System.TimeSpan elapsedTime = sw.Elapsed;
-		UnityEngine.Debug.Log ("Simulation time: " + elapsedTime.TotalMilliseconds + " ms");
-		totalSimulationTime += elapsedTime.TotalMilliseconds;
+		//UnityEngine.Debug.Log ("Simulation time: " + elapsedTime.TotalMilliseconds + " ms");
+		totalSimulationTime += elapsedTime.Milliseconds;
 
 		return longestTime;
 		

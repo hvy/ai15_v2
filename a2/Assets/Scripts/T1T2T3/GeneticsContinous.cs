@@ -10,7 +10,7 @@ public class GeneticsContinous {
 	HashSet<int[]> hash;
 	int[] current_best;
 	float current_best_cost;
-	List<int[]> population;
+	LinkedList<int[]> population;
 	Dictionary<int, GameObject> chromosomeIDs;
 	static System.Random _random = new System.Random();
 	
@@ -41,11 +41,11 @@ public class GeneticsContinous {
 	
 	
 	void createPopulation(int N, int[] solution) {
-		population = new List<int[]>();
+		population = new LinkedList<int[]>();
 		int[] permutation = solution;
 		for (int i = 0; i < N; i++) {
 			shuffle (permutation);
-			population.Add (permutation);
+			population.AddLast (permutation);
 		}
 		
 	}
@@ -69,13 +69,15 @@ public class GeneticsContinous {
 			
 			// your code here
 			UnityEngine.Debug.Log ("current best: " + current_best_cost);
-			
+
+			sw = new Stopwatch();
 			sw.Start();
 			parents = tournamentSelection(K);
 			sw.Stop();
 			System.TimeSpan elapsedTime = sw.Elapsed;
 			UnityEngine.Debug.Log ("Tournament time: " + elapsedTime.TotalMilliseconds + " ms");
-			
+
+			sw = new Stopwatch();
 			sw.Start();
 			children = crossover(parents);
 			sw.Stop();
@@ -84,21 +86,15 @@ public class GeneticsContinous {
 			
 			if (_random.NextDouble() <= mr)
 				mutate(children);
+			sw = new Stopwatch();
 			sw.Start();
 			foreach (int[] child in children) {
-				if (hash.Contains(child))
-					continue;
+//				if (hash.Contains(child))
+//					continue;
 				
-				population.RemoveAt(0); // TODO change type of selection?
-				population.Add (child);
-				hash.Add(child);
-				
-				float child_cost = cost (child).first;
-				if (child_cost < current_best_cost) {
-					current_best = child;
-					current_best_cost = child_cost;
-				}
-				
+				population.RemoveFirst(); // TODO change type of selection?
+				population.AddLast(child);
+//				hash.Add(child);
 				
 			} 
 			sw.Stop();
@@ -117,7 +113,7 @@ public class GeneticsContinous {
 	
 	List<int[]> tournamentSelection(int rounds) {
 		List<int[]> participants = new List<int[]>();
-		participants = copy(population);
+		participants = population.ToList();
 		List<int[]> winners;
 		
 		for (int k = 0; k < rounds; k++) {
@@ -146,6 +142,8 @@ public class GeneticsContinous {
 		
 		for (int i = 0; i < parents.Count-1; i++) {
 			List<int> list = parents[i+1].ToList();
+//			LinkedList<int> list2 = parents[i+1].ToList();
+			//LinkedList<int> linkedList = new LinkedList<int>(parents[i+1]);
 			
 			for (int j = 0; j < 2; j++) {
 				int index  = _random.Next (0, customers.Count + agents.Count-2);
@@ -171,15 +169,6 @@ public class GeneticsContinous {
 	
 	void mutate(List<int[]> children) {
 		// TODO
-	}
-	
-	List<int[]> copy(List<int[]> a) {
-		List<int[]> newList = new List<int[]>();
-		for (int i = 0; i < a.Count; i++) {
-			newList.Add (new int[a[i].Length]);
-			newList[i] = a[i];
-		}
-		return newList;
 	}
 	
 	void shuffle(int[] array)
@@ -269,7 +258,7 @@ public class GeneticsContinous {
 				minAngle = 360f;
 				Vector3[] bounds = new Vector3[4];
 				
-				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 1.0f, 1f, acceptableWidth, minAngle, acceptableWidth, GameState.Instance.width, GameState.Instance.height);
+				RRT rrt = new RRT (previousStart, customer.transform.position, bounds, polygons, 100.0f, 1f, acceptableWidth, minAngle, acceptableWidth, GameState.Instance.width, GameState.Instance.height);
 				
 				rrt.buildRRT (10000);
 				//rrt.tree.draw ();
@@ -304,6 +293,11 @@ public class GeneticsContinous {
 
 		// Calculate the fitness of the result
 		float cost = fitness (result, maxDistance, totalDistance);
+
+		if (cost < current_best_cost) {
+			current_best = chromosome;
+			current_best_cost = cost;
+		}
 		
 		return new Tuple<float, Dictionary<Agent, List<List<GNode>>>>(cost, result);
 		
@@ -311,7 +305,7 @@ public class GeneticsContinous {
 	
 	private float fitness(Dictionary<Agent, List<List<GNode>>> res, float maxDistance, float totalDistance) {
 		float w1 = 10.0f;
-		float w2 = 2.8f;
+		float w2 = 2.0f;
 		return w1*maxDistance + w2*totalDistance;
 	}
 

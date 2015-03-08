@@ -344,14 +344,14 @@ MonoBehaviour:
   _width: 20
   _height: 20
   nr_agents: 5
-  numWaypoints: 20
-  numObstacles: 20
+  numWaypoints: 7
+  numObstacles: 6
   neighbors: 8
   task: 3
-  RandomIterations: 100
-  GeneticIterations: 100
-  GeneticPopulation: 7
+  GeneticIterations: 300
+  GeneticPopulation: 10
   GeneticTournaments: 1
+  DrawRRT: 0
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0
