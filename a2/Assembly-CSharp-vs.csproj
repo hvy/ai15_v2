@@ -81,6 +81,8 @@
      <Compile Include="Assets\Scripts\T1T2T3\GeneticsDiscrete.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\VRPContinous.cs" />
      <Compile Include="Assets\Scripts\T1T2T3\VRPDiscrete.cs" />
+     <Compile Include="Assets\Scripts\T4\CollisionAvoidance.cs" />
+     <Compile Include="Assets\Scripts\T4\T4GameManager.cs" />
      <Compile Include="Assets\Scripts\T6\DecentralizedLocalInteractionFormation.cs" />
      <Compile Include="Assets\Scripts\T6\Formation.cs" />
      <Compile Include="Assets\Scripts\T6\LeaderFollowerFormation.cs" />

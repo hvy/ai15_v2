@@ -15,10 +15,13 @@ public class DynamicController : MonoBehaviour, MovementModel
 	//private Vector3 destination_;
 
 	protected float initialDistance = 0f;
+	public Vector3 direction = new Vector3(0,0,0);
+	public Vector3 acceleration = new Vector3(0,0,0);
 	private int steps;
 
 	void Start () {
 		steps = 0;
+		direction = (goal - rigidbody.position).normalized;
 	}
 
 	// Implements interface member
@@ -58,36 +61,26 @@ public class DynamicController : MonoBehaviour, MovementModel
 		steps = 0;
 		rigidbody.transform.position = position;
         velocity = 0f;
+		direction = (goal - rigidbody.position).normalized;
+		initialDistance = Vector3.Distance(goal, rigidbody.position);
 	}
 
 	protected void move ()
 	{	
-//		Vector3 force = goal - rigidbody.position; // allow for slow down
-//		float acc = force.magnitude;
-//		if (acc > maxA) {
-//			acc = maxA;
-//		}
         float acc = maxA * Time.fixedDeltaTime;
 
 		float distance = Vector3.Distance (rigidbody.position, goal);
 
-		if (initialDistance / distance > 2) {
-            velocity -= acc;
+		direction = (goal - rigidbody.position).normalized;
+
+		if (acceleration.magnitude > 0.04f) {
+			acceleration = Vector3.ClampMagnitude(acceleration, maxA);
+			rigidbody.AddRelativeForce(acceleration * Time.deltaTime*10f);
 		} else {
-			velocity += acc;
+			rigidbody.AddRelativeForce(direction * Time.deltaTime*10f);
 		}
-
-		float stoppingDistance = Time.deltaTime * (velocity * velocity) / (2 * acc);
-		// TODO change to destination instead of goal to keep velocity at waypoints
-		if (Vector3.Distance (transform.position, goal) <= stoppingDistance) {
-            velocity -= 2*acc;
-		}
-
-		velocity = (velocity == 0) ? 0.1f : velocity;
-		rigidbody.transform.position = (Vector3.Lerp (rigidbody.transform.position, goal, velocity * Time.deltaTime / distance));
-       
-        //rigidbody.velocity = 
-        //Vector3 force = goal - rigidbody.position;
-        //rigidbody.AddRelativeForce(force * 1f);
+		
+		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);
+		       
 	}
 }

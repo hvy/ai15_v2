@@ -348,7 +348,7 @@ MonoBehaviour:
   numObstacles: 6
   neighbors: 8
   task: 3
-  GeneticIterations: 300
+  GeneticIterations: 10
   GeneticPopulation: 10
   GeneticTournaments: 1
   DrawRRT: 0
