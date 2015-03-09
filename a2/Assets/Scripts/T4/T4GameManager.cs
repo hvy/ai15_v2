@@ -10,7 +10,6 @@ public class T4GameManager : MonoBehaviour {
 
 	List<GameObject> agents;
 	private CollisionAvoidance ca;
-	private int counter = 0;
 
 	void Start () {
 		createStage (width, height);
@@ -21,7 +20,7 @@ public class T4GameManager : MonoBehaviour {
 		agents = createRandomAgents (width, height, numAgents, polygons, waypoints);
 
 		agents[0].transform.position = new Vector3(0,0,0);
-		agents[1].transform.position = new Vector3(6,0,0);
+		agents[1].transform.position = new Vector3(10,0,0);
 
 
 		ca = new CollisionAvoidance(agents);
@@ -30,11 +29,7 @@ public class T4GameManager : MonoBehaviour {
 	
 	void FixedUpdate () {	
 		//updatePlayerAgent();
-		if (counter % 10 == 0) {
-			counter = 0;
-			ca.avoidCollisions();
-		}
-		counter++;
+		ca.avoidCollisions();
 		//Debug.Log (agents[0].rigidbody.velocity);
 	}
 
@@ -113,10 +108,10 @@ public class T4GameManager : MonoBehaviour {
 				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), y, Random.Range(0, (int)height));
 
 			if (i == 0)
-				waypoint.transform.position = new Vector3(10, 0, 10);
+				waypoint.transform.position = new Vector3(10, 0, 8);
 
 			if (i==1)
-				waypoint.transform.position = new Vector3(3, 0, 4);
+				waypoint.transform.position = new Vector3(0, 0, 8);
 
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;

@@ -4,19 +4,18 @@ using System.Collections.Generic;
 
 public class DynamicController : MonoBehaviour, MovementModel
 {	
-	//public float power;
 	public float maxA;
+	public float toVel = 0.05f; 
+	public float maxVel = 10.0f;
+	public float gain = 0.6f;
 
 	protected List<GNode> path;
 	protected Vector3 goal;
-	//protected const float max_acceleration = 0.1f;
 	protected float velocity = 0;
-	//private bool lastGoal = false;
-	//private Vector3 destination_;
 
 	protected float initialDistance = 0f;
 	public Vector3 direction = new Vector3(0,0,0);
-	public Vector3 acceleration = new Vector3(0,0,0);
+	public Vector3 appliedAcceleration = new Vector3(0,0,0);
 	private int steps;
 
 	void Start () {
@@ -67,19 +66,26 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	protected void move ()
 	{	
-        float acc = maxA * Time.fixedDeltaTime;
-
-		float distance = Vector3.Distance (rigidbody.position, goal);
-
-		direction = (goal - rigidbody.position).normalized;
-
-		if (acceleration.magnitude > 0.04f) {
-			acceleration = Vector3.ClampMagnitude(acceleration, maxA);
-			rigidbody.AddRelativeForce(acceleration * Time.deltaTime*10f);
+		if (appliedAcceleration.magnitude > 0.0003f) {
+			Debug.Log ("repelling");
+			Vector3 acc = Vector3.ClampMagnitude(appliedAcceleration, maxA);
+			rigidbody.AddForce(acc * Time.deltaTime);
 		} else {
-			rigidbody.AddRelativeForce(direction * Time.deltaTime*10f);
+			//Debug.Log ("goaling");
+
+			Vector3 dist = goal - transform.position;
+
+			// calc a target vel proportional to distance (clamped to maxVel)
+			Vector3 tgtVel = Vector3.ClampMagnitude(toVel * dist, maxVel);
+			// calculate the velocity error
+			Vector3 error = tgtVel - rigidbody.velocity;
+			// calc a force proportional to the error (clamped to maxForce)
+			Vector3 force = Vector3.ClampMagnitude(gain * error, maxA);
+
+			rigidbody.AddRelativeForce(force * Time.deltaTime);
+			
 		}
-		
+
 		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);
 		       
 	}

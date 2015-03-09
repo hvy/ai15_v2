@@ -189,7 +189,7 @@ Transform:
   m_GameObject: {fileID: 135914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: .300000012, y: .100000001, z: .300000012}
+  m_LocalScale: {x: .100000001, y: .100000001, z: .100000001}
   m_Children:
   - {fileID: 492720}
   - {fileID: 435924}
@@ -584,7 +584,7 @@ TrailRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 10
   m_StartWidth: .100000001
   m_EndWidth: .100000001
   m_Colors:
@@ -641,8 +641,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 10
+  toVel: .425000012
+  maxVel: 3
+  gain: 1.25
   direction: {x: 0, y: 0, z: 0}
-  acceleration: {x: 0, y: 0, z: 0}
+  appliedAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &11435918
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,9 +6,20 @@ using System;
 public class CollisionAvoidance {
 
 	List<GameObject> agents;
+	float[,] previousDistances;
 
 	public CollisionAvoidance(List<GameObject> agents) {
 		this.agents = agents;
+		previousDistances = new float[agents.Count,agents.Count];
+
+		for (int i = 0; i < agents.Count; i++) {
+			for (int j = (i+1) % (agents.Count-1); j < agents.Count; j++) {
+				if (j == i)
+					continue;
+				float agentRangeToTarget = Vector3.Distance(agents[i].rigidbody.position, agents[j].rigidbody.position);
+				previousDistances[i,j] = agentRangeToTarget;
+			}
+		}
 	}
 
 	public void avoidCollisions() {
@@ -44,17 +55,23 @@ public class CollisionAvoidance {
 				Vector3 rotationVector = Vector3.Cross(directionToTarget, targetVelocityRelativeToAgent) / Vector3.Dot(directionToTarget, directionToTarget);
 				acceleration = Vector3.Cross(targetVelocityRelativeToAgent, rotationVector);
 
-				if (agentRangeToTarget > 3f) // radius of consideration to avoid other agents
+				if (acceleration.magnitude < 0.00001f) // perfect collision course
+					acceleration += UnityEngine.Random.insideUnitSphere*500f;
+//				else // avoid collision acceleration
+//					acceleration = acceleration * Math.Min((1/agentRangeToTarget)*2f, 1);
+
+				if (agentRangeToTarget > previousDistances[i,j]) // Moving away from eachother
 					acceleration = new Vector3(0,0,0);
-				acceleration = acceleration * Math.Min(1/agentRangeToTarget, 1);
+
 
 				totalAcceleration += acceleration;
+				previousDistances[i, j] = agentRangeToTarget;
 
 			}
 
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
 			DynamicController dc = (DynamicController) a.models[2];
-			dc.acceleration = -totalAcceleration;
+			dc.appliedAcceleration = -totalAcceleration;
 //			Debug.Log ("acceleration: " + totalAcceleration);
 //			Debug.Log ("acceleration mag: " + totalAcceleration.magnitude);
 		}
