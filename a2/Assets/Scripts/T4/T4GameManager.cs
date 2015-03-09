@@ -20,7 +20,7 @@ public class T4GameManager : MonoBehaviour {
 		agents = createRandomAgents (width, height, numAgents, polygons, waypoints);
 
 		agents[0].transform.position = new Vector3(0,0,0);
-		agents[1].transform.position = new Vector3(10,0,0);
+		agents[1].transform.position = new Vector3(80,0,0);
 
 
 		ca = new CollisionAvoidance(agents);
@@ -28,39 +28,9 @@ public class T4GameManager : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {	
-		//updatePlayerAgent();
 		ca.avoidCollisions();
-		//Debug.Log (agents[0].rigidbody.velocity);
 	}
 
-	private void updatePlayerAgent () {
-		
-		GameObject playerAgent = agents[0];
-		Agent agent = (Agent) playerAgent.GetComponent(typeof(Agent));
-		DynamicController dc = (DynamicController) agent.models[motionModelId];
-		
-		// Listen for rotation
-		//playerAgent.transform.Rotate(0, Input.GetAxis("Horizontal")*rotationSpeed*Time.deltaTime, 0);
-		
-		Vector3 agentTranslation = Vector3.zero;
-		
-		if (Input.GetKey (KeyCode.UpArrow)) {
-			agentTranslation.z += 1.0f;
-		}
-		if (Input.GetKey (KeyCode.DownArrow)) {
-			agentTranslation.z -= 1.0f;
-		}
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			agentTranslation.x += 1.0f;
-		}
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			agentTranslation.x -= 1.0f;
-		}
-		
-		//playerAgent.transform.Translate (agentTranslation * Time.deltaTime * playerAgent.);
-		dc.direction = agentTranslation;
-		
-	}
 
 	
 	private GameObject createStage (float width, float height) {
@@ -108,10 +78,10 @@ public class T4GameManager : MonoBehaviour {
 				waypoint.transform.position = new Vector3(Random.Range(0, (int)width), y, Random.Range(0, (int)height));
 
 			if (i == 0)
-				waypoint.transform.position = new Vector3(10, 0, 8);
+				waypoint.transform.position = new Vector3(80, 0, 80);
 
 			if (i==1)
-				waypoint.transform.position = new Vector3(0, 0, 8);
+				waypoint.transform.position = new Vector3(0, 0, 80);
 
 			waypoint.transform.parent = parent.transform;
 			waypoint.name = "waypoint" + i;

@@ -259,8 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numAgents: 2
   motionModelId: 2
-  width: 10
-  height: 10
+  width: 100
+  height: 100
   acceleration: 1
 --- !u!4 &496710193
 Transform:

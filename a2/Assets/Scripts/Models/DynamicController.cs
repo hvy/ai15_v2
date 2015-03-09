@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class DynamicController : MonoBehaviour, MovementModel
 {	
 	public float maxA;
-	public float toVel = 0.05f; 
-	public float maxVel = 10.0f;
-	public float gain = 0.6f;
+	public float toVel; 
+	public float maxVel;
+	public float gain;
 
 	protected List<GNode> path;
 	protected Vector3 goal;
@@ -32,6 +32,8 @@ public class DynamicController : MonoBehaviour, MovementModel
 	// Implements interface member
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
 
+
+//		Debug.Log ("Moving: " + rigidbody.transform.position);	
 		float distance = Vector3.Distance (goal, transform.position);
 		
 		if (distance < 4.0f) {
@@ -49,7 +51,6 @@ public class DynamicController : MonoBehaviour, MovementModel
 		}
 
 
-		//Debug.Log ("Moving: " + rigidbody.transform.position);	
 		move ();
 		return true;
 	}
@@ -67,26 +68,25 @@ public class DynamicController : MonoBehaviour, MovementModel
 	protected void move ()
 	{	
 		if (appliedAcceleration.magnitude > 0.0003f) {
-			Debug.Log ("repelling");
+//			Debug.Log ("repelling");
+//			Debug.Log ("acc: " + appliedAcceleration);
 			Vector3 acc = Vector3.ClampMagnitude(appliedAcceleration, maxA);
 			rigidbody.AddForce(acc * Time.deltaTime);
-		} else {
-			//Debug.Log ("goaling");
+		} 
 
-			Vector3 dist = goal - transform.position;
+		Vector3 dist = goal - transform.position;
 
-			// calc a target vel proportional to distance (clamped to maxVel)
-			Vector3 tgtVel = Vector3.ClampMagnitude(toVel * dist, maxVel);
-			// calculate the velocity error
-			Vector3 error = tgtVel - rigidbody.velocity;
-			// calc a force proportional to the error (clamped to maxForce)
-			Vector3 force = Vector3.ClampMagnitude(gain * error, maxA);
+		// calc a target vel proportional to distance (clamped to maxVel)
+		Vector3 tgtVel = Vector3.ClampMagnitude(toVel * dist, maxVel);
+		// calculate the velocity error
+		Vector3 error = tgtVel - rigidbody.velocity;
+		// calc a force proportional to the error (clamped to maxForce)
+		Vector3 force = Vector3.ClampMagnitude(gain * error, maxA);
 
-			rigidbody.AddRelativeForce(force * Time.deltaTime);
-			
-		}
-
+		rigidbody.AddRelativeForce(force * Time.deltaTime);
+		
 		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);
+		Debug.Log (rigidbody.velocity);
 		       
 	}
 }

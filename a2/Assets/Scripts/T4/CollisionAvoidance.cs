@@ -7,6 +7,7 @@ public class CollisionAvoidance {
 
 	List<GameObject> agents;
 	float[,] previousDistances;
+	float avoidanceStrength = 100f;
 
 	public CollisionAvoidance(List<GameObject> agents) {
 		this.agents = agents;
@@ -58,13 +59,13 @@ public class CollisionAvoidance {
 				if (acceleration.magnitude < 0.00001f) // perfect collision course
 					acceleration += UnityEngine.Random.insideUnitSphere*500f;
 //				else // avoid collision acceleration
-//					acceleration = acceleration * Math.Min((1/agentRangeToTarget)*2f, 1);
+//					acceleration = acceleration * Math.Min((1/agentRangeToTarget)*50f, 1);
 
 				if (agentRangeToTarget > previousDistances[i,j]) // Moving away from eachother
 					acceleration = new Vector3(0,0,0);
 
 
-				totalAcceleration += acceleration;
+				totalAcceleration += acceleration*avoidanceStrength;
 				previousDistances[i, j] = agentRangeToTarget;
 
 			}
