@@ -305,7 +305,7 @@ public class GeneticsContinous {
 	
 	private float fitness(Dictionary<Agent, List<List<GNode>>> res, float maxDistance, float totalDistance) {
 		float w1 = 10.0f;
-		float w2 = 2.0f;
+		float w2 = 1.0f;
 		return w1*maxDistance + w2*totalDistance;
 	}
 

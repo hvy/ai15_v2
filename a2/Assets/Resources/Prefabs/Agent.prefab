@@ -640,9 +640,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 70
+  maxA: 200
   toVel: .5
-  maxVel: 50
+  maxVel: 100
   gain: 10
   direction: {x: 0, y: 0, z: 0}
   appliedAcceleration: {x: 0, y: 0, z: 0}
