@@ -1,0 +1,118 @@
+New agent
+x: 30
+y: 70
+x: 180
+y: 210
+End of agent
+New agent
+x: 130
+y: 40
+x: 50
+y: 230
+End of agent
+New agent
+x: 230
+y: 20
+x: 20
+y: 230
+End of agent
+New agent
+x: 130
+y: 270
+x: 80
+y: 130
+End of agent
+New agent
+x: 40
+y: 160
+x: 70
+y: 50
+End of agent
+New polygonal shape
+x0: 34.216590
+y0: 273.245614
+x1: 34.216590
+y1: 260.087719
+x2: 63.940092
+y2: 254.824561
+x3: 68.087558
+y3: 211.842105
+x4: 84.677419
+y4: 234.649123
+x5: 96.428571
+y5: 256.578947
+x6: 68.778802
+y6: 275.877193
+End of polygonal shape
+New polygonal shape
+x0: 173.847926
+y0: 254.824561
+x1: 166.244240
+y1: 237.280702
+x2: 231.221198
+y2: 194.298246
+x3: 245.046083
+y3: 216.228070
+x4: 200.115207
+y4: 253.947368
+End of polygonal shape
+New polygonal shape
+x0: 237.442396
+y0: 148.684211
+x1: 169.009217
+y1: 148.684211
+x2: 170.391705
+y2: 56.578947
+x3: 204.262673
+y3: 55.701754
+x4: 204.262673
+y4: 136.403509
+x5: 230.529954
+y5: 138.157895
+x6: 238.824885
+y6: 103.947368
+x7: 280.299539
+y7: 117.105263
+End of polygonal shape
+New polygonal shape
+x0: 77.073733
+y0: 82.894737
+x1: 78.456221
+y1: 60.964912
+x2: 130.299539
+y2: 58.333333
+x3: 128.225806
+y3: 86.403509
+End of polygonal shape
+New customer
+x: 220
+y: 120
+End of customer
+New customer
+x: 20
+y: 120
+End of customer
+New customer
+x: 220
+y: 10
+End of customer
+New customer
+x: 220
+y: 260
+End of customer
+New customer
+x: 80
+y: 120
+End of customer
+New customer
+x: 90
+y: 220
+End of customer
+New customer
+x: 120
+y: 120
+End of customer
+New customer
+x: 120
+y: 150
+End of customer

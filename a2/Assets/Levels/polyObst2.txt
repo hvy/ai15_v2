@@ -1,0 +1,72 @@
+New agent
+x: 30
+y: 0
+x: -30
+y: 3.673940e-15
+End of agent
+New agent
+x: 2.897777e+01
+y: 7.764571e+00
+x: -2.897777e+01
+y: -7.764571e+00
+End of agent
+New agent
+x: 2.598076e+01
+y: 1.500000e+01
+x: -2.598076e+01
+y: -1.500000e+01
+End of agent
+New agent
+x: 2.121320e+01
+y: 2.121320e+01
+x: -2.121320e+01
+y: -2.121320e+01
+End of agent
+New agent
+x: 1.500000e+01
+y: 2.598076e+01
+x: -1.500000e+01
+y: -2.598076e+01
+End of agent
+New agent
+x: 7.764571e+00
+y: 2.897777e+01
+x: -7.764571e+00
+y: -2.897777e+01
+End of agent
+New agent
+x: 1.836970e-15
+y: 30
+x: -5.510911e-15
+y: -30
+End of agent
+New agent
+x: -7.764571e+00
+y: 2.897777e+01
+x: 7.764571e+00
+y: -2.897777e+01
+End of agent
+New agent
+x: -1.500000e+01
+y: 2.598076e+01
+x: 1.500000e+01
+y: -2.598076e+01
+End of agent
+New agent
+x: -2.121320e+01
+y: 2.121320e+01
+x: 2.121320e+01
+y: -2.121320e+01
+End of agent
+New agent
+x: -2.598076e+01
+y: 1.500000e+01
+x: 2.598076e+01
+y: -1.500000e+01
+End of agent
+New agent
+x: -2.897777e+01
+y: 7.764571e+00
+x: 2.897777e+01
+y: -7.764571e+00
+End of agent
