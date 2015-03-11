@@ -86,7 +86,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		rigidbody.AddRelativeForce(force * Time.deltaTime);
 		
 		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);
-		Debug.Log (rigidbody.velocity);
+//		Debug.Log (rigidbody.velocity);
 		       
 	}
 }
