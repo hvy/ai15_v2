@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class T6GameManager : MonoBehaviour {
-
-	public int numAgents; // numAgents > 0
+	
 	public int formationId; // 0 = Leader following, 1 = Virtual structure, 2 = Decentralized local interaction
 	public int motionModelId;
 	public float width, height, moveSpeed, rotationSpeed;
@@ -13,29 +12,39 @@ public class T6GameManager : MonoBehaviour {
 	private Formation formation;
 
 	void Start () {
-
+		// Create the stage
 		createStage (width, height);
+
+		// Update the camera
 		CameraModel.updateOrthoPosition(width, Camera.main.transform.position.y, height);
 
-		GameObject[] agents = createAgents (numAgents);
+		// Start the demo given a formation
+		formation = setFormation (formationId);
+	}
 
+	void Update () {	
+		// Listen for keyboard input and move the player controlled agent accordingly
+		updatePlayerAgent (); 		
+
+		// Update the positions of the follower agents accordingly
+		formation.updateAgents (); 	
+	}
+
+	GameObject[] createRandomAgents(int numAgents) {
+		
+		GameObject[] agents = createAgents (numAgents);
+		
 		// Reposition the agents with an offset so that they don't collide
 		for (int i = 0; i < agents.Length; i++) {
 			agents[i].transform.Translate (new Vector3 (i, 0, width / 2.0f));
 		}
-
+		
 		// Register the agents in the game state
 		for (int i = 0; i < agents.Length; i++) {
 			GameState.Instance.addAgent (agents[i].transform.position + new Vector3(0,0,i), (Agent) agents[i].GetComponent (typeof(Agent)));		
 		}
 
-		// Set the formation according to the specified type in the inspector
-		formation = setFormation (formationId, playerControlledAgentId, agents);
-	}
-
-	void Update () {	
-		updatePlayerAgent (); 		// Listen for keyboard input and move the player controlled agent accordingly
-		formation.updateAgents (); 	// Update the positions of the follower agents accordingly
+		return agents;
 	}
 
 	private void updatePlayerAgent () {
@@ -82,7 +91,6 @@ public class T6GameManager : MonoBehaviour {
 		}
 
 		playerAgent.transform.Translate (agentTranslation * Time.deltaTime * moveSpeed);
-
 	}
 
 	private GameObject createStage (float width, float height) {
@@ -100,15 +108,19 @@ public class T6GameManager : MonoBehaviour {
 		return agents;
 	}
 
-	private Formation setFormation (int formationId, int playerControlledAgentId, GameObject[] agents) {
+	private Formation setFormation (int formationId) {
 		Formation formation = null;
+
+		int numAgents = 0;
+		GameObject[] agents;
 
 		switch (formationId) {
 		case 0: // Leader following
 
-			// Random leader assignment to each agent
-			/*
-			int[] leaderIds = new int[agents.Length];
+			numAgents = 10;
+			agents = createRandomAgents (numAgents);
+
+			int[] leaderIds = new int[numAgents];
 			leaderIds[0] = -1;
 			leaderIds[1] = 0;
 			leaderIds[2] = 0;
@@ -118,18 +130,35 @@ public class T6GameManager : MonoBehaviour {
 			leaderIds[6] = 2;
 			leaderIds[7] = 2;
 			leaderIds[8] = 3;
-			*/
+			leaderIds[9] = 3;
 
-			int[] leaderIds = new int[agents.Length];
-			leaderIds[0] = -1;
-			leaderIds[1] = 0;
-			leaderIds[2] = 0;
-			leaderIds[3] = 0;
-			
-			formation = new LeaderFollowerFormation (agents, motionModelId, leaderIds);
+			float yDistToLeader = 3.0f;
+			float xDistToNeighborFst = 5.0f;
+			float xDistToNeighborSnd = 3.0f;
+			Vector3[] formationPositionsFst = new Vector3[3];
+			Vector3[] formationPositionsSnd = new Vector3[2];
+
+			formationPositionsFst[0] = new Vector3 (-xDistToNeighborFst , 0, -yDistToLeader);
+			formationPositionsFst[1] = new Vector3 (0 , 0, -yDistToLeader);
+			formationPositionsFst[2] = new Vector3 (xDistToNeighborFst , 0, -yDistToLeader);
+
+			formationPositionsSnd[0] = new Vector3 (-xDistToNeighborSnd / 2.0f, 0, -yDistToLeader);
+			formationPositionsSnd[1] = new Vector3 (xDistToNeighborSnd / 2.0f, 0, -yDistToLeader);
+
+			Dictionary<int, Vector3[]> formationPositionsList = new Dictionary<int, Vector3[]> ();
+			formationPositionsList[0] = formationPositionsFst;
+			formationPositionsList[1] = formationPositionsSnd;
+			formationPositionsList[2] = formationPositionsSnd;
+			formationPositionsList[3] = formationPositionsSnd;
+
+			formation = new LeaderFollowerFormation (agents, motionModelId, leaderIds, formationPositionsList);
 
 			break;
+
 		case 1: // Virtual structure
+
+			numAgents = 9;
+			agents = createRandomAgents (numAgents);
 
 			// Create a 3x3 grid formation with distance 3 between each agent
 			float distance = 3.0f; 
@@ -146,6 +175,10 @@ public class T6GameManager : MonoBehaviour {
 			formation = new VirtualStructureFormation (agents, motionModelId, formationPositions);
 			break;
 		case 2:
+
+			numAgents = 10;
+			agents = createRandomAgents (numAgents);
+
 			formation = new DecentralizedLocalInteractionFormation (agents, playerControlledAgentId, motionModelId);
 			break;
 		default:
