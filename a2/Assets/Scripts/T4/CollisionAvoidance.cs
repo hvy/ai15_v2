@@ -7,7 +7,7 @@ public class CollisionAvoidance {
 
 	List<GameObject> agents;
 	float[,] previousDistances;
-	float avoidanceStrength = 100f;
+	float avoidanceStrength = 1000f;
 
 	public CollisionAvoidance(List<GameObject> agents) {
 		this.agents = agents;
@@ -64,8 +64,8 @@ public class CollisionAvoidance {
 				if (agentRangeToTarget > previousDistances[i,j]) // Moving away from eachother
 					acceleration = new Vector3(0,0,0);
 
-
-				totalAcceleration += acceleration*avoidanceStrength;
+				if (agentRangeToTarget < 30f)
+					totalAcceleration += acceleration * avoidanceStrength * Math.Max (target.transform.localScale.x / 5, 1);
 				previousDistances[i, j] = agentRangeToTarget;
 
 			}

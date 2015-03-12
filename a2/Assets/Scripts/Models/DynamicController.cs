@@ -70,7 +70,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		if (appliedAcceleration.magnitude > 0.0003f) {
 //			Debug.Log ("repelling");
 //			Debug.Log ("acc: " + appliedAcceleration);
-			Vector3 acc = Vector3.ClampMagnitude(appliedAcceleration, maxA);
+			Vector3 acc = Vector3.ClampMagnitude(appliedAcceleration, maxA*rigidbody.mass);
 			rigidbody.AddForce(acc * Time.deltaTime);
 		} 
 
@@ -81,7 +81,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		// calculate the velocity error
 		Vector3 error = tgtVel - rigidbody.velocity;
 		// calc a force proportional to the error (clamped to maxForce)
-		Vector3 force = Vector3.ClampMagnitude(gain * error, maxA);
+		Vector3 force = Vector3.ClampMagnitude(gain * error, maxA*rigidbody.mass);
 
 		rigidbody.AddRelativeForce(force * Time.deltaTime);
 		

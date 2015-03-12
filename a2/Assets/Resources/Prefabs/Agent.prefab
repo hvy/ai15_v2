@@ -509,7 +509,7 @@ Rigidbody:
   m_GameObject: {fileID: 135914}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: .5
+  m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 200
+  maxA: 1
   toVel: .5
   maxVel: 100
   gain: 10
