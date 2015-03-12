@@ -1,6 +1,7 @@
 
 %plot existing discrete obstacle map
-load discObst1
+%load discObst1
+load('../Assets/Levels/discObst1.mat')
 
 A=ones(11,11);
 A(1,:)=zeros(1,11);

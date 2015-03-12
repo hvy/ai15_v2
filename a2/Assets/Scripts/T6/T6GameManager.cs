@@ -64,7 +64,7 @@ public class T6GameManager : MonoBehaviour {
 		}
 
 		// Listen for rotation
-		//playerAgent.transform.Rotate(0, Input.GetAxis("Horizontal")*rotationSpeed*Time.deltaTime, 0);
+		playerAgent.transform.Rotate(0, Input.GetAxis("Horizontal")*rotationSpeed*Time.deltaTime, 0);
 
 		Vector3 agentTranslation = Vector3.zero;
 
@@ -75,10 +75,10 @@ public class T6GameManager : MonoBehaviour {
 			agentTranslation.z -= 1.0f;
 		}
 		if (Input.GetKey (KeyCode.RightArrow)) {
-			agentTranslation.x += 1.0f;
+			//agentTranslation.x += 1.0f;
 		}
 		if (Input.GetKey (KeyCode.LeftArrow)) {
-			agentTranslation.x -= 1.0f;
+			//agentTranslation.x -= 1.0f;
 		}
 
 		playerAgent.transform.Translate (agentTranslation * Time.deltaTime * moveSpeed);

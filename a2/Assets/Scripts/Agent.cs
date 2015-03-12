@@ -19,6 +19,8 @@ public class Agent : MonoBehaviour
 		private int currentPathIndex = 0;
 		private int steps;
 		private bool hasPrintedTime = false;
+	public Vector3 velocity;
+	public Vector3 position;
 
 
 		void Awake() {
