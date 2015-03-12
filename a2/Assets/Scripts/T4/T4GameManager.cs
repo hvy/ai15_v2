@@ -17,13 +17,31 @@ public class T4GameManager : MonoBehaviour {
 
 		List<Vector2[]> polygons = new List<Vector2[]>();
 		List<GameObject> waypoints = createRandomWaypoints (width, height, numAgents, polygons);
+
+		for (int i=1 ; i < 13; i++) {
+			float theta=(float)(i-1)/12*(float)System.Math.PI;
+			theta=(float)theta+(float)System.Math.PI;
+			waypoints[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
+			
+		}
+
 		agents = createRandomAgents (width, height, numAgents, polygons, waypoints);
 
 		agents[0].transform.position = new Vector3(0,0,0);
 		agents[1].transform.position = new Vector3(80,0,0);
 
 
-		ca = new CollisionAvoidance(agents);
+		for (int i=1 ; i < 13; i++) {
+			float theta=(float)(i-1)/12*(float)System.Math.PI;
+			agents[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
+			theta=(float)theta+(float)System.Math.PI;
+			//goalPos(i,:)=[30*cos(theta) 30*sin(theta)];
+//			waypoints[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
+
+		}
+			
+			
+			ca = new CollisionAvoidance(agents);
 
 	}
 	
