@@ -341,11 +341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b5dcac5319944a8a669b02792453a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationId: 1
-  motionModelId: 1
+  formationId: 0
+  motionModelId: 2
   width: 50
   height: 50
-  moveSpeed: 10
+  moveSpeed: 5
   rotationSpeed: 200
 --- !u!4 &1941983996
 Transform:

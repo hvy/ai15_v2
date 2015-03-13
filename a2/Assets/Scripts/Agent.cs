@@ -27,6 +27,7 @@ public class Agent : MonoBehaviour {
 				models.Add (GetComponent<DiscreteController> ());
 				models.Add (GetComponent<KinematicController> ());
 				models.Add (GetComponent<DynamicController> ());
+				//models.Add (GetComponent<DifferentialController> ());
 		}
 
 		void Start () {
