@@ -298,7 +298,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1941983994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a8e450b9dd49c09d50cb9a5088c92, type: 3}
   m_Name: 
@@ -322,9 +322,9 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1941983994}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5555946715ce148d6ae22b719ec8bf06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: polyObst1.txt
+  fileName: polyObst2.txt

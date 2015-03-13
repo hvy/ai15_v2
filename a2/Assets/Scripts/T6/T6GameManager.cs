@@ -102,7 +102,7 @@ public class T6GameManager : MonoBehaviour {
 		GameObject[] agents = new GameObject[numAgents];
 
 		for (int i = 0; i < numAgents; i++) {
-			agents[i] = AgentFactory.createAgent ();		
+			agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity);		
 		}
 
 		return agents;
@@ -178,6 +178,13 @@ public class T6GameManager : MonoBehaviour {
 
 			numAgents = 10;
 			agents = createRandomAgents (numAgents);
+			Vector3 leaderPos = agents[0].transform.position;
+			for (int i = 1; i < agents.Length; i++) {
+				GameObject agent = agents[i];
+				float xOffset = Random.Range (1.0f, 15.0f);
+				float yOffset = Random.Range (1.0f, 15.0f);
+				agent.transform.position = leaderPos + new Vector3 (xOffset, 0.0f, yOffset);
+			}
 
 			formation = new DecentralizedLocalInteractionFormation (agents, playerControlledAgentId, motionModelId);
 			break;
