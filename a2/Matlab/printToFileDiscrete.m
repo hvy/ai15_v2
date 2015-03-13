@@ -1,20 +1,24 @@
 %Change this value to print another .mat file
 %clear;
 
-load('../Assets/Levels/discObst2.mat')
+load('../Assets/Levels/mat/discObst2.mat')
 
-fid = fopen('distObst2.txt','wt');
+fid = fopen('../Assets/Levels/discObst2.txt','wt');
 
 height = size(A, 1);
 width = size(A, 2);
+
+fprintf(fid,'%i', width);
+fprintf(fid,'%s', ' ');
+fprintf(fid,'%i\n', height);
 
 fprintf(fid,'%s\n','Obstacles');
 for h=1:height
    for w=1:width
        if A(h, w) == 1
-           fprintf(fid,'%i', h);
+           fprintf(fid,'%i', w);
            fprintf(fid,'%s', ' ');
-           fprintf(fid,'%i\n', w);
+           fprintf(fid,'%i\n', h);
        end
    end
 end

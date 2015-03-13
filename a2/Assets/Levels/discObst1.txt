@@ -1,3 +1,4 @@
+11 11
 Obstacles
 2 2
 3 2
@@ -88,34 +89,30 @@ x: 2
 y: 7
 End of agent
 New customer
-x: 220
-y: 120
+x: 1
+y: 1
 End of customer
 New customer
-x: 20
-y: 120
+x: 1
+y: 11
 End of customer
 New customer
-x: 220
-y: 10
+x: 6
+y: 1
 End of customer
 New customer
-x: 220
-y: 260
+x: 6
+y: 6
 End of customer
 New customer
-x: 80
-y: 120
+x: 6
+y: 11
 End of customer
 New customer
-x: 90
-y: 220
+x: 11
+y: 11
 End of customer
 New customer
-x: 120
-y: 120
-End of customer
-New customer
-x: 120
-y: 150
+x: 11
+y: 1
 End of customer

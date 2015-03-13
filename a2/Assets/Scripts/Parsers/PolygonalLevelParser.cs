@@ -13,7 +13,7 @@ public class PolygonalLevelParser {
 		clearParser ();
 	}
 
-	public int getWith () {
+	public int getWidth () {
 		return width;
 	}
 
@@ -52,7 +52,6 @@ public class PolygonalLevelParser {
 		splitLine = line.Split(' ');
 		width = int.Parse(splitLine[0]);
 		height = int.Parse(splitLine[1]);
-
 
 		while ((line = sr.ReadLine ()) != null) {
 

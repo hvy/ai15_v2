@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
 	
 		public void createDiscreteStage ()
 		{
-
+				/* 
 				clearStage ();
 
                 GameManager.discreteNeighbors = discreteNeighbors;
@@ -76,6 +76,9 @@ public class StageManager : MonoBehaviour
 
 				// Find the optimal path and save it in the graph builde
 				//GraphBuilder.buildGraphFromScene ();
+
+
+				*/
 		}
 
 	public void createStageFromFile () {

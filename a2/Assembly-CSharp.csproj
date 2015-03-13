@@ -89,12 +89,14 @@
      <Compile Include="Assets\Scripts\T6\T6GameManager.cs" />
      <Compile Include="Assets\Scripts\T6\VirtualStructureFormation.cs" />
      <Compile Include="Assets\Scripts\TNode.cs" />
+     <Compile Include="Assets\Scripts\Test\DiscreteStageParserTest.cs" />
      <Compile Include="Assets\Scripts\Test\PolygonalStageParserTest.cs" />
      <Compile Include="Assets\Scripts\Tree.cs" />
      <Compile Include="Assets\Scripts\Tuple.cs" />
      <Compile Include="Assets\Scripts\VectorUtility.cs" />
      <Compile Include="Assets\Scripts\WaypointRotation.cs" />
-     <None Include="Assets\Levels\distObst2.txt" />
+     <None Include="Assets\Levels\discObst1.txt" />
+     <None Include="Assets\Levels\discObst2.txt" />
      <None Include="Assets\Levels\polyObst1.txt" />
      <None Include="Assets\Levels\distObst1.txt" />
      <None Include="Assets\Levels\polyObst2.txt" />
