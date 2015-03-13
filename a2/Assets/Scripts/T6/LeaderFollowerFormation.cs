@@ -23,11 +23,9 @@ public class LeaderFollowerFormation : Formation {
 		this.leaderId = leaderId;
 		this.leaderIds = leaderIds;
 		this.motionModelId = motionModelId;
-
-		targets = new GameObject[agents.Length];
+		this.targets = new GameObject[agents.Length];
 
 		childrenof = recomputeChildren (leaderIds);
-
 		setupFormation (agents, childrenof, formationPositionsList);
 	}
 
@@ -50,15 +48,12 @@ public class LeaderFollowerFormation : Formation {
 			rootTarget.transform.position = agents [a].transform.position;
 			rootTarget.transform.parent = agents [a].transform;
 
-			Debug.Log ("Registering followers to: " + a);
-
 			List<int> children = childrenof[a];
 
 			for (int childId = 0; childId < children.Count; childId++) {
 
 				int child = children[childId];
 
-				Debug.Log ("\t\tRegistered follower: " + child);
 				GameObject childTarget = new GameObject ("" + child);
 				childTarget.transform.position = rootTarget.transform.position + formationPositionsList[a][childId];
 				childTarget.transform.parent = rootTarget.transform;
@@ -66,11 +61,9 @@ public class LeaderFollowerFormation : Formation {
 			}
 		}
 	}
-	
-	// Implements the interface
+
 	public void updateAgents () {
 		for (int i = 1; i < agents.Length; i++) {
-
 			GameObject follower = agents[i];
 			Agent agent = (Agent) follower.GetComponent(typeof(Agent));
 			agent.setStart (follower.transform.position);
@@ -88,9 +81,7 @@ public class LeaderFollowerFormation : Formation {
 		}
 		
 		for (int i = 0; i < leaderIds.Length; i++) {
-			
 			int leaderId = leaderIds[i];
-			
 			if (leaderId != -1) { // leader id for the main agent is -1
 				childrenOf[leaderId].Add (i);
 			}

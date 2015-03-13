@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Agent : MonoBehaviour
-{
+public class Agent : MonoBehaviour {
+
 		public Vector3 start, goal;
 		public int tick = -1;
 		public List<GNode> currentPath;
@@ -13,30 +13,23 @@ public class Agent : MonoBehaviour
 		public bool overridePause = false;
 		public int type = 1;
 		public List<MovementModel> models;
-
 		private List<List<GNode>> paths = new List<List<GNode>> ();
 		private float startTime;
 		private int currentPathIndex = 0;
 		private int steps;
 		private bool hasPrintedTime = false;
-	public Vector3 velocity;
-	public Vector3 position;
+		public Vector3 velocity;
+		public Vector3 position;
 
-
-		void Awake() {
-			models = new List<MovementModel> ();
-			models.Add (GetComponent<DiscreteController> ());
-			models.Add (GetComponent<KinematicController> ());
-			models.Add (GetComponent<DynamicController> ());
-
+		void Awake ()
+		{
+				models = new List<MovementModel> ();
+				models.Add (GetComponent<DiscreteController> ());
+				models.Add (GetComponent<KinematicController> ());
+				models.Add (GetComponent<DynamicController> ());
 		}
 
-		void Start ()
-		{
-//				models.Add (GetComponent<DifferentialController> ());
-//				models.Add (GetComponent<CarDynamicController> ());
-//				models.Add (GetComponent<CarKinematicController> ());
-
+		void Start () {
 		}
 
 		private void executeStep ()
@@ -91,12 +84,12 @@ public class Agent : MonoBehaviour
 				}
 		}
     
-		// Initiated from the GUI using the buttons
 		public void setModel (int newType)
 		{
 				if (isValidType (newType)) {
 				
 						if (!isRunning && !isFinished) {
+								Debug.Log ("Changed motion model and restarting.");
 								startTime = Time.time;
 								isRunning = true;
 						}
@@ -146,25 +139,24 @@ public class Agent : MonoBehaviour
 				return pos;
 		}
 
-		public List<GNode> pathsToPath() {
-			List<GNode> list = new List<GNode>();
+		public List<GNode> pathsToPath ()
+		{
+				List<GNode> list = new List<GNode> ();
 
-			for (int i = 0; i < paths.Count; i++) {
-					for (int j = 0; j < paths[i].Count; j++) {
-						list.Add (paths[i][paths[i].Count-1-j]);
+				for (int i = 0; i < paths.Count; i++) {
+						for (int j = 0; j < paths[i].Count; j++) {
+								list.Add (paths [i] [paths [i].Count - 1 - j]);
 						
+						}
+						if (i != paths.Count - 1)
+								list.RemoveAt (list.Count - 1);
 				}
-				if (i != paths.Count -1)
-					list.RemoveAt(list.Count-1);
-			}
 
-		 // TODO returnera en lista med pathen som skapas av alla paths.
-		return list;
+				// TODO returnera en lista med pathen som skapas av alla paths.
+				return list;
 		}
 	
-
-	
-	public void updatePath (List<GNode> pathSegment, int step)
+		public void updatePath (List<GNode> pathSegment, int step)
 		{
 				step = currentPath.Count - step - 1;
 				currentPath.RemoveAt (step);
@@ -180,13 +172,10 @@ public class Agent : MonoBehaviour
 		public void setStart (Vector3 s)
 		{
 				start = s;
-			
 		}
 
 		public void setGoal (Vector3 g)
 		{
 				goal = g;
 		}
-	
-
 }
