@@ -9,7 +9,27 @@ public class CarKinematicController : KinematicController, MovementModel {
 
 	private bool reverse = false;
 	private float reverseCrossThreshold = 0.75f;
-	
+
+	override public bool stepPath(Agent agent, Vector3 goal) {
+		
+		float distance = Vector3.Distance (goal, transform.position);
+		
+		if (Vector3.Distance (transform.position, goal) > 0.8f) {
+			move (goal);
+		}
+		
+		return true;
+	}
+
+	void move (Vector3 goal) {
+		
+		float distance = Vector3.Distance (goal, transform.position);
+		
+		transform.position += reverse ? transform.forward * Time.deltaTime * -velocity : transform.forward * Time.deltaTime * velocity;
+		
+		rotate (goal);
+	}
+
 	void rotate (Vector3 goal)
 	{
 		Vector3 rotation = Vector3.zero;
@@ -42,28 +62,7 @@ public class CarKinematicController : KinematicController, MovementModel {
 		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
 	}
 
-	// Implements interface member
-	override public bool stepPath(Agent agent, Vector3 goal) {
-
-		float distance = Vector3.Distance (goal, transform.position);
-
-		if (Vector3.Distance (transform.position, goal) > 0.8f) {
-			move (goal);
-		}
-
-		return true;
-	}
-
     public void reset(Vector3 position) {
         rigidbody.transform.position = position;
     }
-
-	void move (Vector3 goal) {
-
-		float distance = Vector3.Distance (goal, transform.position);
-
-		transform.position += reverse ? transform.forward * Time.deltaTime * -velocity : transform.forward * Time.deltaTime * velocity;
-
-		rotate (goal);
-	}
 }

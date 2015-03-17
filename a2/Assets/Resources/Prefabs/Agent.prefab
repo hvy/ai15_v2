@@ -458,7 +458,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135914}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3335918
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -512,10 +512,10 @@ Rigidbody:
   m_Drag: .5
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!65 &6535922
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -640,10 +640,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 1000
+  maxA: 100
   toVel: 3
   maxVel: 20
-  gain: 30
+  gain: 20
   direction: {x: 0, y: 0, z: 0}
   appliedAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &11435918
@@ -671,11 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
-  goal: {x: 0, y: 0, z: 0}
-  steps: 0
   maxPhi: .100000001
-  reverse: 0
-  reverseCrossThreshold: .75
 --- !u!114 &11435922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -688,19 +684,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 10
-  goal: {x: 0, y: 0, z: 0}
-  velocity: 0
-  lastGoal: 0
-  destination_: {x: 0, y: 0, z: 0}
-  initialDistance: 0
-  steps: 0
-  reverse: 0
-  keepSteady: 1
-  reverseCrossThreshold: .75
-  destination: {x: 0, y: 0, z: 0}
+  toVel: 0
+  maxVel: 0
+  gain: 0
+  direction: {x: 0, y: 0, z: 0}
+  appliedAcceleration: {x: 0, y: 0, z: 0}
   maxPhi: .200000003
-  steps_: 0
-  previousDistance: 1e+06
 --- !u!114 &11435924
 MonoBehaviour:
   m_ObjectHideFlags: 1

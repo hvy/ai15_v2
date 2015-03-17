@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   formationId: 2
-  motionModelId: 4
+  motionModelId: 5
   width: 50
   height: 50
   moveSpeed: 1

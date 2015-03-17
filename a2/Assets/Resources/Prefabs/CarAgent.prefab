@@ -510,7 +510,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: .5
-  m_AngularDrag: 0
+  m_AngularDrag: .5
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -670,8 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee423575222e24889b68c0d9f57f0245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 10
-  maxPhi: 10
+  velocity: 1
+  maxPhi: .100000001
 --- !u!114 &11458514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -683,6 +683,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e91038946d43d8b1c95787cc36e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxA: 10000
+  toVel: 10
+  maxVel: 20
+  gain: 10
+  direction: {x: 0, y: 0, z: 0}
+  appliedAcceleration: {x: 0, y: 0, z: 0}
+  maxPhi: .5
 --- !u!114 &11458516
 MonoBehaviour:
   m_ObjectHideFlags: 1

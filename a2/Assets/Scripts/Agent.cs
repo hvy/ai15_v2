@@ -29,7 +29,7 @@ public class Agent : MonoBehaviour {
 		models.Add (GetComponent<DynamicController> ());
 		models.Add (GetComponent<DifferentialController> ());
 		models.Add (GetComponent<CarKinematicController> ());
-		//models.Add (GetComponent<CarDynamicController> ());
+		models.Add (GetComponent<CarDynamicController> ());
 	}
 
 	void Start () {

@@ -2,10 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DynamicController : MonoBehaviour, MovementModel
-{	
-
-	private Vector3 goal;
+public class DynamicController : MonoBehaviour, MovementModel {
 
 	public float maxA;
 	public float toVel; 
@@ -20,13 +17,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 	}
 
-	public bool isFinished () {
-		return Vector3.Distance (goal, transform.position) < 0.8f;
-	}
-
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
-
-		this.goal = goal;
 
 		float distance = Vector3.Distance (goal, transform.position);
 

@@ -286,6 +286,7 @@ GameObject:
   - 4: {fileID: 1941983996}
   - 114: {fileID: 1941983997}
   - 114: {fileID: 1941983995}
+  - 114: {fileID: 1941983998}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -299,7 +300,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1941983994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f4a8e450b9dd49c09d50cb9a5088c92, type: 3}
   m_Name: 
@@ -329,3 +330,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: polyObst2.txt
+--- !u!114 &1941983998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1941983994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a11fc41c20343c596dd6ecdcb6a060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 20
+  height: 20
