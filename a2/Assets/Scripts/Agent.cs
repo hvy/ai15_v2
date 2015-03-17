@@ -39,7 +39,7 @@ public class Agent : MonoBehaviour {
 	{
 			float distance = Vector3.Distance (goal, transform.position);
 	
-			if (distance < 1.5f) {
+			if (distance < 0.5f) {
 					steps++;
 			}
 

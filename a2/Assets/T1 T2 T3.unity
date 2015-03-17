@@ -346,7 +346,7 @@ MonoBehaviour:
   GeneticIterations: 100
   GeneticPopulation: 10
   GeneticTournaments: 1
-  DrawRRT: 0
+  DrawRRT: 1
   file: polyObst1.txt
 --- !u!4 &1941983996
 Transform:

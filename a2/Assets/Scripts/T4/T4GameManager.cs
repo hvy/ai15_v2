@@ -4,44 +4,46 @@ using System.Collections.Generic;
 
 public class T4GameManager : MonoBehaviour {
 	
-	public int numAgents; // numAgents > 0
+	//public int numAgents; // numAgents > 0
 	public int motionModelId;
-	public float width, height, acceleration;
+	public float acceleration;
+	public string file;
 
+	private float width, height;
 	List<GameObject> agents;
 	private CollisionAvoidance ca;
 
 	void Start () {
-		createStage (width, height);
+
+		Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> tripleOfAgents;
+		tripleOfAgents = initPolyStage ();
+		
+		// Create stage
+		StageFactory stageFactory = new StageFactory ();
+		stageFactory.createStage(width, height);
 		CameraModel.updateOrthoPosition(width, Camera.main.transform.position.y, height);
 
+		GameState.Instance.height = (int)height;
+		GameState.Instance.width = (int)width;
+		
+		// Create waypoints
+		List<GameObject> agents = new List<GameObject> ();
+		List<GameObject> waypoints = new List<GameObject> ();
+		List<List<Vector2>> polys = new List<List<Vector2>> ();
+		
+		
+		agents = tripleOfAgents.first;
+		waypoints = tripleOfAgents.second;
+		polys = tripleOfAgents.third;
+		
 		List<Vector2[]> polygons = new List<Vector2[]>();
-		List<GameObject> waypoints = createRandomWaypoints (width, height, numAgents, polygons);
-
-		for (int i=1 ; i < 13; i++) {
-			float theta=(float)(i-1)/12*(float)System.Math.PI;
-			theta=(float)theta+(float)System.Math.PI;
-			waypoints[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
-			
+		
+		for (int i = 0; i < polys.Count; i++) {
+			polygons.Add(polys[i].ToArray());
 		}
-
-		agents = createRandomAgents (width, height, numAgents, polygons, waypoints);
-
-		agents[0].transform.position = new Vector3(0,0,0);
-		agents[1].transform.position = new Vector3(80,0,0);
-
-
-		for (int i=1 ; i < 13; i++) {
-			float theta=(float)(i-1)/12*(float)System.Math.PI;
-			agents[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
-			theta=(float)theta+(float)System.Math.PI;
-			//goalPos(i,:)=[30*cos(theta) 30*sin(theta)];
-//			waypoints[i-1].transform.position = new Vector3((float)30*(float)System.Math.Cos(theta)+50, 0f, (float)30*(float)System.Math.Sin(theta)+50);
-
-		}
+	
 			
-			
-			ca = new CollisionAvoidance(agents);
+			ca = new CollisionAvoidance(agents, polygons);
 
 	}
 	
@@ -54,6 +56,70 @@ public class T4GameManager : MonoBehaviour {
 	private GameObject createStage (float width, float height) {
 		StageFactory sf = new StageFactory ();
 		return sf.createStage (width, height);
+	}
+
+	private Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> initPolyStage() {
+		
+		PolygonalLevelParser plp = new PolygonalLevelParser();
+		
+		plp.parse(file);
+		
+		width = plp.getWidth();
+		height = plp.getHeight();
+		List<Vector2> starts = plp.getStarts ();
+		List<Vector2> goals = plp.getGoals ();
+		List<Vector2> customers = plp.getCustomers ();
+		
+		
+		List<List<Vector2>> triangles = plp.getTriangles();
+		
+		StageFactory sf = new StageFactory ();
+		sf.createStage (width, height);
+		
+		
+		List<GameObject> agents = new List<GameObject> ();
+		
+		Debug.Log ("starts: "+ starts.Count);
+		for (int i = 0; i < starts.Count; i++) {
+			GameObject agent = AgentFactory.createAgent();
+			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+			Debug.Log ("Starts: " + starts[i]);
+
+			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+			a.setStart(agent.transform.position);
+			a.setModel(motionModelId);
+			GameState.Instance.agents[agent.transform.position] = a;
+			agents.Add (agent);
+
+		}
+		
+		GameObject parent = GameObject.Find ("Waypoints"); // Empty GameObject that acts as a parent for the waypoint objects
+		
+		List<GameObject> waypoints = new List<GameObject> ();
+
+			for (int i = 0; i < goals.Count; i++) {
+				GameObject waypoint = WaypointFactory.createWaypoint ();
+				
+				// Randomize the position of the waypoin
+				waypoint.transform.position = new Vector3 (goals[i].x-1, 0.0f, goals[i].y-1);
+				
+				waypoint.transform.parent = parent.transform;
+				waypoint.name = "waypoint" + i;
+				waypoints.Add (waypoint);
+
+				GameObject agent = agents[i];
+				Agent a = (Agent) agent.GetComponent(typeof(Agent));
+				a.setGoal(waypoint.transform.position);
+				
+				GameState.Instance.customers[waypoint.transform.position] = waypoint;
+
+			}
+
+		for (int i = 0; i < triangles.Count; i++) {
+			ObstacleFactory.createPolygonalObstacle(triangles[i].ToArray());
+		}
+		
+		return new Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> (agents, waypoints, triangles);
 	}
 	
 	List<GameObject> createRandomAgents(float width, float height, int numberOfAgents, List<Vector2[]> polygons, List<GameObject> waypoints) {

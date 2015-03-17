@@ -20,7 +20,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 
 		float distance = Vector3.Distance (goal, transform.position);
 
-		if (distance > 0.8f) {
+		if (distance > 0.2f) {
 			move (goal);		
 		}
 
