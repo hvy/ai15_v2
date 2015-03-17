@@ -7,7 +7,7 @@ public class CollisionAvoidance {
 
 	List<GameObject> agents;
 	float[,] previousDistances;
-	float avoidanceStrength = 1000f;
+	float avoidanceStrength = 150f;
 
 	public CollisionAvoidance(List<GameObject> agents) {
 		this.agents = agents;

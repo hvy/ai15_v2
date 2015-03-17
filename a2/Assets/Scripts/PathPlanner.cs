@@ -20,34 +20,35 @@ class PathPlanner
 
 		List<List<GNode>> paths = new List<List<GNode>> ();
 
-		while (customers.Count > 0) {
+		for (int i = 0; i < customers.Count; i++) {
 
-			GameObject customer = customers[0];
+			GameObject customer = customers[i];
 
 			int x = (int) customer.transform.position.x;
 			int z = (int) customer.transform.position.z;
 
+//			Debug.Log ("index: " + z);
 			GNode goal = graph [x, z];
 
 			// Find the closest agent
-			int index = 0;
-			float shortestDistance = 10000f;
-			for (int i = 0; i < agents.Count; i++) {
-				float dist = Vector3.Distance(agents[i].transform.position, customer.transform.position);
-				if (dist < shortestDistance) {
-					shortestDistance = dist;
-					index = i;
-				}
-			}
+//			int index = 0;
+//			float shortestDistance = 10000f;
+//			for (int i = 0; i < agents.Count; i++) {
+//				float dist = Vector3.Distance(agents[i].transform.position, customer.transform.position);
+//				if (dist < shortestDistance) {
+//					shortestDistance = dist;
+//					index = i;
+//				}
+//			}
 
-			GameObject agent = agents[index];
+			GameObject agent = agents[i];
 			x = (int) agent.transform.position.x;
 			z = (int) agent.transform.position.z;
 
 			GNode start = graph [x, z];
 
-			agents.RemoveAt(index);
-			customers.RemoveAt(0);
+//			agents.RemoveAt(0);
+//			customers.RemoveAt(0);
 
 			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
 

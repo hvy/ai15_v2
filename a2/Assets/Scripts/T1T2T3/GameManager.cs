@@ -7,93 +7,57 @@ public class GameManager : MonoBehaviour
 
 	public static int discreteNeighbors;
 
-	public float _width, _height;
-	public int nr_agents, numWaypoints, numObstacles;
+	private float _width, _height;
+	private int nr_agents, numWaypoints, numObstacles;
 	public int neighbors;
 	public int task;
 	public int GeneticIterations;
 	public int GeneticPopulation;
 	public int GeneticTournaments;
 	public bool DrawRRT;
+	public string file;
 
 	void Start () 
 	{
-		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
 		init();
 	}
 
 
 	void init() {
 
+		Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> tripleOfAgents;
+
+		if (task < 3)
+			tripleOfAgents = initDiscreteStage ();
+		else
+			tripleOfAgents = initPolyStage ();
+
 		// Create stage
 		StageFactory stageFactory = new StageFactory ();
 		stageFactory.createStage(_width, _height);
+		CameraModel.updateOrthoPosition(_width, Camera.main.transform.position.y, _height);
 
 
+//		_height = _height - 1;
+//		_width = _width - 1;
 		GameState.Instance.height = (int)_height;
 		GameState.Instance.width = (int)_width;
 		GameState.Instance.neighbors = (int)neighbors;
 
-		// Create obstacles
-		List<GameObject> obstacles = new List<GameObject>();
- 		List<Vector2[]> polygons = new List<Vector2[]>();
-
-		if (task < 3) {
-			obstacles = createRandomObstacles (_width, _height, numObstacles);		
-		}
-		else if (task == 3) {
-			// TODO Tobbe, please use the new parser. Hiro
-			//polygons = createRandomPolygons(_width, _height, numObstacles);
-		}
-
 		// Create waypoints
-		// TODO Tobbe, please use the new parser. Hiro
-		//List<GameObject> waypoints = createRandomWaypoints (_width, _height, numWaypoints, polygons);
-		List<GameObject> waypoints = new List<GameObject> ();
-
-		// Create agents
-		// TODO Tobbe, please use the new parser. Hiro
-		//List<GameObject> agents = createRandomAgents (_width, _height, nr_agents, polygons);
-		//List<GameObject> agents = new List<GameObject> ();
 		List<GameObject> agents = new List<GameObject> ();
-
-		if (task == 2) {
-		obstacles[0].transform.position = new Vector3(5, 0, 2);
-		obstacles[1].transform.position = new Vector3(6, 0, 2);
-		obstacles[2].transform.position = new Vector3(7, 0, 2);
-		obstacles[3].transform.position = new Vector3(8, 0, 2);
-		obstacles[4].transform.position = new Vector3(9, 0, 2);
-		obstacles[5].transform.position = new Vector3(10, 0, 2);
-
-		GameState.Instance.obstacles.Clear();
-		for (int i = 0; i < obstacles.Count; i++) {
-			GameState.Instance.obstacles.Add (obstacles[i].transform.position);
-		}
+		List<GameObject> waypoints = new List<GameObject> ();
+		List<List<Vector2>> polys = new List<List<Vector2>> ();
 
 
-		agents[0].transform.position = new Vector3(0,0,1);
-		agents[1].transform.position = new Vector3(5,0,0);
-		agents[2].transform.position = new Vector3(6,0,0);
-		agents[3].transform.position = new Vector3(7,0,0);
-		agents[4].transform.position = new Vector3(10,0,8);
+		agents = tripleOfAgents.first;
+		waypoints = tripleOfAgents.second;
+		polys = tripleOfAgents.third;
 
-		GameState.Instance.agents.Clear();
-		for (int i = 0; i < agents.Count; i++) {
-			GameState.Instance.agents[agents[i].transform.position] = (Agent) agents[i].GetComponent(typeof(Agent));
-		}
+		List<Vector2[]> polygons = new List<Vector2[]>();
 
-		waypoints[0].transform.position = new Vector3(0,0,7);
-		waypoints[1].transform.position = new Vector3(5,0,7);
-		waypoints[2].transform.position = new Vector3(6,0,7);
-		waypoints[3].transform.position = new Vector3(7,0,7);
-		waypoints[4].transform.position = new Vector3(12,0,1);
-		waypoints[5].transform.position = new Vector3(12,0,12);
-		waypoints[6].transform.position = new Vector3(12,0,10);
-
-		GameState.Instance.customers.Clear();
-		for (int i = 0; i < waypoints.Count; i++) {
-			GameState.Instance.customers[waypoints[i].transform.position] = waypoints[i];
-		}
+		for (int i = 0; i < polys.Count; i++) {
+			polygons.Add(polys[i].ToArray());
 		}
 
 
@@ -102,7 +66,6 @@ public class GameManager : MonoBehaviour
 		VRPContinous vrpContinous = new VRPContinous();
 
 		//List<Vector2[]> polygons = new List<Vector2[]>();
-
 		if (task == 1)
 			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles);
 		else if (task == 2)
@@ -111,6 +74,146 @@ public class GameManager : MonoBehaviour
 			vrpContinous.planContinuousVRP(agents, waypoints, polygons, GeneticIterations, GeneticPopulation, GeneticTournaments, DrawRRT);
 			//pp.planContinuousVRP ((int) _width, (int) _height, agents, waypoints, polygons, RandomIterations);
 	
+	}
+
+	private Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> initPolyStage() {
+
+		PolygonalLevelParser plp = new PolygonalLevelParser();
+
+		plp.parse(file);
+
+		_width = plp.getWidth();
+		_height = plp.getHeight();
+		List<Vector2> starts = plp.getStarts ();
+		List<Vector2> goals = plp.getGoals ();
+		List<Vector2> customers = plp.getCustomers ();
+
+
+		List<List<Vector2>> triangles = plp.getTriangles();
+	
+		StageFactory sf = new StageFactory ();
+		sf.createStage (_width, _height);
+		
+		
+		List<GameObject> agents = new List<GameObject> ();
+		
+		Debug.Log ("starts: "+ starts.Count);
+		for (int i = 0; i < starts.Count; i++) {
+			GameObject agent = AgentFactory.createAgent();
+			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+			
+			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
+			agents.Add (agent);
+		}
+		
+		GameObject parent = GameObject.Find ("Waypoints"); // Empty GameObject that acts as a parent for the waypoint objects
+		
+		List<GameObject> waypoints = new List<GameObject> ();
+		
+		if (task == 3) {
+			for (int i = 0; i < goals.Count; i++) {
+				GameObject waypoint = WaypointFactory.createWaypoint ();
+				
+				// Randomize the position of the waypoin
+				waypoint.transform.position = new Vector3 (goals[i].x-1, 0.0f, goals[i].y-1);
+				
+				waypoint.transform.parent = parent.transform;
+				waypoint.name = "waypoint" + i;
+				waypoints.Add (waypoint);
+				
+				GameState.Instance.customers[waypoint.transform.position] = waypoint;
+			}
+		}
+
+		for (int i = 0; i < triangles.Count; i++) {
+			ObstacleFactory.createPolygonalObstacle(triangles[i].ToArray());
+		}
+		
+		return new Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> (agents, waypoints, triangles);
+	}
+
+	private Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> initDiscreteStage() {
+
+		DiscreteLevelParser dlp = new DiscreteLevelParser();
+		dlp.parse(file);
+
+		_width = dlp.getWidth ();
+		_height = dlp.getHeight ();
+		List<Vector2> starts = dlp.getStarts ();
+		List<Vector2> goals = dlp.getGoals ();
+		List<Vector2> customers = dlp.getCustomers ();
+		List<Vector2> obstaclePositions = dlp.getObstaclePositions ();
+		
+		Debug.Log ("Width:\t" + _width);
+		Debug.Log ("Height:\t" + _height);
+		Debug.Log ("Number of starting positions:\t" + starts.Count);
+		Debug.Log ("Number of goal positions:\t" + goals.Count);
+		
+		StageFactory sf = new StageFactory ();
+		sf.createStage (_width, _height);
+
+
+		List<GameObject> agents = new List<GameObject> ();
+
+		Debug.Log ("starts: "+ starts.Count);
+		for (int i = 0; i < starts.Count; i++) {
+			GameObject agent = AgentFactory.createAgent();
+			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+
+			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
+			agents.Add (agent);
+		}
+
+		GameObject parent = GameObject.Find ("Waypoints"); // Empty GameObject that acts as a parent for the waypoint objects
+		
+		List<GameObject> waypoints = new List<GameObject> ();
+
+		if (task == 1 || task == 3) {
+			for (int i = 0; i < goals.Count; i++) {
+				GameObject waypoint = WaypointFactory.createWaypoint ();
+				
+				// Randomize the position of the waypoin
+				waypoint.transform.position = new Vector3 (goals[i].x-1, 0.0f, goals[i].y-1);
+
+				waypoint.transform.parent = parent.transform;
+				waypoint.name = "waypoint" + i;
+				waypoints.Add (waypoint);
+
+				GameState.Instance.customers[waypoint.transform.position] = waypoint;
+			}
+		}
+
+		if (task == 2) {
+
+			for (int i = 0; i < customers.Count; i++) {
+				GameObject waypoint = WaypointFactory.createWaypoint ();
+				
+				// Randomize the position of the waypoin
+				waypoint.transform.position = new Vector3 (customers[i].x-1, 0.0f, customers[i].y-1);
+				
+				waypoint.transform.parent = parent.transform;
+				waypoint.name = "waypoint" + i;
+				waypoints.Add (waypoint);
+				
+				GameState.Instance.customers[waypoint.transform.position] = waypoint;
+			}
+
+		}
+		
+
+//		List<GameObject> obstacles = new List<GameObject> ();
+		
+		for (int i = 0; i < obstaclePositions.Count; i++) {
+			GameObject obstacle = ObstacleFactory.createDiscreteObstacle(new Vector3(obstaclePositions[i].x-1, 0.0f, obstaclePositions[i].y-1));
+
+			GameState.Instance.obstacles.Add (obstacle.transform.position);
+//			obstacles.Add (obstacle);
+		}
+		
+
+		return new Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> (agents, waypoints, null);
+
+
 	}
 
 	List<GameObject> createRandomObstacles(float width, float height, int numberOfObstacles) {

@@ -92,6 +92,7 @@
      <Compile Include="Assets\Scripts\Test\DiscreteStageParserTest.cs" />
      <Compile Include="Assets\Scripts\Test\PolygonalStageParserTest.cs" />
      <Compile Include="Assets\Scripts\Tree.cs" />
+     <Compile Include="Assets\Scripts\Triple.cs" />
      <Compile Include="Assets\Scripts\Tuple.cs" />
      <Compile Include="Assets\Scripts\VectorUtility.cs" />
      <Compile Include="Assets\Scripts\WaypointRotation.cs" />
