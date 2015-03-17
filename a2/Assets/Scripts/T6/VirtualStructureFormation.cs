@@ -66,7 +66,7 @@ public class VirtualStructureFormation : MonoBehaviour, Formation {
 			Agent agent = (Agent) follower.GetComponent(typeof(Agent));
 			agent.setStart (follower.transform.position);
 			agent.setGoal (targets[i].transform.position);
-			agent.setModel (motionModelId); // 1 = Kinematic poit model		
+			agent.setModel (motionModelId);	
 		}
 	}
 

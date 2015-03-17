@@ -30,9 +30,9 @@ public class T6GameManager : MonoBehaviour {
 		formation.updateAgents (); 	
 	}
 
-	GameObject[] createRandomAgents(int numAgents) {
+	GameObject[] createRandomAgents(int numAgents, int motionModelId) {
 		
-		GameObject[] agents = createAgents (numAgents);
+		GameObject[] agents = createAgents (numAgents, motionModelId);
 		
 		// Reposition the agents with an offset so that they don't collide
 		for (int i = 0; i < agents.Length; i++) {
@@ -84,10 +84,10 @@ public class T6GameManager : MonoBehaviour {
 			agentTranslation.z -= 1.0f;
 		}
 		if (Input.GetKey (KeyCode.RightArrow)) {
-			//agentTranslation.x += 1.0f;
+			agentTranslation.x += 1.0f;
 		}
 		if (Input.GetKey (KeyCode.LeftArrow)) {
-			//agentTranslation.x -= 1.0f;
+			agentTranslation.x -= 1.0f;
 		}
 
 		playerAgent.transform.Translate (agentTranslation * Time.deltaTime * moveSpeed);
@@ -98,11 +98,16 @@ public class T6GameManager : MonoBehaviour {
 		return sf.createStage (width, height);
 	}
 
-	private GameObject[] createAgents (int numAgents) {
+	private GameObject[] createAgents (int numAgents, int motionModelId) {
 		GameObject[] agents = new GameObject[numAgents];
 
 		for (int i = 0; i < numAgents; i++) {
-			agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity);		
+			if (motionModelId < 3) {
+				agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity);		
+			} else {
+				agents[i] = AgentFactory.createCarAgent (Vector3.zero, Quaternion.identity);		
+			}
+
 		}
 
 		return agents;
@@ -112,13 +117,13 @@ public class T6GameManager : MonoBehaviour {
 		Formation formation = null;
 
 		int numAgents = 0;
-		GameObject[] agents;
+		GameObject[] agents = null;
 
 		switch (formationId) {
 		case 0: // Leader following
 
 			numAgents = 10;
-			agents = createRandomAgents (numAgents);
+			agents = createRandomAgents (numAgents, motionModelId);
 
 			int[] leaderIds = new int[numAgents];
 			leaderIds[0] = -1;
@@ -158,7 +163,7 @@ public class T6GameManager : MonoBehaviour {
 		case 1: // Virtual structure
 
 			numAgents = 9;
-			agents = createRandomAgents (numAgents);
+			agents = createRandomAgents (numAgents, motionModelId);
 
 			// Create a 3x3 grid formation with distance 3 between each agent
 			float distance = 3.0f; 
@@ -174,24 +179,40 @@ public class T6GameManager : MonoBehaviour {
 
 			formation = new VirtualStructureFormation (agents, motionModelId, formationPositions);
 			break;
+
 		case 2:
 
 			numAgents = 10;
-			agents = createRandomAgents (numAgents);
+			agents = createRandomAgents (numAgents, motionModelId);
+
 			Vector3 leaderPos = agents[0].transform.position;
 			for (int i = 1; i < agents.Length; i++) {
-				GameObject agent = agents[i];
+				GameObject agentObj = agents[i];
 				float xOffset = Random.Range (1.0f, 15.0f);
 				float yOffset = Random.Range (1.0f, 15.0f);
-				agent.transform.position = leaderPos + new Vector3 (xOffset, 0.0f, yOffset);
+				agentObj.transform.position = leaderPos + new Vector3 (xOffset, 0.0f, yOffset);
 			}
 
 			formation = new DecentralizedLocalInteractionFormation (agents, playerControlledAgentId, motionModelId);
 			break;
+
 		default:
 			break;
 		}
 
+		Vector3 midStagePosition = new Vector3 (width / 2.0f, 0, height / 2.0f);
+		setInitialAgentPosition (agents [0], midStagePosition);
+
 		return formation;
+	}
+
+	private void setInitialAgentPosition(GameObject agentObj, Vector3 position) {
+
+		agentObj.transform.position = position;
+
+		Agent agent = (Agent) agentObj.GetComponent(typeof(Agent));
+		agent.setStart (position);
+		agent.setGoal (position);
+		agent.setModel (motionModelId);
 	}
 }
