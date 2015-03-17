@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &226778664
 GameObject:
@@ -341,12 +342,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b5dcac5319944a8a669b02792453a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationId: 0
-  motionModelId: 2
+  formationId: 2
+  motionModelId: 4
   width: 50
   height: 50
-  moveSpeed: 5
-  rotationSpeed: 200
+  moveSpeed: 1
+  rotationSpeed: 800
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0

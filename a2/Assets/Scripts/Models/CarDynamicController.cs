@@ -3,8 +3,10 @@
 //using System;
 //using System.Collections.Generic;
 //
-//public class CarDynamicController : DynamicController, MovementModel
-//{
+//public class CarDynamicController : DynamicController, MovementModel {
+//
+//	public float maxPhi;
+//
 //	//private const float max_velocity = 100.0f;
 //	private bool reverse = false;
 //	private bool keepSteady = true;
@@ -12,64 +14,34 @@
 //
 //	private Vector3 destination;
 //
-//	public float maxPhi;
-//
-//	private int steps_;
-//
-//	// Use this for initialization
-//	void Start ()
-//	{
-//		steps_ = 0;
-//	}
-//
+//	private float previousDistance = 1000000.0f;
 //
 //	// Implements interface member
 //	public void findPath() {
-//		path = PathFinding.currentPath;
+//	
 //	}
 //	
 //	// Implements interface member
-//	override public void stepPath() 
-//	{
-//		// TODO check if has reached waypoint. If so, update and assign new goal.
+//	override public bool stepPath(Agent agent, Vector3 goal) {
+//
 //		float distance = Vector3.Distance (goal, transform.position);
-//		
-//		if (distance < 3.0f && goal != destination) {
-//			steps_++;
-//			initialDistance = Vector3.Distance (goal, transform.position);
+//
+//		if (distance > 0.8f) {
+//			move (goal);		
 //		}
 //
-//
-//        goal = Agent.recalculateGoal(steps_);
-//        destination = path [0].getPos ();
-//
-//        if (distance < 0.5f && goal == destination) {
-//            steps_++;
-//            goal.x = -1f;
-//        }
-//
-//        if (!Agent.isRunning)
-//            return;
-//
-//		if (goal.x == -1f) {
-//            Agent.isRunning = false;
-//            Agent.isFinished = true;
-//			return;
-//        }
-//		move ();
+//		return true;
 //	}
 //	
 //	// Implements interface member
 //	public void reset(Vector3 position) {
-//        steps_ = 0;
-//        findPath();
-//        velocity = 0f;
-//        goal = Agent.recalculateGoal(steps_);
+//        //velocity = 0f;
+//        //goal = Agent.recalculateGoal(steps_);
 //		rigidbody.transform.position = position;
-//        rigidbody.transform.rotation = Quaternion.Euler(Vector3.zero);
+//        //rigidbody.transform.rotation = Quaternion.Euler(Vector3.zero);
 //	}
 //
-//	void rotate ()
+//	void rotate (Vector3 goal)
 //	{
 //
 //		Vector3 rotation = Vector3.zero;
@@ -119,11 +91,9 @@
 //		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
 //	}
 //
-//	float previousDistance = 1000000.0f;
-//	void move ()
-//	{
 //
 //
+//	void move (Vector3 goal) {
 //
 ////		Vector3 force = goal - rigidbody.position; // allow for slow down
 ////		float acc = force.magnitude;
@@ -171,7 +141,7 @@
 //
 //
 //		if (!keepSteady)
-//			rotate ();
+//			rotate (goal);
 //		previousDistance = distance;
 //
 //	}
