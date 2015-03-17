@@ -25,3 +25,5 @@ sysinfo.txt
 *.sln
 
 a2/a2-csharp.sln
+
+*.csproj
