@@ -5,28 +5,18 @@ using System.Collections.Generic;
 public class DynamicController : MonoBehaviour, MovementModel
 {	
 
-	private Vector3 goal;
-
 	public float maxA;
 	public float toVel; 
 	public float maxVel;
 	public float gain;
-
-	public Vector3 direction = new Vector3(0,0,0);
+	
 	public Vector3 appliedAcceleration = new Vector3(0,0,0);
-	private int steps;
 	
 	public void findPath() {
 
 	}
 
-	public bool isFinished () {
-		return Vector3.Distance (goal, transform.position) < 0.8f;
-	}
-
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
-
-		this.goal = goal;
 
 		float distance = Vector3.Distance (goal, transform.position);
 

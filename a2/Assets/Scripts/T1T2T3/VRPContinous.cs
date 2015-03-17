@@ -53,7 +53,7 @@ public class VRPContinous {
 		{
 			Agent a = entry.Key;
 			a.removePaths();
-			a.setModel(3);
+			a.setModel(2);
 			for (int i = 0; i < entry.Value.Count; i++) {
 				a.addPath(entry.Value[i]);
 

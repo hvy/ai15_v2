@@ -512,7 +512,7 @@ Rigidbody:
   m_Drag: .100000001
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
@@ -641,9 +641,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxA: 100
-  toVel: 2
+  toVel: 10
   maxVel: 1000
-  gain: 10
+  gain: 1000
   direction: {x: 0, y: 0, z: 0}
   appliedAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &11435918
@@ -671,11 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
-  goal: {x: 0, y: 0, z: 0}
-  steps: 0
   maxPhi: .100000001
-  reverse: 0
-  reverseCrossThreshold: .75
 --- !u!114 &11435922
 MonoBehaviour:
   m_ObjectHideFlags: 1

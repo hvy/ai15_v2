@@ -111,11 +111,11 @@ public class GameManager : MonoBehaviour
 		List<GameObject> waypoints = new List<GameObject> ();
 		
 		if (task == 3) {
-			for (int i = 0; i < goals.Count; i++) {
+			for (int i = 0; i < customers.Count; i++) {
 				GameObject waypoint = WaypointFactory.createWaypoint ();
 				
 				// Randomize the position of the waypoin
-				waypoint.transform.position = new Vector3 (goals[i].x-1, 0.0f, goals[i].y-1);
+				waypoint.transform.position = new Vector3 (customers[i].x-1, 0.0f, customers[i].y-1);
 				
 				waypoint.transform.parent = parent.transform;
 				waypoint.name = "waypoint" + i;
