@@ -344,7 +344,7 @@ MonoBehaviour:
   _width: 20
   _height: 20
   nr_agents: 5
-  numWaypoints: 7
+  numWaypoints: 5
   numObstacles: 6
   neighbors: 8
   task: 1

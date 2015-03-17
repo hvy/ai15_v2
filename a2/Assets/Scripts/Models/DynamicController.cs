@@ -26,7 +26,6 @@ public class DynamicController : MonoBehaviour, MovementModel
 	// Implements interface member
 	public void findPath() {
 		path = PathFinding.currentPath;
-
 	}
 
 	// Implements interface member
@@ -49,7 +48,6 @@ public class DynamicController : MonoBehaviour, MovementModel
             agent.isFinished = true;
 			return false;		
 		}
-
 
 		move ();
 		return true;

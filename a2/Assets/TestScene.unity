@@ -100,45 +100,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
---- !u!1 &539396998
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 539397000}
-  - 114: {fileID: 539396999}
-  m_Layer: 0
-  m_Name: MenuManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &539396999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 539396998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65fa2f91aa4d8b8429042ccc99a0c386, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &539397000
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 539396998}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 261.5, y: 287.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1 &938226926
 GameObject:
@@ -166,7 +127,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &1187707215
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1623129185
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +274,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &1941983994
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +283,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1941983996}
+  - 114: {fileID: 1941983997}
   - 114: {fileID: 1941983995}
   m_Layer: 0
   m_Name: GameManager
@@ -336,17 +298,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1941983994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6b5dcac5319944a8a669b02792453a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f4a8e450b9dd49c09d50cb9a5088c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationId: 0
-  motionModelId: 2
-  width: 50
-  height: 50
-  moveSpeed: 5
-  rotationSpeed: 200
+  fileName: discObst2.txt
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0
@@ -358,4 +315,16 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
+--- !u!114 &1941983997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1941983994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5555946715ce148d6ae22b719ec8bf06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: polyObst2.txt

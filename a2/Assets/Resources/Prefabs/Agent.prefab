@@ -188,7 +188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: .100000001, z: 1}
   m_Children:
   - {fileID: 492720}
@@ -509,7 +509,7 @@ Rigidbody:
   m_GameObject: {fileID: 135914}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: .5
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -640,10 +640,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f0623f727304328b83a902ddc96d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 1
-  toVel: .5
-  maxVel: 100
-  gain: 10
+  maxA: 1000
+  toVel: 3
+  maxVel: 20
+  gain: 30
   direction: {x: 0, y: 0, z: 0}
   appliedAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &11435918

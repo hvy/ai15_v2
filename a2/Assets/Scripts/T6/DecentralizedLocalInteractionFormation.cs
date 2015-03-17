@@ -6,7 +6,7 @@ public class DecentralizedLocalInteractionFormation : Formation {
 
 	private GameObject[] agents;
 	private int leaderId, motionModelId;
-	private float checkRadius = 10.0f;
+	private float checkRadius = 30.0f;
 	private float minSeparation = 5.0f;
 
 	public DecentralizedLocalInteractionFormation (GameObject[] agents, int leaderId, int motionModelId) {
@@ -51,16 +51,22 @@ public class DecentralizedLocalInteractionFormation : Formation {
 
 						GameObject neighborAgent = hitColliders [i].transform.gameObject;
 						Agent neighbor = (Agent)neighborAgent.GetComponent (typeof(Agent));
-						
+
 						Vector3 diffVec = neighbor.position - agent.position;
+						//Vector2 diffVec = VectorUtility.toVector2IgnoringY(neighbor.position) - VectorUtility.toVector2IgnoringY(agent.position);
 						
 						//agent.velocity = D * (1 - Mathf.Exp (-a * (Vector3.Magnitude (diffVec) - minSeparation))) * diffVec.normalized - agent.velocity;
 						//agent.position += agent.velocity;
+
 						//float velSize = D * Mathf.Pow((1 - Mathf.Exp (-a * (Vector3.Magnitude (diffVec) - minSeparation))), 2.0f);
 						float velSize = D * (1 - Mathf.Exp (-a * (Vector3.Magnitude (diffVec) - minSeparation)));
-						agent.velocity += velSize * diffVec.normalized;
-						//neighbor.velocity -= velSize * diffVec.normalized;
+						//float velSize = D * (1 - Mathf.Exp (-a * (Vector2.SqrMagnitude (diffVec) - minSeparation)));
 
+						agent.velocity += velSize * diffVec.normalized;
+						//agent.velocity += velSize * VectorUtility.toVector3(diffVec).normalized;
+
+						// Apply opposite force to the neighbor
+						//neighbor.velocity -= velSize * diffVec.normalized;
 					}
 					i++;
 				}
@@ -75,15 +81,12 @@ public class DecentralizedLocalInteractionFormation : Formation {
 			}
 
 			GameObject agentObj = agents [agentId];
-			// Find the destination position for this follower
 			Agent agent = (Agent)agentObj.GetComponent (typeof(Agent));
 			agent.setStart (agent.transform.position);
 			agent.position += agent.velocity;
 			agent.setGoal (agent.position);
-			agent.setModel (motionModelId); // 1 = Kinematic poit model
-
+			agent.setModel (motionModelId);
 		}
-
 	}
 
 	public GameObject getAgent(int agentId) {

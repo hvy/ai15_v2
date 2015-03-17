@@ -1,8 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/T6/T6GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Models/DifferentialController.cs">
     <Files>
-      <File FileName="Assets/Scripts/T6/T6GameManager.cs" Line="82" Column="4" />
+      <File FileName="Assets/Scripts/Test/PolygonalStageParserTest.cs" Line="26" Column="34" />
+      <File FileName="Assets/Scripts/StageManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Parsers/LevelParser.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Test/DiscreteStageParserTest.cs" Line="11" Column="9" />
+      <File FileName="Assets/Scripts/T6/LeaderFollowerFormation.cs" Line="5" Column="51" />
+      <File FileName="Assets/Scripts/Parsers/DiscreteLevelParser.cs" Line="36" Column="49" />
+      <File FileName="Assets/Scripts/T6/T6GameManager.cs" Line="183" Column="34" />
+      <File FileName="Assets/Scripts/T6/DecentralizedLocalInteractionFormation.cs" Line="68" Column="46" />
+      <File FileName="Assets/Scripts/Agent.cs" Line="30" Column="41" />
+      <File FileName="Assets/Scripts/Models/DifferentialController.cs" Line="3" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

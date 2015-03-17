@@ -16,7 +16,6 @@ public class KinematicController : MonoBehaviour, MovementModel
 	// Implements interface member
 	virtual public bool stepPath(Agent agent, Vector3 goal) {
 
-
 		if (clearToMove(agent, goal)) {
 			move (goal);
 			return true;
