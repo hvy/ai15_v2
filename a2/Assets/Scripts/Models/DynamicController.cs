@@ -2,16 +2,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DynamicController : MonoBehaviour, MovementModel {
+public class DynamicController : MonoBehaviour, MovementModel {	
 
 	public float maxA;
 	public float toVel; 
 	public float maxVel;
 	public float gain;
-
-	public Vector3 direction = new Vector3(0,0,0);
+	
 	public Vector3 appliedAcceleration = new Vector3(0,0,0);
-	private int steps;
 	
 	public void findPath() {
 
@@ -21,7 +19,7 @@ public class DynamicController : MonoBehaviour, MovementModel {
 
 		float distance = Vector3.Distance (goal, transform.position);
 
-		if (distance > 0.8f) {
+		if (distance > 0.2f) {
 			move (goal);		
 		}
 

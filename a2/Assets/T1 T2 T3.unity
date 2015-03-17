@@ -341,17 +341,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c43508bb0cd42d69cad333f7634f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 20
-  _height: 20
-  nr_agents: 5
-  numWaypoints: 5
-  numObstacles: 6
-  neighbors: 8
-  task: 1
-  GeneticIterations: 300
+  neighbors: 4
+  task: 3
+  GeneticIterations: 100
   GeneticPopulation: 10
   GeneticTournaments: 1
-  DrawRRT: 0
+  DrawRRT: 1
+  file: polyObst1.txt
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0

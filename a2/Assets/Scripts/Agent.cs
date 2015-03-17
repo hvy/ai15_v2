@@ -39,14 +39,14 @@ public class Agent : MonoBehaviour {
 	{
 			float distance = Vector3.Distance (goal, transform.position);
 	
-			if (distance < 0.1f) {
+			if (distance < 0.5f) {
 					steps++;
 			}
-		
+
 			if (currentPath == null) {
 					return;
 			}
-		
+			
 			if (currentPath.Count - steps - 1 < 0 && paths != null && currentPathIndex < paths.Count - 1) {
 					currentPathIndex++;
 					currentPath = paths [currentPathIndex];

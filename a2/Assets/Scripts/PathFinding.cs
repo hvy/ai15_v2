@@ -141,7 +141,7 @@ public class PathFinding
 		rrt.tree.draw ();
 		
 		Tuple<GNode, GNode> startGoal = rrt.generateGraph();
-		Debug.Log (startGoal.second.getPos ().z);
+//		Debug.Log (startGoal.second.getPos ().z);
 		List<GNode> path = PathFinding.aStarPath(startGoal.first, startGoal.second, GraphBuilder.distance);		
 		currentPath = path;
 

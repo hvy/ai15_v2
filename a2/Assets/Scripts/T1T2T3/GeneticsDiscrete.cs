@@ -231,6 +231,7 @@ public class GeneticsDiscrete {
 			
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
 			//a.init();
+//			UnityEngine.Debug.Log (start);
 			a.setStart(start.getPos ());
 			a.setGoal(start.getPos());
 			a.setModel(0); // TOOD denna ska ju vara 0, för att köra discrete model
@@ -360,6 +361,8 @@ public class GeneticsDiscrete {
 				}
 				
 				// Pause, recalculate path or simply add to path
+
+//				UnityEngine.Debug.Log ("newpos: " + newPos.x);
 				if (binGraph[(int)newPos.x, (int)newPos.z] == 1 && newPos != oldPos) { // pause
 					new_paths[agent].Insert(0, new GNode(0,oldPos, new List<GNode>()));
 					oldPath.Insert(i+1, new GNode(0,newPos, new List<GNode>()));

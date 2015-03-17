@@ -6,11 +6,13 @@ using System;
 public class CollisionAvoidance {
 
 	List<GameObject> agents;
+	List<Vector2[]> polygons;
 	float[,] previousDistances;
-	float avoidanceStrength = 1000f;
+	float avoidanceStrength = 150f;
 
-	public CollisionAvoidance(List<GameObject> agents) {
+	public CollisionAvoidance(List<GameObject> agents, List<Vector2[]> polygons) {
 		this.agents = agents;
+		this.polygons = polygons;
 		previousDistances = new float[agents.Count,agents.Count];
 
 		for (int i = 0; i < agents.Count; i++) {
@@ -27,6 +29,7 @@ public class CollisionAvoidance {
 
 		for (int i = 0; i < agents.Count; i++) {
 			GameObject agent = agents[i];
+			Agent a = (Agent) agent.GetComponent(typeof(Agent));
 			Vector3 targetVelocity;
 			Vector3 agentVelocity = agent.rigidbody.velocity;
 			Vector3 directionToTarget;
@@ -38,6 +41,7 @@ public class CollisionAvoidance {
 
 			Vector3 totalAcceleration = new Vector3(0,0,0);
 
+			// Avoid agents
 			for (int j = (i+1) % (agents.Count-1); j < agents.Count; j++) {
 				if (j == i)
 					continue;
@@ -70,13 +74,52 @@ public class CollisionAvoidance {
 
 			}
 
-			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+			// Avoid obstacles
+			Vector3 obstAcceleration = new Vector3(0,0,0);
+			float shortestDistance = 100000f;
+			for (int j = 0; j < polygons.Count; j++) {
+				for (int k = 0; k < polygons[j].Length; k++) {
+
+					Vector2 p1 = polygons[j][k];
+					Vector2 p2 = polygons[j][(k+1)%polygons[j].Length];
+
+					Vector2 v = p2 - p1;
+					Vector2	outLeft = new Vector2(-v.y, v.x);
+					outLeft /= (float) Math.Sqrt(v.x*v.x + v.y*v.y);
+
+					// distance between agent and obstacle edge/line
+					float distance = DistancePointLine(agent.transform.position, new Vector3(p1.x, 0.0f, p1.y), new Vector3(p2.x, 0.0f, p2.y));
+					//if (distance < shortestDistance)
+					if (distance < 50f && Vector3.Distance(agent.transform.position, a.goal) > 15f)
+						obstAcceleration += -(new Vector3(outLeft.x, 0.0f, outLeft.y) - new Vector3(p1.x, 0.0f, p1.y)) * (1/distance) * 15f * agent.rigidbody.velocity.magnitude;
+				}
+
+			}
+			totalAcceleration += obstAcceleration;
+
+			// Apply acceleration to actor
 			DynamicController dc = (DynamicController) a.models[2];
 			dc.appliedAcceleration = -totalAcceleration;
-//			Debug.Log ("acceleration: " + totalAcceleration);
-//			Debug.Log ("acceleration mag: " + totalAcceleration.magnitude);
 		}
 
+	}
+
+	private float DistancePointLine (Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+	{
+		return Vector3.Magnitude (ProjectPointLine (point, lineStart, lineEnd) - point);
+	}
+	
+	private Vector3 ProjectPointLine (Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+	{
+		Vector3 rhs = point - lineStart;
+		Vector3 vector2 = lineEnd - lineStart;
+		float magnitude = vector2.magnitude;
+		Vector3 lhs = vector2;
+		if (magnitude > 1E-06f) {
+			lhs = (Vector3)(lhs / magnitude);
+		}
+		float num2 = Mathf.Clamp (Vector3.Dot (lhs, rhs), 0f, magnitude);
+		return (lineStart + ((Vector3)(lhs * num2)));
 	}
 
 	private float calculateAngle(Vector3 direction) {
