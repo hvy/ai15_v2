@@ -9,12 +9,13 @@ public class GameManager : MonoBehaviour
 
 	private float _width, _height;
 	private int nr_agents, numWaypoints, numObstacles;
-	public int neighbors;
+	private int neighbors = 8;
 	public int task;
 	public int GeneticIterations;
 	public int GeneticPopulation;
 	public int GeneticTournaments;
 	public bool DrawRRT;
+	public bool NoFrontCollisions;
 	public string file;
 
 	void Start () 
@@ -55,9 +56,10 @@ public class GameManager : MonoBehaviour
 		polys = tripleOfAgents.third;
 
 		List<Vector2[]> polygons = new List<Vector2[]>();
-
-		for (int i = 0; i < polys.Count; i++) {
-			polygons.Add(polys[i].ToArray());
+		if (task >= 3) {
+			for (int i = 0; i < polys.Count; i++) {
+				polygons.Add(polys[i].ToArray());
+			}
 		}
 
 
@@ -67,7 +69,7 @@ public class GameManager : MonoBehaviour
 
 		//List<Vector2[]> polygons = new List<Vector2[]>();
 		if (task == 1)
-			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles);
+			pp.planDiscretePaths ((int) _width, (int) _height, agents, waypoints, neighbors, GameState.Instance.obstacles, NoFrontCollisions);
 		else if (task == 2)
 			vrpDiscrete.planVRPPaths(agents, waypoints, GameState.Instance.obstacles, GeneticIterations, GeneticPopulation, GeneticTournaments);
 		else if (task == 3)

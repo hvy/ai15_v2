@@ -12,6 +12,7 @@ public class T4GameManager : MonoBehaviour {
 	private float width, height;
 	List<GameObject> agents;
 	private CollisionAvoidance ca;
+	public int offset;
 
 	void Start () {
 
@@ -41,7 +42,8 @@ public class T4GameManager : MonoBehaviour {
 		for (int i = 0; i < polys.Count; i++) {
 			polygons.Add(polys[i].ToArray());
 		}
-	
+
+		//Debug.LogError ("waypoints: " + waypoints.Count);
 			
 			ca = new CollisionAvoidance(agents, polygons);
 
@@ -82,7 +84,7 @@ public class T4GameManager : MonoBehaviour {
 		Debug.Log ("starts: "+ starts.Count);
 		for (int i = 0; i < starts.Count; i++) {
 			GameObject agent = AgentFactory.createAgent();
-			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+			agent.transform.position = new Vector3(starts[i].x-1+offset, 0.0f, starts[i].y-1+offset);
 			Debug.Log ("Starts: " + starts[i]);
 
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
@@ -101,7 +103,7 @@ public class T4GameManager : MonoBehaviour {
 				GameObject waypoint = WaypointFactory.createWaypoint ();
 				
 				// Randomize the position of the waypoin
-				waypoint.transform.position = new Vector3 (goals[i].x-1, 0.0f, goals[i].y-1);
+				waypoint.transform.position = new Vector3 (goals[i].x-1+offset, 0.0f, goals[i].y-1+offset);
 				
 				waypoint.transform.parent = parent.transform;
 				waypoint.name = "waypoint" + i;

@@ -11,6 +11,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 	public float gain;
 	
 	public Vector3 appliedAcceleration = new Vector3(0,0,0);
+	public bool ignoreGoalForce = false;
 	
 	public void findPath() {
 
@@ -36,8 +37,11 @@ public class DynamicController : MonoBehaviour, MovementModel
 		// Collision avoidence
 		if (appliedAcceleration.magnitude > 0.0003f) {
 			Vector3 acc = Vector3.ClampMagnitude(appliedAcceleration, maxA * rigidbody.mass);
-			rigidbody.AddForce(acc * Time.deltaTime);
+			rigidbody.AddForce(acc);
 		} 
+
+		if (ignoreGoalForce)
+			return;
 
 		Vector3 dist = goal - transform.position;
 
@@ -50,7 +54,7 @@ public class DynamicController : MonoBehaviour, MovementModel
 		// calc a force proportional to the error (clamped to maxForce)
 		Vector3 force = Vector3.ClampMagnitude(gain * error, maxA * rigidbody.mass);
 
-		rigidbody.AddRelativeForce(force * Time.deltaTime);
+		rigidbody.AddRelativeForce(force);
 
 		// Make sure that it stays on the plane
 		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);

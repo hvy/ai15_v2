@@ -13,7 +13,7 @@ class PathPlanner
 	
 
 	// TODO ta hänsyn till tid också
-	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots) {
+	public List<List<GNode>> planDiscretePaths (int width, int height, List<GameObject> agents, List<GameObject> customers, int neighbors, List<Vector3> occupiedSlots, bool noFrontCollisions) {
 
 		GNode[,] graph = buildGraph (width, height, neighbors, occupiedSlots);
 		Dictionary<Agent, List<List<GNode>>> result = new Dictionary<Agent, List<List<GNode>>>();
@@ -30,27 +30,53 @@ class PathPlanner
 //			Debug.Log ("index: " + z);
 			GNode goal = graph [x, z];
 
-			// Find the closest agent
-//			int index = 0;
-//			float shortestDistance = 10000f;
-//			for (int i = 0; i < agents.Count; i++) {
-//				float dist = Vector3.Distance(agents[i].transform.position, customer.transform.position);
-//				if (dist < shortestDistance) {
-//					shortestDistance = dist;
-//					index = i;
-//				}
-//			}
-
 			GameObject agent = agents[i];
 			x = (int) agent.transform.position.x;
 			z = (int) agent.transform.position.z;
 
 			GNode start = graph [x, z];
 
-//			agents.RemoveAt(0);
-//			customers.RemoveAt(0);
-
 			List<GNode> path = PathFinding.aStarPath(start, goal, GraphBuilder.distance); // TODO Change the heuristic function, remove dependency
+
+			// check previous paths, so they dont intersect too much
+			List<Vector3> intersectingPositions = new List<Vector3>();
+			intersectingPositions.AddRange(occupiedSlots);
+
+
+			if (result.Count > 0 && noFrontCollisions) {
+
+				int agentC = 0;
+				foreach (KeyValuePair<Agent, List<List<GNode>>> r in result) {
+					agentC++;
+					List<List<GNode>> ps = r.Value;
+
+					for (int k = 0; k < ps.Count; k++) {
+						List<GNode> p = ps[k];
+
+						for (int m = 0; m < p.Count-1; m++) {
+							Vector3 position = p[m].getPos();
+							Vector3 lastposition = p[m+1].getPos();
+
+							for (int n = 1; n < path.Count; n++) {
+								if (path[n].getPos() == position && path[n-1].getPos() == lastposition && position != goal.getPos() && position != start.getPos ()) {
+//									Debug.LogError("agent: " + i + " " + position);
+
+									intersectingPositions.Add (position);
+									break;
+								}
+							}
+
+						}
+					}
+				}
+
+				List<GNode> recalPath = recalculatePath_noAgentMod(start.getPos (), goal.getPos (), intersectingPositions);
+				if (recalPath != null) {
+//					Debug.LogError("TJENARE: " + i);
+					path = recalPath;
+				}
+			}
+
 
 			if (path == null)
 				continue;
@@ -129,9 +155,12 @@ class PathPlanner
 		}
 		
 		for (int i = 0; i < totalTime; i++) {
+
+			int agentCounter = 0;
 			foreach(KeyValuePair<Agent, List<List<GNode>>> entry in paths)
 			{
 					Agent agent = entry.Key;
+					agentCounter++;
 					
 					List<GNode> oldPath = old_paths[agent];
 
@@ -140,7 +169,7 @@ class PathPlanner
 							binGraph[(int)oldPath[i-1].getPos ().x, (int)oldPath[i-1].getPos ().z] = 2;
 						continue;
 					}
-
+					
 					//printPath (oldPath, "old path");
 
 					Vector3 oldPos;
@@ -157,34 +186,28 @@ class PathPlanner
 						oldPath.Insert(i+1, new GNode(0,newPos, new List<GNode>()));
 						//new_paths[agent].Insert(0, new GNode(0,newPos, new List<GNode>()));
 						Debug.Log ("Pause at: " + oldPos.x + " " + oldPos.z + " tid: " + i);
-						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
-						binGraph[(int)newPos.x, (int)newPos.z] = 1;
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 2;
+						binGraph[(int)newPos.x, (int)newPos.z] = 2;
 						
-					} 
+					}
 					else if (binGraph[(int)newPos.x, (int)newPos.z] == 2 && oldPath.Count-1 >= i+1) { // recalculate path
 						Debug.Log ("RECALCULATE ASTAR PATH");
 						List<Vector3> obstacles = new List<Vector3>();
 						obstacles.Add (newPos);
 						obstacles.AddRange(GameState.Instance.obstacles);
-							
+
+
 						List<GNode> recalPath = recalculatePath_noAgentMod(oldPos, oldPath[i+1].getPos (), obstacles);
 
-						recalPath.RemoveAt(recalPath.Count-1);
-						oldPath.RemoveAt(i+1);
-						//recalPath.RemoveAt(0);
-					
+						oldPath.RemoveRange(i+1, 1);
+						
 						for (int p = 0; p < recalPath.Count; p++) {
 							new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
+							//binGraph[(int)recalPath[recalPath.Count-p-1].getPos().x, (int)recalPath[recalPath.Count-p-1].getPos().z] = 1;
 						}
+						
 						recalculatedPathCounter[agent]+= recalPath.Count;
 
-					} 
-					else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path
-						recalculatedPathCounter[agent]--;
-						binGraph[(int)newPos.x, (int)newPos.z] = 1;
-						binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
-						new_paths[agent].Insert(0, new GNode(0, newPos, new List<GNode>()));
-						continue;
 					} 
 					else {// free to move
 						binGraph[(int)newPos.x, (int)newPos.z] = 1;

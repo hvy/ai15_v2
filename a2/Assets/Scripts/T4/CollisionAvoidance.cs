@@ -8,7 +8,7 @@ public class CollisionAvoidance {
 	List<GameObject> agents;
 	List<Vector2[]> polygons;
 	float[,] previousDistances;
-	float avoidanceStrength = 150f;
+	float avoidanceStrength = 170f;
 
 	public CollisionAvoidance(List<GameObject> agents, List<Vector2[]> polygons) {
 		this.agents = agents;
@@ -30,6 +30,7 @@ public class CollisionAvoidance {
 		for (int i = 0; i < agents.Count; i++) {
 			GameObject agent = agents[i];
 			Agent a = (Agent) agent.GetComponent(typeof(Agent));
+//			Debug.LogError (i + " " + a.goal);
 			Vector3 targetVelocity;
 			Vector3 agentVelocity = agent.rigidbody.velocity;
 			Vector3 directionToTarget;
@@ -39,7 +40,8 @@ public class CollisionAvoidance {
 			float agentLineOfSight = 0f;
 			float targetLineOfSight = 0f;
 
-			Vector3 totalAcceleration = new Vector3(0,0,0);
+			Vector3 agentAvoidAcceleration = new Vector3(0,0,0);
+			bool ignoreGoalForce = false;
 
 			// Avoid agents
 			for (int j = (i+1) % (agents.Count-1); j < agents.Count; j++) {
@@ -68,8 +70,8 @@ public class CollisionAvoidance {
 				if (agentRangeToTarget > previousDistances[i,j]) // Moving away from eachother
 					acceleration = new Vector3(0,0,0);
 
-				if (agentRangeToTarget < 30f)
-					totalAcceleration += acceleration * avoidanceStrength * Math.Max (target.transform.localScale.x / 5, 1);
+				if (agentRangeToTarget < 10f)
+					agentAvoidAcceleration += acceleration * avoidanceStrength * Math.Max (target.transform.localScale.x / 5, 1);
 				previousDistances[i, j] = agentRangeToTarget;
 
 			}
@@ -90,16 +92,22 @@ public class CollisionAvoidance {
 					// distance between agent and obstacle edge/line
 					float distance = DistancePointLine(agent.transform.position, new Vector3(p1.x, 0.0f, p1.y), new Vector3(p2.x, 0.0f, p2.y));
 					//if (distance < shortestDistance)
-					if (distance < 50f && Vector3.Distance(agent.transform.position, a.goal) > 15f)
-						obstAcceleration += -(new Vector3(outLeft.x, 0.0f, outLeft.y) - new Vector3(p1.x, 0.0f, p1.y)) * (1/distance) * 15f * agent.rigidbody.velocity.magnitude;
+					// && && Vector3.Distance(agent.transform.position, a.goal) > 15f
+					if (distance < 30f)
+						obstAcceleration += -(new Vector3(outLeft.x, 0.0f, outLeft.y) - new Vector3(p1.x, 0.0f, p1.y)) * (1/distance) * 1500f * agent.rigidbody.velocity.magnitude * Math.Max (agent.transform.localScale.x / 5, 1);
+					if (distance < 10f)
+						ignoreGoalForce = true;
 				}
 
 			}
-			totalAcceleration += obstAcceleration;
+
+			Vector3 totalAcceleration = obstAcceleration + agentAvoidAcceleration;
+			Debug.LogError (obstAcceleration);
 
 			// Apply acceleration to actor
 			DynamicController dc = (DynamicController) a.models[2];
 			dc.appliedAcceleration = -totalAcceleration;
+			dc.ignoreGoalForce = ignoreGoalForce;
 		}
 
 	}

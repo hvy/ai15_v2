@@ -257,9 +257,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64243eb2d521b40c2be017dfa67d85ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionModelId: 3
+  motionModelId: 2
   acceleration: 1
   file: polyObst1.txt
+  offset: 0
 --- !u!4 &496710193
 Transform:
   m_ObjectHideFlags: 0
