@@ -2,8 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DynamicController : MonoBehaviour, MovementModel
-{	
+public class DynamicController : MonoBehaviour, MovementModel {	
 
 	public float maxA;
 	public float toVel; 

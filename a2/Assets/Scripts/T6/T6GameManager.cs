@@ -54,8 +54,6 @@ public class T6GameManager : MonoBehaviour {
 		// On mouse click
 		if (Input.GetButtonDown ("Fire1")) {
 
-			Debug.Log ("Clicked");
-
 			Plane plane = new Plane (Vector3.up, 0);
 			float dist;
 			Ray ray = Camera.mainCamera.ScreenPointToRay (Input.mousePosition);
@@ -69,6 +67,8 @@ public class T6GameManager : MonoBehaviour {
 				agent.setStart (currentPos);
 				agent.setGoal (destinationPos);
 				agent.setModel (motionModelId);
+
+				Debug.Log ("Velocity: " + playerAgent.GetComponent<Rigidbody> ().rotation);
 			}
 		}
 

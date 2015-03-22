@@ -27,3 +27,9 @@ sysinfo.txt
 a2/a2-csharp.sln
 
 *.csproj
+
+a2/Assets/Resources/Prefabs/Agent.prefab
+
+a2/a2-csharp.sln
+
+a2/a2.sln
