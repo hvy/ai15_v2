@@ -346,8 +346,8 @@ MonoBehaviour:
   GeneticPopulation: 10
   GeneticTournaments: 1
   DrawRRT: 1
-  NoFrontCollisions: 1
-  file: polyObst2.txt
+  NoFrontCollisions: 0
+  file: polyObst1.txt
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0

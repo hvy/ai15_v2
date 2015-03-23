@@ -14,7 +14,7 @@ public class T4GameManager : MonoBehaviour {
 	private CollisionAvoidance ca;
 	public int offset;
 
-	void Start () {
+	void Awake () {
 
 		Triple<List<GameObject>, List<GameObject>, List<List<Vector2>>> tripleOfAgents;
 		tripleOfAgents = initPolyStage ();

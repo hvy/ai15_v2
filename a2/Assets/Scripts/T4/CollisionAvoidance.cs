@@ -102,7 +102,7 @@ public class CollisionAvoidance {
 			}
 
 			Vector3 totalAcceleration = obstAcceleration + agentAvoidAcceleration;
-			Debug.LogError (obstAcceleration);
+//			Debug.LogError (obstAcceleration);
 
 			// Apply acceleration to actor
 			DynamicController dc = (DynamicController) a.models[2];

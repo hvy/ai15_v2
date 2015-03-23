@@ -8,7 +8,7 @@ public class CarKinematicController : KinematicController, MovementModel {
 	public float maxPhi;
 
 	private bool reverse = false;
-	private float reverseCrossThreshold = 0.75f;
+	private float reverseCrossThreshold = 1.5f;
 
 	override public bool stepPath(Agent agent, Vector3 goal) {
 		
