@@ -102,12 +102,35 @@ public class T6GameManager : MonoBehaviour {
 		GameObject[] agents = new GameObject[numAgents];
 
 		for (int i = 0; i < numAgents; i++) {
-			if (motionModelId < 3) {
-				agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity);		
-			} else {
-				agents[i] = AgentFactory.createCarAgent (Vector3.zero, Quaternion.identity);		
+			switch (motionModelId) {
+			case 0:
+				// Discrete
+				agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity, true);		
+				break;
+			case 1:
+				// Kinematic point
+				agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity, true);		
+				break;
+			case 2:
+				// Dynamic point
+				agents[i] = AgentFactory.createAgent (Vector3.zero, Quaternion.identity, false);		
+				break;
+			case 3:
+				// Differential drive
+				agents[i] = AgentFactory.createCarAgent (Vector3.zero, Quaternion.identity, true);		
+				break;
+			case 4:
+				// Kinematic car
+				agents[i] = AgentFactory.createCarAgent (Vector3.zero, Quaternion.identity, true);
+				break;
+			case 5:
+				// Dynamic car
+				agents[i] = AgentFactory.createCarAgent (Vector3.zero, Quaternion.identity, false);
+				break;
+			default:
+				Debug.Log ("Cannot create an agent due to invalid motion model");
+				break;
 			}
-
 		}
 
 		return agents;
