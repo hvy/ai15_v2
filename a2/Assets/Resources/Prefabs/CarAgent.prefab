@@ -508,11 +508,11 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158506}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: .5
-  m_AngularDrag: .5
+  m_Mass: 10
+  m_Drag: 1
+  m_AngularDrag: 5
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
@@ -683,13 +683,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e91038946d43d8b1c95787cc36e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 1000
+  maxPhi: .5
+  maxA: .5
   toVel: 3
   maxVel: 20
   gain: 30
-  appliedAcceleration: {x: 0, y: 0, z: 0}
+  rotationSpeed: .5
   ignoreGoalForce: 0
-  maxPhi: .5
+  appliedAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &11458516
 MonoBehaviour:
   m_ObjectHideFlags: 1

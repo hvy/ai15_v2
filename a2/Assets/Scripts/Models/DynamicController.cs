@@ -31,7 +31,7 @@ public class DynamicController : MonoBehaviour, MovementModel {
 		rigidbody.transform.position = position;
 	}
 
-	protected void move (Vector3 goal) {	
+	virtual public void move (Vector3 goal) {	
 
 		// Collision avoidence
 		if (appliedAcceleration.magnitude > 0.0003f) {

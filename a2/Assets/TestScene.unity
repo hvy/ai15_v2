@@ -343,3 +343,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 20
   height: 20
+  motionModelId: 5

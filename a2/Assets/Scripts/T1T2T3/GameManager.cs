@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 		
 		Debug.Log ("starts: "+ starts.Count);
 		for (int i = 0; i < starts.Count; i++) {
-			GameObject agent = AgentFactory.createAgent();
+			GameObject agent = AgentFactory.createAgent(true);
 			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
 			
 			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 
 		Debug.Log ("starts: "+ starts.Count);
 		for (int i = 0; i < starts.Count; i++) {
-			GameObject agent = AgentFactory.createAgent();
+			GameObject agent = AgentFactory.createAgent(true);
 			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
 
 			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
 		List<GameObject> agents = new List<GameObject> ();
 
 		for (int i = 0; i < numberOfAgents; i++) {
-			GameObject agent = AgentFactory.createAgent();
+			GameObject agent = AgentFactory.createAgent(true);
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 			while (GameState.Instance.agents.ContainsKey(agent.transform.position) || GameState.Instance.obstacles.Contains(agent.transform.position) || PathFinding.isInObstacle(agent.transform.position, polygons))
 				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
