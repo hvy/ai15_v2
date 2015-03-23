@@ -57,11 +57,12 @@ public class CarDynamicController : DynamicController, MovementModel {
 			reverse = true; // goal is behind the car
 			reverseToGoal = true;
 		}
-		
+
 		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
 		phi = reverseToGoal ? -phi : phi;
 		float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
-		
+
+
 		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
 	}
 

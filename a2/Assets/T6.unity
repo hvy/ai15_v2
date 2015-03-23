@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b5dcac5319944a8a669b02792453a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  formationId: 2
+  formationId: 0
   motionModelId: 1
   width: 50
   height: 50
