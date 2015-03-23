@@ -644,8 +644,8 @@ MonoBehaviour:
   toVel: 3
   maxVel: 20
   gain: 30
-  direction: {x: 0, y: 0, z: 0}
   appliedAcceleration: {x: 0, y: 0, z: 0}
+  ignoreGoalForce: 0
 --- !u!114 &11458510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -683,12 +683,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e91038946d43d8b1c95787cc36e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxA: 10000
-  toVel: 10
+  maxA: 1000
+  toVel: 3
   maxVel: 20
-  gain: 10
-  direction: {x: 0, y: 0, z: 0}
+  gain: 30
   appliedAcceleration: {x: 0, y: 0, z: 0}
+  ignoreGoalForce: 0
   maxPhi: .5
 --- !u!114 &11458516
 MonoBehaviour:
