@@ -1,12 +1,40 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GraphBuilder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/T1T2T3/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Models/CarDynamicController.cs" Line="20" Column="28" />
-      <File FileName="Assets/Scripts/Models/CarKinematicController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Test/RigidbodyDynamicCarTest.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T1T2T3/GameManager.cs" Line="240" Column="3" />
+      <File FileName="Assets/Scripts/Test/PolygonalStageParserTest.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StageManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Parsers/LevelParser.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Test/DiscreteStageParserTest.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T6/LeaderFollowerFormation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Parsers/DiscreteLevelParser.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T6/T6GameManager.cs" Line="242" Column="4" />
+      <File FileName="Assets/Scripts/T6/DecentralizedLocalInteractionFormation.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Agent.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GraphBuilder.cs" Line="1" Column="2" />
+      <File FileName="Assets/Scripts/Models/DifferentialController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/CarKinematicController.cs" Line="20" Column="3" />
+      <File FileName="Assets/Scripts/Models/KinematicController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Factories/AgentFactory.cs" Line="14" Column="16" />
+      <File FileName="Assets/Scripts/PathPlanner.cs" Line="201" Column="6" />
+      <File FileName="Assets/Scripts/Models/DiscreteController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T1T2T3/GeneticsDiscrete.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PathFinding.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T1T2T3/VRPDiscrete.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CameraModel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Factories/ObstacleFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ObstacleMesh.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Factories/StageFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Tuple.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Triple.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Parsers/PolygonalLevelParser.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T1T2T3/VRPContinous.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RRT.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Models/DynamicController.cs" Line="62" Column="1" />
+      <File FileName="Assets/Scripts/T1T2T3/GeneticsContinous.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/T4/T4GameManager.cs" Line="83" Column="3" />
+      <File FileName="Assets/Scripts/T4/CollisionAvoidance.cs" Line="107" Column="34" />
+      <File FileName="Assets/Scripts/Models/CarDynamicController.cs" Line="19" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

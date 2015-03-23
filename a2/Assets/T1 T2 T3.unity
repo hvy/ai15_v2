@@ -342,10 +342,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   task: 3
-  GeneticIterations: 100
+  GeneticIterations: 1000
   GeneticPopulation: 10
   GeneticTournaments: 1
-  DrawRRT: 1
+  DrawRRT: 0
   NoFrontCollisions: 0
   file: polyObst1.txt
 --- !u!4 &1941983996

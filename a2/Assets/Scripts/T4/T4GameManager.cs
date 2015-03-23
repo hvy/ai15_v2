@@ -6,7 +6,7 @@ public class T4GameManager : MonoBehaviour {
 	
 	//public int numAgents; // numAgents > 0
 	public int motionModelId;
-	public float acceleration;
+	public float avoidanceStrength, avoidanceDistance, acceleration, radius;
 	public string file;
 
 	private float width, height;
@@ -45,7 +45,7 @@ public class T4GameManager : MonoBehaviour {
 
 		//Debug.LogError ("waypoints: " + waypoints.Count);
 			
-			ca = new CollisionAvoidance(agents, polygons);
+		ca = new CollisionAvoidance(agents, polygons, avoidanceStrength, avoidanceDistance, acceleration);
 
 	}
 	
@@ -83,7 +83,7 @@ public class T4GameManager : MonoBehaviour {
 		
 		Debug.Log ("starts: "+ starts.Count);
 		for (int i = 0; i < starts.Count; i++) {
-			GameObject agent = AgentFactory.createAgent(true);
+			GameObject agent = AgentFactory.createAgent(false);
 			agent.transform.position = new Vector3(starts[i].x-1+offset, 0.0f, starts[i].y-1+offset);
 			Debug.Log ("Starts: " + starts[i]);
 
@@ -92,6 +92,7 @@ public class T4GameManager : MonoBehaviour {
 			a.setModel(motionModelId);
 			GameState.Instance.agents[agent.transform.position] = a;
 			agents.Add (agent);
+			agent.transform.localScale = new Vector3(radius, 0.1f, radius);
 
 		}
 		
@@ -129,7 +130,7 @@ public class T4GameManager : MonoBehaviour {
 		List<GameObject> agents = new List<GameObject> ();
 		
 		for (int i = 0; i < numberOfAgents; i++) {
-			GameObject agent = AgentFactory.createAgent(true);
+			GameObject agent = AgentFactory.createAgent(false);
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 			while (GameState.Instance.agents.ContainsKey(agent.transform.position) || GameState.Instance.obstacles.Contains(agent.transform.position) || PathFinding.isInObstacle(agent.transform.position, polygons))
 				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));

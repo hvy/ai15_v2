@@ -9,10 +9,15 @@ public class CollisionAvoidance {
 	List<Vector2[]> polygons;
 	float[,] previousDistances;
 	float avoidanceStrength = 170f;
+	float avoidanceDistance = 10f;
+	float maxA = 10f;
 
-	public CollisionAvoidance(List<GameObject> agents, List<Vector2[]> polygons) {
+	public CollisionAvoidance(List<GameObject> agents, List<Vector2[]> polygons, float avoidanceStrength, float avoidanceDistance, float acc) {
 		this.agents = agents;
 		this.polygons = polygons;
+		this.avoidanceStrength = avoidanceStrength;
+		this.avoidanceDistance = avoidanceDistance;
+		this.maxA = acc;
 		previousDistances = new float[agents.Count,agents.Count];
 
 		for (int i = 0; i < agents.Count; i++) {
@@ -70,7 +75,8 @@ public class CollisionAvoidance {
 				if (agentRangeToTarget > previousDistances[i,j]) // Moving away from eachother
 					acceleration = new Vector3(0,0,0);
 
-				if (agentRangeToTarget < 10f)
+				//Debug.LogError ("avoidance distance: " + avoidanceDistance * agent.rigidbody.velocity.magnitude/2);
+				if (agentRangeToTarget < avoidanceDistance * agent.rigidbody.velocity.magnitude/2)
 					agentAvoidAcceleration += acceleration * avoidanceStrength * Math.Max (target.transform.localScale.x / 5, 1);
 				previousDistances[i, j] = agentRangeToTarget;
 
@@ -92,8 +98,8 @@ public class CollisionAvoidance {
 					// distance between agent and obstacle edge/line
 					float distance = DistancePointLine(agent.transform.position, new Vector3(p1.x, 0.0f, p1.y), new Vector3(p2.x, 0.0f, p2.y));
 					//if (distance < shortestDistance)
-					// && && Vector3.Distance(agent.transform.position, a.goal) > 15f
-					if (distance < 30f)
+					// && 
+					if (distance < 30f && Vector3.Distance(agent.transform.position, a.goal) > 15f)
 						obstAcceleration += -(new Vector3(outLeft.x, 0.0f, outLeft.y) - new Vector3(p1.x, 0.0f, p1.y)) * (1/distance) * 1500f * agent.rigidbody.velocity.magnitude * Math.Max (agent.transform.localScale.x / 5, 1);
 					if (distance < 10f)
 						ignoreGoalForce = true;
@@ -108,6 +114,7 @@ public class CollisionAvoidance {
 			DynamicController dc = (DynamicController) a.models[2];
 			dc.appliedAcceleration = -totalAcceleration;
 			dc.ignoreGoalForce = ignoreGoalForce;
+			dc.maxA = maxA;
 		}
 
 	}
