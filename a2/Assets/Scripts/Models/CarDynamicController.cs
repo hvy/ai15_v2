@@ -18,80 +18,51 @@ public class CarDynamicController : DynamicController, MovementModel {
 	private float initialDistance;
 	private Vector3 goal;
 	private float velocity = 0;
-
-	// Implements interface member
+	
 	override public bool stepPath(Agent agent, Vector3 goal) {
 
-		if (goal != this.goal) {
-			this.goal = goal;
-			this.initialDistance = Vector3.Distance (transform.position, goal);
+		float distance = Vector3.Distance (goal, transform.position);
+		
+		if (Vector3.Distance (transform.position, goal) > 0.8f) {
+			move (goal);
 		}
-
-	      float distance = Vector3.Distance (goal, transform.position);
-
-	      if (distance > 0.8f) {
-	              move (goal);           
-	      }
-
-	      return true;
+		
+		return true;
 	}
-
-	// Implements interface member
+	
 	public void reset(Vector3 position) {
-		//velocity = 0f;
-		//goal = Agent.recalculateGoal(steps_);
-	    rigidbody.transform.position = position;
-		//rigidbody.transform.rotation = Quaternion.Euler(Vector3.zero);
+		rigidbody.transform.position = position;
 	}
 
-	void rotate (Vector3 goal)
-	{
-
-	      Vector3 rotation = Vector3.zero;
-	      Vector3 direction = (goal - transform.position).normalized;
-	      Quaternion lookRotation = Quaternion.LookRotation (direction);
-	     
-	      Transform pivot = transform.Find("Pivot");
-	     
-	      Vector3 cross = Vector3.Cross(-transform.forward, direction);
-	     
-	      float phi;
-	      if (cross.y < 0) { // turn right
-	              phi = Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
-	      } else { // turn left
-	              phi = -Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
-	      }
-	     
-	//            if (Math.Abs (cross.y) < 0.05f) // to prevent flickering with the steering wheel
-	//                    return;
-
-	      bool previous = reverse;
-	      reverse = Math.Abs (cross.y) > reverseCrossThreshold ? true : false;
-	      keepSteady = previous == reverse ? true : false;
-
-//	      if (!keepSteady) {
-//	              initialDistance = Vector3.Distance (goal, transform.position);
-//	              //Debug.Log ("NEW INITIAL DISTANCE!");
-//	      }
-
-	      bool reverseToGoal = false;
-	      if (Vector3.Dot(direction, transform.forward) < -0.75) {
-	              reverse = true; // goal is behind the car
-	              reverseToGoal = true;
-	      }
-
-	//            Debug.Log ("revser to goal: " + reverseToGoal);
-	//            Debug.Log ("reverse: " + reverse);
-	//            Debug.Log ("keepSteady: " + keepSteady);
-	     
-	      //Debug.Log ("Cross: " + cross.y);
-	     
-	      phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
-	      phi = reverse && !reverseToGoal ? -phi : phi;
-	      float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
-	     
-	      // TODO motsvarar detta rad/sec?. Vi kanske får skita i pivot point vid bakhjulen?
-	      transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
+	void rotate (Vector3 goal) {
+		Vector3 rotation = Vector3.zero;
+		Vector3 direction = (goal - transform.position).normalized;
+		Quaternion lookRotation = Quaternion.LookRotation (direction);
+		
+		Transform pivot = transform.Find("Pivot");
+		
+		Vector3 cross = Vector3.Cross(-transform.forward, direction);
+		
+		float phi;
+		if (cross.y < 0) { // turn right
+			phi = Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
+		} else { // turn left
+			phi = -Quaternion.Angle(transform.rotation, lookRotation) * Mathf.Deg2Rad;
+		}
+		
+		reverse = Math.Abs (cross.y) > reverseCrossThreshold ? true : false;
+		
+		bool reverseToGoal = false;
+		if (Vector3.Dot(direction, transform.forward) < -0.85) {
+			reverse = true; // goal is behind the car
+			reverseToGoal = true;
+		}
+		
+		phi = Mathf.Abs(phi) > maxPhi ? Mathf.Sign(phi) * maxPhi : phi; // steering angle
+		phi = reverseToGoal ? -phi : phi;
+		float theta = ((velocity / transform.localScale.z) * Mathf.Tan (phi)); // moving angle
+		
+		transform.RotateAround (pivot.position, Vector3.up, theta * Mathf.Rad2Deg * Time.deltaTime); // backwheels as pivot
 	}
 
 
@@ -146,6 +117,5 @@ public class CarDynamicController : DynamicController, MovementModel {
 	      if (!keepSteady)
 	              rotate (goal);
 	      previousDistance = distance;
-
 	}
 }
