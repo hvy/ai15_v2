@@ -76,7 +76,7 @@ public class CollisionAvoidance {
 					acceleration = new Vector3(0,0,0);
 
 				//Debug.LogError ("avoidance distance: " + avoidanceDistance * agent.rigidbody.velocity.magnitude/2);
-				if (agentRangeToTarget < avoidanceDistance * agent.rigidbody.velocity.magnitude/2)
+				if (agentRangeToTarget < avoidanceDistance * Math.Max (agent.rigidbody.velocity.magnitude/2, 0.5f))
 					agentAvoidAcceleration += acceleration * avoidanceStrength * Math.Max (target.transform.localScale.x / 5, 1);
 				previousDistances[i, j] = agentRangeToTarget;
 
@@ -84,30 +84,91 @@ public class CollisionAvoidance {
 
 			// Avoid obstacles
 			Vector3 obstAcceleration = new Vector3(0,0,0);
-			float shortestDistance = 100000f;
-			for (int j = 0; j < polygons.Count; j++) {
-				for (int k = 0; k < polygons[j].Length; k++) {
 
-					Vector2 p1 = polygons[j][k];
-					Vector2 p2 = polygons[j][(k+1)%polygons[j].Length];
+			//new avoidance
 
-					Vector2 v = p2 - p1;
-					Vector2	outLeft = new Vector2(-v.y, v.x);
-					outLeft /= (float) Math.Sqrt(v.x*v.x + v.y*v.y);
+			Vector3 dir = (a.goal - agent.transform.position).normalized;
+			RaycastHit hit;
+			float distToObstacle = 5f;
 
-					// distance between agent and obstacle edge/line
-					float distance = DistancePointLine(agent.transform.position, new Vector3(p1.x, 0.0f, p1.y), new Vector3(p2.x, 0.0f, p2.y));
-					//if (distance < shortestDistance)
-					// && 
-					if (distance < 30f && Vector3.Distance(agent.transform.position, a.goal) > 15f)
-						obstAcceleration += -(new Vector3(outLeft.x, 0.0f, outLeft.y) - new Vector3(p1.x, 0.0f, p1.y)) * (1/distance) * 1500f * agent.rigidbody.velocity.magnitude * Math.Max (agent.transform.localScale.x / 5, 1);
-					if (distance < 10f)
-						ignoreGoalForce = true;
+			Vector3 movementDirection = (agent.rigidbody.velocity + agent.transform.position);
+			movementDirection.y = 0f;
+			agent.rigidbody.rotation = Quaternion.Euler(movementDirection);
+//			agent.transform.forward = movementDirection;
+
+			Vector3 velocityDirection = ((movementDirection)-agent.transform.position).normalized;
+
+			Debug.DrawLine(agent.transform.position, movementDirection, Color.green);
+			if (Physics.Raycast(agent.transform.position, velocityDirection, out hit, distToObstacle)) {
+				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+					dir += hit.normal * 20;
+
+//					if (Vector3.Distance(hit.point, agent.transform.position) < 5f)
+//						ignoreGoalForce = true;
 				}
-
 			}
 
-			Vector3 totalAcceleration = obstAcceleration + agentAvoidAcceleration;
+//			if (Physics.Raycast(agent.transform.position, -agent.transform.forward, out hit, distToObstacle)) {
+//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+//					dir += hit.normal * 20;
+//					
+//				}
+//			}
+
+			Vector3 leftR = agent.transform.position;
+			Vector3 rightR = agent.transform.position;
+
+			
+			leftR.x -= 2;
+			rightR.x += 2;
+
+			if (Physics.Raycast(leftR, velocityDirection, out hit, distToObstacle)) {
+				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+					dir += hit.normal * 20;
+					
+				}
+			}
+			
+			if (Physics.Raycast(rightR, velocityDirection, out hit, distToObstacle)) {
+				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+					dir += hit.normal * 20;
+					
+				}
+			}
+
+//			if (Physics.Raycast(leftR, new Vector3(0, 0, -1), out hit, distToObstacle)) {
+//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+//					dir += hit.normal * 20;
+//					
+//				}
+//			}
+//			
+//			if (Physics.Raycast(rightR, new Vector3(0, 0, 1), out hit, distToObstacle)) {
+//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
+//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
+//					dir += hit.normal * 20;
+//					
+//				}
+//			}
+
+
+			if (Vector3.Distance(agent.transform.position, a.goal) > 5f)
+				obstAcceleration += dir * 200f;
+
+//			if (Vector3.Cross(agent.transform.forward, obstAcceleration).magnitude < 15f) {
+//				Debug.DrawLine(agent.transform.position, a.goal, Color.white);
+//				obstAcceleration.x += 100f;
+//			}
+			Quaternion rot = Quaternion.LookRotation(dir);
+			agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, rot, Time.deltaTime);
+			
+			
+			Vector3 totalAcceleration = -obstAcceleration + agentAvoidAcceleration;
 //			Debug.LogError (obstAcceleration);
 
 			// Apply acceleration to actor

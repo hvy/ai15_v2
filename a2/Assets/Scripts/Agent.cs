@@ -92,7 +92,7 @@ public class Agent : MonoBehaviour {
 			if (isValidType (newType)) {
 			
 					if (!isRunning && !isFinished) {
-							Debug.Log ("Changed motion model and restarting.");
+//							Debug.Log ("Changed motion model and restarting.");
 							startTime = Time.time;
 							isRunning = true;
 					}

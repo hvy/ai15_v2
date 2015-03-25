@@ -20,8 +20,8 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		List<GNode> newPath = null;
 		
 		if (GameState.Instance.agents[goal].paused || GameState.Instance.agents[goal].isFinished) {
-			obstacles.Add (goal);
-			obstacles.AddRange(GameState.Instance.obstacles);
+//			obstacles.Add (goal);
+//			obstacles.AddRange(GameState.Instance.obstacles);
 			Debug.Log("Recalculate path: " + GameState.Instance.obstacles.Count);
 			newPath = PathPlanner.recalculatePath(agent, agent.currentPath[0].getPos (), obstacles);	// recalculate path
 		}
@@ -35,7 +35,7 @@ public class DiscreteController : MonoBehaviour, MovementModel
 	// Implements interface member
 	public bool stepPath(Agent agent, Vector3 goal) {
 		counter++;
-		if (counter % 50 == 0) {
+		if (counter % 20 == 0) {
 
 			Agent a = agent;
 
@@ -48,14 +48,16 @@ public class DiscreteController : MonoBehaviour, MovementModel
 
 			}
 
-			if (GameState.Instance.agents.ContainsKey(goal) && goal != agent.transform.position && goal.x != -1 && agent.tick < GameState.Instance.agents [goal].tick) {
-				Debug.Log("Illegal move, abort " + agent.transform.position + " to  " + goal);
-				if (reactiveCollision(agent, goal)) {
-					agent.tick++;
-					counter = 0;
-					return false;
-				}
-			}
+//			if (GameState.Instance.agents.ContainsKey(goal) && goal != agent.transform.position && goal.x != -1 && agent.tick < GameState.Instance.agents [goal].tick) {
+//				Debug.Log("Illegal move, abort " + agent.transform.position + " to  " + goal);
+//				if (reactiveCollision(agent, goal)) {
+//					agent.tick++;
+//					counter = 0;
+//					return false;
+//				}
+//			}
+
+//			Debug.LogError(GameState.Instance.agents.ContainsKey (new Vector3(10, 0, 2)));
 
 			GameState.Instance.agents.Remove(rigidbody.transform.position);
 			rigidbody.transform.position = goal;
@@ -70,18 +72,26 @@ public class DiscreteController : MonoBehaviour, MovementModel
 		return false;
 	}
 
+	int pausedTimes = 0;
 	bool reactiveCollision(Agent agent, Vector3 goal) {
 		if (agent.currentPath == null) {GameState.Instance.getAgent (transform.position).isFinished = true;
-			GameState.Instance.addObstacle (transform.position);
+//			GameState.Instance.addObstacle (transform.position);
 			agent.tick = 1000;
 			return true;
 		}
-		
+
+		//GameState.Instance.agents.Remove(new Vector3());
 		if (GameState.Instance.agents.ContainsKey (goal) && GameState.Instance.agents [goal] != this && goal != agent.transform.position) {
-			if (!recalculatePath(goal, agent) && agent.tick < GameState.Instance.agents [goal].tick) {
+//			if (agent.tick < GameState.Instance.agents [goal].tick) {
+			pausedTimes++;
+//			if (pausedTimes > 4) {
+//				GameState.Instance.agents.Remove(goal);
+//				return false;
+//			}
 				Debug.LogError("Pause");
 				return true; // Pause
-			}
+
+//			}
 		}
 		return false;
 	}

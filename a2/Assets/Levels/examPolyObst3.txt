@@ -1,0 +1,177 @@
+70 70
+New agent
+x: 30
+y: 0
+x: -29
+y: 1.000000e+00
+End of agent
+New agent
+x: 2.897777e+01
+y: 7.764571e+00
+x: -2.797777e+01
+y: -6.764571e+00
+End of agent
+New agent
+x: 2.598076e+01
+y: 1.500000e+01
+x: -2.498076e+01
+y: -1.400000e+01
+End of agent
+New agent
+x: 2.121320e+01
+y: 2.121320e+01
+x: -2.021320e+01
+y: -2.021320e+01
+End of agent
+New agent
+x: 1.500000e+01
+y: 2.598076e+01
+x: -1.400000e+01
+y: -2.498076e+01
+End of agent
+New agent
+x: 7.764571e+00
+y: 2.897777e+01
+x: -6.764571e+00
+y: -2.797777e+01
+End of agent
+New agent
+x: 1.836970e-15
+y: 30
+x: 1.000000e+00
+y: -29
+End of agent
+New agent
+x: -7.764571e+00
+y: 2.897777e+01
+x: 8.764571e+00
+y: -2.797777e+01
+End of agent
+New agent
+x: -1.500000e+01
+y: 2.598076e+01
+x: 1.600000e+01
+y: -2.498076e+01
+End of agent
+New agent
+x: -2.121320e+01
+y: 2.121320e+01
+x: 2.221320e+01
+y: -2.021320e+01
+End of agent
+New agent
+x: -2.598076e+01
+y: 1.500000e+01
+x: 2.698076e+01
+y: -1.400000e+01
+End of agent
+New agent
+x: -2.897777e+01
+y: 7.764571e+00
+x: 2.997777e+01
+y: -6.764571e+00
+End of agent
+New agent
+x: -30
+y: 3.673940e-15
+x: 31
+y: 1.000000e+00
+End of agent
+New agent
+x: -2.897777e+01
+y: -7.764571e+00
+x: 2.997777e+01
+y: 8.764571e+00
+End of agent
+New agent
+x: -2.598076e+01
+y: -1.500000e+01
+x: 2.698076e+01
+y: 16
+End of agent
+New agent
+x: -2.121320e+01
+y: -2.121320e+01
+x: 2.221320e+01
+y: 2.221320e+01
+End of agent
+New agent
+x: -1.500000e+01
+y: -2.598076e+01
+x: 1.600000e+01
+y: 2.698076e+01
+End of agent
+New agent
+x: -7.764571e+00
+y: -2.897777e+01
+x: 8.764571e+00
+y: 2.997777e+01
+End of agent
+New agent
+x: -5.510911e-15
+y: -30
+x: 1.000000e+00
+y: 31
+End of agent
+New agent
+x: 7.764571e+00
+y: -2.897777e+01
+x: -6.764571e+00
+y: 2.997777e+01
+End of agent
+New agent
+x: 1.500000e+01
+y: -2.598076e+01
+x: -1.400000e+01
+y: 2.698076e+01
+End of agent
+New agent
+x: 2.121320e+01
+y: -2.121320e+01
+x: -2.021320e+01
+y: 2.221320e+01
+End of agent
+New agent
+x: 2.598076e+01
+y: -1.500000e+01
+x: -2.498076e+01
+y: 1.600000e+01
+End of agent
+New agent
+x: 2.897777e+01
+y: -7.764571e+00
+x: -2.797777e+01
+y: 8.764571e+00
+End of agent
+New polygonal shape
+x0: -19.316298
+y0: 15.599002
+x1: -19.219613
+y1: 10.241265
+x2: 15.877072
+y2: 10.707155
+x3: 10.366022
+y3: 14.783694
+End of polygonal shape
+New polygonal shape
+x0: -17.382597
+y0: -11.655574
+x1: -17.382597
+y1: -18.876872
+x2: -11.291436
+y2: -18.876872
+x3: -8.970994
+y3: -12.703827
+End of polygonal shape
+New polygonal shape
+x0: 2.921271
+y0: -13.402662
+x1: 2.727901
+y1: -19.692180
+x2: 16.070442
+y2: -18.178037
+x3: 18.970994
+y3: -13.053245
+x4: 11.429558
+y4: -8.510815
+End of polygonal shape

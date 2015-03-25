@@ -20,7 +20,7 @@ public class DynamicController : MonoBehaviour, MovementModel {
 
 		float distance = Vector3.Distance (goal, transform.position);
 
-		if (distance > 0.2f) {
+		if (distance > 1.3f) {
 			move (goal);		
 		}
 
@@ -32,6 +32,10 @@ public class DynamicController : MonoBehaviour, MovementModel {
 	}
 
 	virtual public void move (Vector3 goal) {	
+
+//		Vector3 movementDirection = rigidbody.velocity.normalized;
+//		rigidbody.rotation = Quaternion.Euler(movementDirection);
+
 
 		// Collision avoidence
 		if (appliedAcceleration.magnitude > 0.0003f) {
@@ -57,5 +61,7 @@ public class DynamicController : MonoBehaviour, MovementModel {
 
 		// Make sure that it stays on the plane
 		rigidbody.transform.position = new Vector3(rigidbody.position.x, 0f, rigidbody.position.z);
+
+
 	}
 }

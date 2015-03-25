@@ -258,11 +258,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motionModelId: 2
-  avoidanceStrength: 200
-  avoidanceDistance: 8
-  acceleration: 10
-  radius: 5
-  file: polyObst1.txt
+  avoidanceStrength: 100
+  avoidanceDistance: 5
+  acceleration: 2
+  radius: 1
+  file: examPolyObst3.txt
   offset: 0
 --- !u!4 &496710193
 Transform:

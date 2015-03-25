@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
 	private float _width, _height;
 	private int nr_agents, numWaypoints, numObstacles;
-	private int neighbors = 8;
+	private int neighbors = 4;
 	public int task;
 	public int GeneticIterations;
 	public int GeneticPopulation;
@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < starts.Count; i++) {
 			GameObject agent = AgentFactory.createAgent((task != 3));
 			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+			agent.transform.localScale = new Vector3(5f, 0.1f, 5f);
 			
 			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
 			agents.Add (agent);
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < starts.Count; i++) {
 			GameObject agent = AgentFactory.createAgent((task != 3));
 			agent.transform.position = new Vector3(starts[i].x-1, 0.0f, starts[i].y-1);
+			agent.transform.localScale = new Vector3(1f, 0.1f, 1f);
 
 			GameState.Instance.agents[agent.transform.position] = (Agent) agent.GetComponent(typeof(Agent));
 			agents.Add (agent);
@@ -240,6 +242,8 @@ public class GameManager : MonoBehaviour
 
 		for (int i = 0; i < numberOfAgents; i++) {
 			GameObject agent = AgentFactory.createAgent((task != 3));
+
+
 			agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));
 			while (GameState.Instance.agents.ContainsKey(agent.transform.position) || GameState.Instance.obstacles.Contains(agent.transform.position) || PathFinding.isInObstacle(agent.transform.position, polygons))
 				agent.transform.position = new Vector3(Random.Range(0, (int)width), 0.0f, Random.Range(0, (int)height));

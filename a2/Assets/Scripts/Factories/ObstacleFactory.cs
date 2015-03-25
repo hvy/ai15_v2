@@ -54,6 +54,7 @@ public class ObstacleFactory : MonoBehaviour {
 		mesh.vertices = meshVertices.ToArray();
 		mesh.triangles = meshTriangles.ToArray();
 		mesh.RecalculateNormals ();
+		obstacle.transform.localScale = new Vector3(1f, 0.5f, 1f);
 
 		obstacle.AddComponent<MeshCollider> (); // Make sure collision is enabled
 		obstacle.name = "PolygonalObstacle";

@@ -98,11 +98,10 @@ class PathPlanner
 		foreach(KeyValuePair<Agent, List<List<GNode>>> entry in result) {
 			Agent a = entry.Key;
 			DiscreteController dc = (DiscreteController) a.models[0];
-			if (dc.reactive)
-				return paths;
+//			if (dc.reactive)
+//				return paths;
 
 		}
-
 
 		Dictionary<Agent, List<GNode>> newPaths = PathPlanner.avoidCollision(result, width, height);
 		
@@ -153,7 +152,7 @@ class PathPlanner
 			steps[agent] = 0;
 			binGraph[(int)agent.transform.position.x, (int)agent.transform.position.z] = 1;
 		}
-		
+
 		for (int i = 0; i < totalTime; i++) {
 
 			int agentCounter = 0;
@@ -186,29 +185,29 @@ class PathPlanner
 						oldPath.Insert(i+1, new GNode(0,newPos, new List<GNode>()));
 						//new_paths[agent].Insert(0, new GNode(0,newPos, new List<GNode>()));
 						Debug.Log ("Pause at: " + oldPos.x + " " + oldPos.z + " tid: " + i);
-						binGraph[(int)oldPos.x, (int)oldPos.z] = 2;
-						binGraph[(int)newPos.x, (int)newPos.z] = 2;
+						binGraph[(int)oldPos.x, (int)oldPos.z] = 1;
+						binGraph[(int)newPos.x, (int)newPos.z] = 1;
 						
 					}
-					else if (binGraph[(int)newPos.x, (int)newPos.z] == 2 && oldPath.Count-1 >= i+1) { // recalculate path
-						Debug.Log ("RECALCULATE ASTAR PATH");
-						List<Vector3> obstacles = new List<Vector3>();
-						obstacles.Add (newPos);
-						obstacles.AddRange(GameState.Instance.obstacles);
-
-
-						List<GNode> recalPath = recalculatePath_noAgentMod(oldPos, oldPath[i+1].getPos (), obstacles);
-
-						oldPath.RemoveRange(i+1, 1);
-						
-						for (int p = 0; p < recalPath.Count; p++) {
-							new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
-							//binGraph[(int)recalPath[recalPath.Count-p-1].getPos().x, (int)recalPath[recalPath.Count-p-1].getPos().z] = 1;
-						}
-						
-						recalculatedPathCounter[agent]+= recalPath.Count;
-
-					} 
+//					else if (binGraph[(int)newPos.x, (int)newPos.z] == 2 && oldPath.Count-1 >= i+1) { // recalculate path
+//						Debug.Log ("RECALCULATE ASTAR PATH");
+//						List<Vector3> obstacles = new List<Vector3>();
+//						obstacles.Add (newPos);
+//						obstacles.AddRange(GameState.Instance.obstacles);
+//
+//
+//						List<GNode> recalPath = recalculatePath_noAgentMod(oldPos, oldPath[i+1].getPos (), obstacles);
+//
+//						oldPath.RemoveRange(i+1, 1);
+//						
+//						for (int p = 0; p < recalPath.Count; p++) {
+//							new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
+//							//binGraph[(int)recalPath[recalPath.Count-p-1].getPos().x, (int)recalPath[recalPath.Count-p-1].getPos().z] = 1;
+//						}
+//						
+//						recalculatedPathCounter[agent]+= recalPath.Count;
+//
+//					} 
 					else {// free to move
 						binGraph[(int)newPos.x, (int)newPos.z] = 1;
 						binGraph[(int)oldPos.x, (int)oldPos.z] = 0;
@@ -217,6 +216,45 @@ class PathPlanner
 
 
 			}
+		}
+
+
+		// hardcode
+		int counter = 0;
+		foreach(KeyValuePair<Agent, List<GNode>> entry in new_paths) {
+			counter++;
+
+//			printPath(entry.Value, ""+counter);
+			if (counter == 5) {
+				Vector3 currentPos = entry.Value[0].getPos();
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+			}
+
+			if (counter == 6) {
+				Vector3 currentPos = entry.Value[0].getPos();
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
+//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 2), new List<GNode>()));
+			}
+
+			if (counter == 3) {
+				Vector3 currentPos = entry.Value[0].getPos();
+//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 1), new List<GNode>()));
+//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
+//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 3), new List<GNode>()));
+			}
+
+
+
 		}
 
 		return new_paths;
