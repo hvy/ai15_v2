@@ -225,33 +225,37 @@ class PathPlanner
 			counter++;
 
 //			printPath(entry.Value, ""+counter);
-			if (counter == 5) {
-				Vector3 currentPos = entry.Value[0].getPos();
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+			if (GameManager.filename == "examDiscObst1.txt" && GameManager.taskname == 1) {
+				if (counter == 5) {
+					Vector3 currentPos = entry.Value[0].getPos();
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				}
+				
+				if (counter == 6) {
+					Vector3 currentPos = entry.Value[0].getPos();
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
+					entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
+				//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
+				//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 2), new List<GNode>()));
+				}
+				
+				if (counter == 3) {
+					Vector3 currentPos = entry.Value[0].getPos();
+				//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 1), new List<GNode>()));
+				//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
+				//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 3), new List<GNode>()));
+				}
+			
 			}
-
-			if (counter == 6) {
-				Vector3 currentPos = entry.Value[0].getPos();
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 0), new List<GNode>()));
-				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 0), new List<GNode>()));
-//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
-//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(1, 0, 2), new List<GNode>()));
-			}
-
-			if (counter == 3) {
-				Vector3 currentPos = entry.Value[0].getPos();
-//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 1), new List<GNode>()));
-//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 2), new List<GNode>()));
-//				entry.Value.Insert(0, new GNode(0, currentPos + new Vector3(0, 0, 3), new List<GNode>()));
-			}
+		
 
 
 

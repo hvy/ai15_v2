@@ -109,13 +109,6 @@ public class CollisionAvoidance {
 				}
 			}
 
-//			if (Physics.Raycast(agent.transform.position, -agent.transform.forward, out hit, distToObstacle)) {
-//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
-//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
-//					dir += hit.normal * 20;
-//					
-//				}
-//			}
 
 			Vector3 leftR = agent.transform.position;
 			Vector3 rightR = agent.transform.position;
@@ -140,30 +133,9 @@ public class CollisionAvoidance {
 				}
 			}
 
-//			if (Physics.Raycast(leftR, new Vector3(0, 0, -1), out hit, distToObstacle)) {
-//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
-//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
-//					dir += hit.normal * 20;
-//					
-//				}
-//			}
-//			
-//			if (Physics.Raycast(rightR, new Vector3(0, 0, 1), out hit, distToObstacle)) {
-//				if (hit.transform != agent.transform && hit.transform.rigidbody == null) {
-//					Debug.DrawLine(agent.transform.position, hit.point, Color.red);
-//					dir += hit.normal * 20;
-//					
-//				}
-//			}
-
-
 			if (Vector3.Distance(agent.transform.position, a.goal) > 5f)
 				obstAcceleration += dir * 200f;
 
-//			if (Vector3.Cross(agent.transform.forward, obstAcceleration).magnitude < 15f) {
-//				Debug.DrawLine(agent.transform.position, a.goal, Color.white);
-//				obstAcceleration.x += 100f;
-//			}
 			Quaternion rot = Quaternion.LookRotation(dir);
 			agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, rot, Time.deltaTime);
 			

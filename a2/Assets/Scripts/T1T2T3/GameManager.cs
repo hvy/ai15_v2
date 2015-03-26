@@ -18,9 +18,14 @@ public class GameManager : MonoBehaviour
 	public bool NoFrontCollisions;
 	public string file;
 
+	public static string filename;
+	public static int taskname;
+
 	void Start () 
 	{
 		init();
+		filename = file;
+		taskname = task;
 	}
 
 

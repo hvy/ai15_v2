@@ -376,14 +376,17 @@ public class GeneticsDiscrete {
 					obstacles.AddRange(GameState.Instance.obstacles);
 					
 					List<GNode> recalPath = PathPlanner.recalculatePath_noAgentMod(oldPos, oldPath[i+1].getPos (), obstacles);
-					
-					recalPath.RemoveAt(recalPath.Count-1);
-					oldPath.RemoveAt(i+1);
-					
-					for (int p = 0; p < recalPath.Count; p++) {
-						new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
+
+					if (recalPath != null) {
+
+						recalPath.RemoveAt(recalPath.Count-1);
+						oldPath.RemoveAt(i+1);
+						
+						for (int p = 0; p < recalPath.Count; p++) {
+							new_paths[agent].Insert(0, recalPath[recalPath.Count-p-1]);
+						}
+						recalculatedPathCounter[agent]+= recalPath.Count;
 					}
-					recalculatedPathCounter[agent]+= recalPath.Count;
 					
 				} 
 				else if (recalculatedPathCounter[agent] > 0) { // currently traversing the recalculated path

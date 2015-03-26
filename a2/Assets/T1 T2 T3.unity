@@ -341,13 +341,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c43508bb0cd42d69cad333f7634f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  task: 1
+  task: 2
   GeneticIterations: 1000
   GeneticPopulation: 10
   GeneticTournaments: 1
   DrawRRT: 0
   NoFrontCollisions: 1
-  file: examDiscObst1.txt
+  file: examDiscObst2.txt
 --- !u!4 &1941983996
 Transform:
   m_ObjectHideFlags: 0
