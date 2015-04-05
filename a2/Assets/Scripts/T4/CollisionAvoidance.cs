@@ -89,7 +89,7 @@ public class CollisionAvoidance {
 
 			Vector3 dir = (a.goal - agent.transform.position).normalized;
 			RaycastHit hit;
-			float distToObstacle = 5f;
+			float distToObstacle = 10f;
 
 			Vector3 movementDirection = (agent.rigidbody.velocity + agent.transform.position);
 			movementDirection.y = 0f;

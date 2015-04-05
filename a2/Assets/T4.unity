@@ -259,7 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motionModelId: 2
   avoidanceStrength: 100
-  avoidanceDistance: 5
+  avoidanceDistance: 10
   acceleration: 2
   radius: 1
   file: examPolyObst3.txt

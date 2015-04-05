@@ -133,7 +133,7 @@ public class Agent : MonoBehaviour {
 			if (path == null)
 					return transform.position;
 			if (path.Count - counter - 1 < 0) {
-					//GameState.Instance.obstacles.Add (path [0].getPos ());
+					GameState.Instance.obstacles.Add (path [0].getPos ());
 					return new Vector3 (-1f, -1f, -1f);
 			}
 			

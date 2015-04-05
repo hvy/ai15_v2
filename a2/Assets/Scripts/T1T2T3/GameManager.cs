@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
 	private float _width, _height;
 	private int nr_agents, numWaypoints, numObstacles;
-	private int neighbors = 4;
+	private int neighbors = 8;
 	public int task;
 	public int GeneticIterations;
 	public int GeneticPopulation;
