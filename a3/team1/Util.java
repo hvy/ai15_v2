@@ -1,6 +1,8 @@
 package team1;
 
 import battlecode.common.Direction;
+import battlecode.common.MapLocation;
+import battlecode.common.RobotInfo;
 
 public class Util {
 	
@@ -28,6 +30,19 @@ public class Util {
 				return -1;
 		}
 	}
+	
+	public static RobotInfo closest(RobotInfo[] robots, MapLocation toHere) {
+        RobotInfo ret = null;
+        int bestDistSq = 999999;
+        for (int i = robots.length; i-- > 0;) {
+            int distSq = toHere.distanceSquaredTo(robots[i].location);
+            if (distSq < bestDistSq) {
+                bestDistSq = distSq;
+                ret = robots[i];
+            }
+        }
+        return ret;
+    }
 	
 	
 	public static int distance(int i, int j, int x, int y) {

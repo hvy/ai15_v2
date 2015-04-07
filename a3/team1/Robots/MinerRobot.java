@@ -5,6 +5,7 @@ import java.util.Random;
 import team1.Action;
 import team1.Parameters;
 import team1.Robot;
+import team1.SupplyHandler;
 import team1.Util;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
@@ -35,7 +36,10 @@ public class MinerRobot extends Robot {
 			Action.attackSomething(myRange, enemyTeam, rc);
 		}
 		
-		if (coreReady) {			
+		 SupplyHandler.shareSupply(this);
+	     SupplyHandler.requestResupplyIfNecessary(this);
+		
+		if (rc.isCoreReady()) {			
 			doMining();
 			coreReady = false;
 		}

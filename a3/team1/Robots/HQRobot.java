@@ -6,8 +6,10 @@ import java.util.HashMap;
 import team1.Action;
 import team1.Parameters;
 import team1.Robot;
+import team1.SupplyHandler;
 import team1.Util;
 import battlecode.common.GameActionException;
+import battlecode.common.GameConstants;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
 import battlecode.common.RobotInfo;
@@ -20,6 +22,18 @@ public class HQRobot extends Robot {
 	MapLocation initialCheckpoint;
 	HashMap<Integer, RobotInfo> army;
 	int armyCount;
+	int numSoldiers;
+	int numBashers;
+	int numBeavers;
+	int numBarracks;
+	int numMiners;
+	int numMinerFactories;
+	int numTankfactories;
+	int numUnits;
+	int numSupplyDepots;
+	
+	
+	public static double totalSupplyGenerated;
 		
 	
 	public HQRobot(RobotController rc) {
@@ -30,22 +44,25 @@ public class HQRobot extends Robot {
 	@Override
 	public void update() {
 		setArmyCheckPoint();
+		totalSupplyGenerated = GameConstants.SUPPLY_GEN_BASE
+                * (GameConstants.SUPPLY_GEN_MULTIPLIER + Math.pow(numSupplyDepots, GameConstants.SUPPLY_GEN_EXPONENT));
 	}
 	
 	private void setArmyCheckPoint() {
 		if (armyCheckPoint == null) {
 			MapLocation[]  towers = rc.senseTowerLocations();
 			if (towers.length > 1)
-				armyCheckPoint = towers[1];
+				armyCheckPoint = towers[0];
 			else
 				armyCheckPoint = home;
 			initialCheckpoint = armyCheckPoint;
 		}
 		
-		// if army consists of 10 or more units, start advancing
-		RobotInfo[] nearby = rc.senseNearbyRobots(armyCheckPoint, 20, myTeam);
 		
-		if (nearby.length >= 15) {
+		// if army consists of 10 or more units, start advancing
+		RobotInfo[] nearby = rc.senseNearbyRobots(armyCheckPoint, 30, myTeam);
+		
+		if (nearby.length >= 20) {
 			
 			army.clear();
 			for (int i = 0; i < nearby.length; i++) {
@@ -65,15 +82,17 @@ public class HQRobot extends Robot {
 	public void run() throws Exception {
 //		int fate = rand.nextInt(10000);
 		myRobots = rc.senseNearbyRobots(999999, myTeam);
-		int numSoldiers = 0;
-		int numBashers = 0;
-		int numBeavers = 0;
-		int numBarracks = 0;
-		int numMiners = 0;
-		int numMinerFactories = 0;
-		int numTankfactories = 0;
-		int numUnits = 0;
-		int numSupplyDepots = 0;
+		
+		numSoldiers = 0;
+		numBashers = 0;
+		numBeavers = 0;
+		numBarracks = 0;
+		numMiners = 0;
+		numMinerFactories = 0;
+		numTankfactories = 0;
+		numUnits = 0;
+		numSupplyDepots = 0;
+		
 		
 		currentSupplyCount = 0f;
 		armyCount = 0;
@@ -103,19 +122,22 @@ public class HQRobot extends Robot {
 			if (army.containsKey(r.ID))
 				armyCount++;
 		}
-		rc.broadcast(Parameters.BROAD_NUM_BEAVERS, numBeavers);
-		rc.broadcast(Parameters.BROAD_NUM_SOLDIERS, numSoldiers);
-		rc.broadcast(Parameters.BROAD_NUM_BASHERS, numBashers);
-		rc.broadcast(Parameters.BROAD_NUM_MINERS, numMiners);
-		rc.broadcast(Parameters.BROAD_NUM_BARRACKS, numBarracks);
-		rc.broadcast(Parameters.BROAD_NUM_MIN_FACT, numMinerFactories);
-		rc.broadcast(Parameters.BROAD_NUM_TANK_FACT, numTankfactories);
-		rc.broadcast(Parameters.BROAD_NUM_SUPPLY_DEPOTS, numSupplyDepots);
-		rc.broadcast(Parameters.BROAD_NUM_UNITS, numUnits);
-		rc.broadcast(Parameters.BROAD_SUPPLY, (int) currentSupplyCount);
-		rc.broadcast(Parameters.BROAD_CHECKPOINT_X, armyCheckPoint.x);
-		rc.broadcast(Parameters.BROAD_CHECKPOINT_Y, armyCheckPoint.y);
 		
+		broadcast.sendInt(Parameters.BROAD_NUM_BEAVERS, numBeavers);
+		broadcast.sendInt(Parameters.BROAD_NUM_SOLDIERS, numSoldiers);
+		broadcast.sendInt(Parameters.BROAD_NUM_BASHERS, numBashers);
+		broadcast.sendInt(Parameters.BROAD_NUM_MINERS, numMiners);
+		broadcast.sendInt(Parameters.BROAD_NUM_BARRACKS, numBarracks);
+		broadcast.sendInt(Parameters.BROAD_NUM_MIN_FACT, numMinerFactories);
+		broadcast.sendInt(Parameters.BROAD_NUM_TANK_FACT, numTankfactories);
+		broadcast.sendInt(Parameters.BROAD_NUM_SUPPLY_DEPOTS, numSupplyDepots);
+		broadcast.sendInt(Parameters.BROAD_NUM_UNITS, numUnits);
+		broadcast.sendInt(Parameters.BROAD_SUPPLY, (int) currentSupplyCount);
+		broadcast.sendLocation(Parameters.BROAD_CHECKPOINT, armyCheckPoint);
+		//broadcast.sendInt(Parameters.BROAD_CHECKPOINT_Y, armyCheckPoint.y);
+		
+		// give supply
+		SupplyHandler.hqGiveSupply(this);
 		
 		if (rc.isWeaponReady()) {
 			Action.attackSomething(myRange, enemyTeam, rc);

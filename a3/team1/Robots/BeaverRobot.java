@@ -5,6 +5,7 @@ import java.util.Random;
 import team1.Action;
 import team1.Parameters;
 import team1.Robot;
+import team1.SupplyHandler;
 import team1.Util;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
@@ -42,8 +43,9 @@ public class BeaverRobot extends Robot {
 	
 	private boolean needTankFactory(double fate) throws GameActionException {
 		int numTankFactories = rc.readBroadcast(Parameters.BROAD_NUM_TANK_FACT);
+		int numBarracks =  rc.readBroadcast(Parameters.BROAD_NUM_BARRACKS);
 		
-		return (fate < 500 ) && rc.getTeamOre() >= 500 && numTankFactories < Parameters.MAX_TANK_FACTORIES;
+		return (fate < 500 ) && rc.getTeamOre() >= 500 && numTankFactories < Parameters.MAX_TANK_FACTORIES && numBarracks > 0;
 	}
 	
 	private boolean needSupplyDepot(double fate) throws GameActionException {
@@ -51,7 +53,7 @@ public class BeaverRobot extends Robot {
 		int supply = rc.readBroadcast(Parameters.BROAD_SUPPLY);
 		int depots = rc.readBroadcast(Parameters.BROAD_NUM_SUPPLY_DEPOTS);
 		
-		return (fate < 500 && fate > 480) && rc.getTeamOre() >= 100 && supply < 100*(2+Math.pow(depots, 0.6)) &&  numMinerFactories != 0;
+		return (fate < 500 && fate > 485) && rc.getTeamOre() >= 100 &&  numMinerFactories != 0;
 	}
 	
 	private boolean shouldMine(double fate) throws GameActionException {
@@ -64,8 +66,11 @@ public class BeaverRobot extends Robot {
 			Action.attackSomething(myRange, enemyTeam, rc);
 		}
 		
+//		SupplyHandler.shareSupply(this);
+//	    SupplyHandler.requestResupplyIfNecessary(this);
 		
-		if (coreReady) {
+		
+		if (rc.isCoreReady()) {
 			int fate = rand.nextInt(1000);
 			if (needBarrack(fate)) {
 				Action.tryBuild(Util.directions[rand.nextInt(8)],RobotType.BARRACKS, rc);

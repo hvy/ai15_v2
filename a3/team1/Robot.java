@@ -25,6 +25,8 @@ public abstract class Robot {
 	protected boolean coreReady;
 	protected  boolean weaponReady;
 	
+	protected Broadcasting broadcast;
+	
 	
 	public Robot(RobotController rc) {
 		this.rc = rc;
@@ -36,6 +38,7 @@ public abstract class Robot {
 		home = rc.senseHQLocation();
 		enemyHome = rc.senseEnemyHQLocation();
 		location = rc.getLocation();
+		broadcast = new Broadcasting(rc);
 	}
 	
 	public abstract void run() throws Exception;
@@ -46,10 +49,7 @@ public abstract class Robot {
 	
 	protected MapLocation getCheckpoint() throws GameActionException {
 		
-		int x  = rc.readBroadcast(Parameters.BROAD_CHECKPOINT_X);
-		int y  = rc.readBroadcast(Parameters.BROAD_CHECKPOINT_Y);
-		
-		return new MapLocation(x, y);
+		return broadcast.readLocation(Parameters.BROAD_CHECKPOINT);
 	}
 	
 	

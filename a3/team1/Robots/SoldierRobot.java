@@ -5,6 +5,7 @@ import java.util.Random;
 import team1.Action;
 import team1.Parameters;
 import team1.Robot;
+import team1.SupplyHandler;
 import team1.Util;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
@@ -24,7 +25,12 @@ public class SoldierRobot extends Robot {
 	public void run() throws Exception {
 		if (rc.isWeaponReady()) {
 			Action.attackSomething(myRange, enemyTeam, rc);
+//			return;
 		}
+		
+		SupplyHandler.shareSupply(this);
+	    SupplyHandler.requestResupplyIfNecessary(this);
+	     
 		if (rc.isCoreReady()) {
 			int fate = rand.nextInt(1000);
 			if (fate < 30) {
